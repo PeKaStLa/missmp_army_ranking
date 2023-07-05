@@ -6,8 +6,8 @@
     05.07.2023, 22:45 Uhr
 */
 
-// let message: string = 'main.ts works';
-console.log('main.ts works');
+let test4: string = "main.ts works test3";
+console.log(test4);
 
 interface Officer {
     readonly id: number;

@@ -5,5 +5,5 @@
     by Peter Stadler
     05.07.2023, 22:45 Uhr
 */
-// let message: string = 'main.ts works';
-console.log('main.ts works');
+var test3 = "main.ts works test3";
+console.log(test3);
