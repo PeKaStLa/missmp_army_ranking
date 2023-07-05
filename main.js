@@ -7,6 +7,7 @@
 */
 var test4 = "main.ts works test3";
 console.log(test4);
+var officers = [];
 /*
 interface Officer {
     readonly id: number;
@@ -20,10 +21,18 @@ var Officer = /** @class */ (function () {
     }
     return Officer;
 }());
-var officers = [];
-officers.push(new Officer(12, "Peter"));
-officers.push(new Officer(14, "An"));
-officers.push(new Officer(16, "Johannes"));
-officers.forEach(function (element) {
-    console.log(element.name);
-});
+function createOfficer() {
+    var id = officers.length + 1;
+    var name = document.getElementById('name').value;
+    officers.push(new Officer(id, name));
+    printAllOfficers();
+}
+//initial test objects
+officers.push(new Officer(1, "Peter"));
+officers.push(new Officer(2, "An"));
+officers.push(new Officer(3, "Johannes"));
+function printAllOfficers() {
+    officers.forEach(function (element) {
+        console.log(element.name, element.id);
+    });
+}

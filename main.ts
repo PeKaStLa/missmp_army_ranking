@@ -9,6 +9,9 @@
 let test4: string = "main.ts works test3";
 console.log(test4);
 
+let officers: Array<Officer> = [];
+
+
 /*
 interface Officer {
     readonly id: number;
@@ -34,14 +37,22 @@ interface ArmyRankingApp {
     redo(): void
 }
 
+function createOfficer(){
+    let id = officers.length + 1;
+    let name = (<HTMLInputElement>document.getElementById('name')).value;
+    officers.push(new Officer(id, name));
+    printAllOfficers()
+}
 
-let officers: Array<Officer> = [];
+
 
 //initial test objects
-officers.push(new Officer(12, "Peter"));
-officers.push(new Officer(14, "An"));
-officers.push(new Officer(16, "Johannes"));
+officers.push(new Officer(1, "Peter"));
+officers.push(new Officer(2, "An"));
+officers.push(new Officer(3, "Johannes"));
 
+function printAllOfficers(){
 officers.forEach(element => {
-    console.log(element.name);
+    console.log(element.name, element.id);
 });
+}
