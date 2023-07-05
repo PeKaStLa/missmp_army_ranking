@@ -1,0 +1,17 @@
+/*
+    style.css
+    missmp_army_ranking
+    Frontend assignment
+    by Peter Stadler
+    05.07.2023, 22:45 Uhr
+*/
+
+body {background-color: grey;}
+
+h1 {
+    background-color: coral;
+  }
+  
+  div {
+    background-color: blue;
+  }
