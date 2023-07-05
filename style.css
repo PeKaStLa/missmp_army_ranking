@@ -6,12 +6,20 @@
     05.07.2023, 22:45 Uhr
 */
 
-body {background-color: grey;}
+body {
+    background-color: grey;
+}
 
 h1 {
     background-color: coral;
-  }
-  
-  div {
+}
+
+div {
     background-color: blue;
-  }
+}
+
+div#army-form-comp {
+    background-color: yellow;
+    padding: 4px;
+
+}
