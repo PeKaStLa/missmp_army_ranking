@@ -24,29 +24,19 @@ interface ArmyRankingAppInterface {
 
 class ArmyRankingApp implements ArmyRankingAppInterface {
     general: Officer
-    //id: number;
-    //name: string;
-    //subordinates: Officer[] = [];
 
     constructor(general: Officer) {
         this.general = general;
     }
-    /*
-    constructor(general: Officer, id: number, name: string) {
-        this.general = general;
-        this.id = id;
-        this.name = name;
-    }
-    */
 
     //move A under B//Move officerID under managerID//Push A to B's subordinates.
     //but prevent the general to be moved under somebody
     moveOfficer(officerID: number, managerID: number) {
         console.log("inside of moceOfficer");
-        if (officers[officerID-1] !== app["general"]) {
-            console.log("Not MMP. Now move officer:" + officers[officerID-1])
-            officers[managerID-1].subordinates.push(officers[officerID-1]);
-        } else if (officers[officerID-1] === app["general"]) {
+        if (officers[officerID - 1] !== app["general"]) {
+            console.log("Not MMP. Now move officer:" + officers[officerID - 1])
+            officers[managerID - 1].subordinates.push(officers[officerID - 1]);
+        } else if (officers[officerID - 1] === app["general"]) {
             console.log("You cannot move the general MMP under somebody!");
         }
     }
@@ -54,18 +44,19 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
     undo(): void {
         console.log("doing undo");
     }
+
     redo(): void {
         console.log("doing redo");
     }
 
 }
 
+
 interface OfficerInterface {
     readonly id: number;
     readonly name: string;
     subordinates: Officer[]
 }
-
 
 class Officer implements OfficerInterface {
     readonly id: number;
@@ -82,12 +73,12 @@ class Officer implements OfficerInterface {
 //2. variable declarations
 //
 
-let test: string = "test main.ts works";
+var test: string = "test main.ts works";
 console.log(test);
 
-let officers: Officer[] = [];
-let app: ArmyRankingApp;
-let mmp: Officer;
+var officers: Officer[] = [];
+var app: ArmyRankingApp;
+var mmp: Officer;
 
 mmp = new Officer(1, "MMP");
 officers.push(mmp);
@@ -106,8 +97,8 @@ function createOfficer() {
     if (name != "") {
         console.log("name is not empty inside createOfficer")
         officers.push(new Officer(id, name));
-        console.log("can we move officer:" + officers[id-1]);
-        console.log("can we move officer:" + officers[id-1].name);
+        console.log("can we move officer:" + officers[id - 1]);
+        console.log("can we move officer:" + officers[id - 1].name);
         app.moveOfficer(id, 1);
         (<HTMLInputElement>document.getElementById('name')).value = "";
         printAllOfficers();
@@ -122,7 +113,7 @@ function printAllOfficers() {
 }
 
 function printAllOfficersToHtml() {
-    var temp = "";
+    let temp = "";
     temp += "Apps' General:" + app["general"].name + app["general"].id + "<br>";
     officers.forEach(element => { temp += "officer: " + element.name + element.id + "<br>"; });
     document.getElementById("officers").innerHTML = temp;
