@@ -26,14 +26,20 @@ function createOfficer() {
     var name = document.getElementById('name').value;
     officers.push(new Officer(id, name));
     printAllOfficers();
+    printAllOfficersToHtml();
     document.getElementById('name').value = "";
 }
-//initial test objects
-officers.push(new Officer(1, "Peter"));
-officers.push(new Officer(2, "An"));
-officers.push(new Officer(3, "Johannes"));
 function printAllOfficers() {
     officers.forEach(function (element) {
         console.log(element.name, element.id);
     });
 }
+function printAllOfficersToHtml() {
+    var temp = "";
+    officers.forEach(function (element) { temp += element.name + "<br>"; });
+    document.getElementById("officers").innerHTML = temp;
+}
+//initial test objects
+officers.push(new Officer(1, "Peter"));
+officers.push(new Officer(2, "An"));
+officers.push(new Officer(3, "Johannes"));

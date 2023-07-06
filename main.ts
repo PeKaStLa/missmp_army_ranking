@@ -42,10 +42,21 @@ function createOfficer(){
     let name = (<HTMLInputElement>document.getElementById('name')).value;
     officers.push(new Officer(id, name));
     printAllOfficers();
+    printAllOfficersToHtml();
     (<HTMLInputElement>document.getElementById('name')).value = "";
-
 }
 
+function printAllOfficers(){
+    officers.forEach(element => {
+        console.log(element.name, element.id);
+    });
+    }
+
+function printAllOfficersToHtml(){
+    var temp = "";
+    officers.forEach(element => {temp += element.name + "<br>"; });
+    document.getElementById("officers").innerHTML = temp;
+}
 
 
 //initial test objects
@@ -53,8 +64,4 @@ officers.push(new Officer(1, "Peter"));
 officers.push(new Officer(2, "An"));
 officers.push(new Officer(3, "Johannes"));
 
-function printAllOfficers(){
-officers.forEach(element => {
-    console.log(element.name, element.id);
-});
-}
+
