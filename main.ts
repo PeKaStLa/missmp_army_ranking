@@ -12,7 +12,7 @@ console.log(test);
 let officers: Officer[] = [];
 let general: Officer;
 let mmp;
-/* test branch iss01 */
+/* test2 branch iss01 */
 
 /*
 interface Officer {
