@@ -99,12 +99,17 @@ function removeSubordinateFromOfficer(old_subordinate_id: number, old_officer_id
     return true;
 }
 
+function isOfficerAndSubordinateTheSame(future_subordinate_id: number, future_officer_id: number){
+    return true;
+}
+
 // check isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
 function isOfficerAlreadySubordinate(future_subordinate_id: number, future_officer_id: number): boolean{
     // return true if future_subordinate is already in subordinates of future_officer
     // return true if officers[future_subordinate_id - 1] is already in officers[future_officer_id - 1].subordinates
     return officers[future_officer_id - 1].subordinates.some(e => e === officers[future_subordinate_id - 1]);
 }
+
 
 //create Office by name from the formular-input. The ID gets assigned automatically
 function createOfficer() {

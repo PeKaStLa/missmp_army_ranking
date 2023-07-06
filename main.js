@@ -64,7 +64,10 @@ function moveSubordinatesToAnotherOfficer(old_officer_id, future_officer_id) {
 function removeSubordinateFromOfficer(old_subordinate_id, old_officer_id) {
     return true;
 }
-// check isOfficerAlreadySubordinate(), so that subordinate can not get moved under the same officer multiple times
+function isOfficerAndSubordinateTheSame(future_subordinate_id, future_officer_id) {
+    return true;
+}
+// check isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
 function isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id) {
     // return true if future_subordinate is already in subordinates of future_officer
     // return true if officers[future_subordinate_id - 1] is already in officers[future_officer_id - 1].subordinates
