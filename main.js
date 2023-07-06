@@ -12,17 +12,20 @@ var general;
 var mmp;
 var General = /** @class */ (function () {
     function General(general, id, name) {
+        this.subordinates = [];
         this.general = general;
         this.id = id;
         this.name = name;
     }
     General.prototype.moveOfficer = function (officerID, managerID) {
+        console.log("inside of moceOfficer");
         officers[managerID].subordinates.push(officers[officerID]);
     };
     return General;
 }());
 var Officer = /** @class */ (function () {
     function Officer(id, name) {
+        this.subordinates = [];
         this.id = id;
         this.name = name;
     }
@@ -54,9 +57,17 @@ mmp = new Officer(1, "MMP");
 officers.push(mmp);
 general = new General(mmp, 1, "MMP");
 //general = new General(1, "MMP");
-officers.push(new Officer(2, "Peter"));
-officers.push(new Officer(3, "An"));
-officers.push(new Officer(4, "Johannes"));
 window.onload = function () {
+    var peter = new Officer(2, "Peter");
+    var joh = new Officer(3, "joh");
+    var an = new Officer(4, "an");
+    officers.push(peter);
+    officers.push(joh);
+    officers.push(an);
+    //officers.push(new Officer(2, "Peter"));
+    //officers.push(new Officer(3, "An"));
+    //officers.push(new Officer(4, "Johannes"));
     printAllOfficersToHtml();
+    officers[1].subordinates.push(officers[2]);
+    officers[1].subordinates.push(officers[3]);
 };

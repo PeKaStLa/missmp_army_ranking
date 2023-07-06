@@ -9,7 +9,7 @@
 let test: string = "test main.ts works";
 console.log(test);
 
-let officers: Array<Officer> = [];
+let officers: Officer[] = [];
 let general: Officer;
 let mmp;
 
@@ -33,7 +33,7 @@ class General{
     general: Officer
     id: number;
     name: string;
-    subordinates: Officer[];
+    subordinates: Officer[] = [];
     
     constructor(general: Officer, id: number, name: string) {
         this.general = general;
@@ -42,6 +42,7 @@ class General{
     }
 
     moveOfficer(officerID: number, managerID: number){
+        console.log("inside of moceOfficer");
         officers[managerID].subordinates.push(officers[officerID]);
     }
 
@@ -51,7 +52,7 @@ class Officer {
     
     id: number;
     name: string;
-    subordinates: Officer[];
+    subordinates: Officer[] = [];
 
     constructor(id: number, name: string) {
         this.id = id;
@@ -93,14 +94,24 @@ general = new General(mmp, 1, "MMP");
 
 //general = new General(1, "MMP");
 
-officers.push(new Officer(2, "Peter"));
-officers.push(new Officer(3, "An"));
-officers.push(new Officer(4, "Johannes"));
+
 
 window.onload = function () { 
 
+    let peter = new Officer(2, "Peter");
+    let joh = new Officer(3, "joh");
+    let an = new Officer(4, "an");
+
+    officers.push(peter);
+    officers.push(joh);
+    officers.push(an);
+    //officers.push(new Officer(2, "Peter"));
+    //officers.push(new Officer(3, "An"));
+    //officers.push(new Officer(4, "Johannes"));
 
     printAllOfficersToHtml(); 
+    officers[1].subordinates.push(officers[2]);
+    officers[1].subordinates.push(officers[3]);
 
 
 }
