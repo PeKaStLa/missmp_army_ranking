@@ -6,10 +6,12 @@
     05.07.2023, 22:45 Uhr
 */
 
-let test4: string = "main.ts works test3";
-console.log(test4);
+let test: string = "test main.ts works";
+console.log(test);
 
 let officers: Array<Officer> = [];
+let general: Officer;
+let mmp;
 
 
 /*
@@ -17,18 +19,8 @@ interface Officer {
     readonly id: number;
     readonly name: string;
     subordinates: Officer[]
-}*/
-
-class Officer {
-    id: number;
-    name: string;
-    subordinates: Officer[];
-
-    constructor(id: number, name: string) {
-        this.id =  id;
-        this.name = name;
-      }
 }
+*/
 
 interface ArmyRankingApp {
     general: Officer
@@ -37,33 +29,80 @@ interface ArmyRankingApp {
     redo(): void
 }
 
-function createOfficer(){
-    let id = officers.length + 1;
-    let name = (<HTMLInputElement>document.getElementById('name')).value;
-    officers.push(new Officer(id, name));
-    printAllOfficers();
-    printAllOfficersToHtml();
-    (<HTMLInputElement>document.getElementById('name')).value = "";
-}
-
-function printAllOfficers(){
-    officers.forEach(element => {
-        console.log(element.name, element.id);
-    });
+class General{
+    general: Officer
+    id: number;
+    name: string;
+    subordinates: Officer[];
+    
+    constructor(general: Officer, id: number, name: string) {
+        this.general = general;
+        this.id = id;
+        this.name = name;
     }
 
-function printAllOfficersToHtml(){
+    moveOfficer(officerID: number, managerID: number){
+        officers[managerID].subordinates.push(officers[officerID]);
+    }
+
+}
+
+class Officer {
+    
+    id: number;
+    name: string;
+    subordinates: Officer[];
+
+    constructor(id: number, name: string) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+
+
+function createOfficer() {
+    let id = officers.length + 1;
+    let name = (<HTMLInputElement>document.getElementById('name')).value;
+    //prevent empty officer-names
+    if (name != "") {
+        officers.push(new Officer(id, name));
+        (<HTMLInputElement>document.getElementById('name')).value = "";
+        printAllOfficers();
+        printAllOfficersToHtml();
+    }
+}
+
+function printAllOfficers() {
+    officers.forEach(element => {
+        console.log(element.name, element.id, element.subordinates);
+    });
+}
+
+function printAllOfficersToHtml() {
     var temp = "";
-    officers.forEach(element => {temp += element.name + "<br>"; });
+    officers.forEach(element => { temp += element.name + "<br>"; });
     document.getElementById("officers").innerHTML = temp;
 }
 
 
 //initial test objects
-officers.push(new Officer(1, "Peter"));
-officers.push(new Officer(2, "An"));
-officers.push(new Officer(3, "Johannes"));
+mmp = new Officer(1, "MMP");
+officers.push(mmp);
+general = new General(mmp, 1, "MMP");
 
-window.onload = function () {printAllOfficersToHtml();}
+//general = new General(1, "MMP");
+
+officers.push(new Officer(2, "Peter"));
+officers.push(new Officer(3, "An"));
+officers.push(new Officer(4, "Johannes"));
+
+window.onload = function () { 
+
+
+    printAllOfficersToHtml(); 
+
+
+}
 
 

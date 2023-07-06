@@ -5,15 +5,22 @@
     by Peter Stadler
     05.07.2023, 22:45 Uhr
 */
-var test4 = "main.ts works test3";
-console.log(test4);
+var test = "test main.ts works";
+console.log(test);
 var officers = [];
-/*
-interface Officer {
-    readonly id: number;
-    readonly name: string;
-    subordinates: Officer[]
-}*/
+var general;
+var mmp;
+var General = /** @class */ (function () {
+    function General(general, id, name) {
+        this.general = general;
+        this.id = id;
+        this.name = name;
+    }
+    General.prototype.moveOfficer = function (officerID, managerID) {
+        officers[managerID].subordinates.push(officers[officerID]);
+    };
+    return General;
+}());
 var Officer = /** @class */ (function () {
     function Officer(id, name) {
         this.id = id;
@@ -24,14 +31,17 @@ var Officer = /** @class */ (function () {
 function createOfficer() {
     var id = officers.length + 1;
     var name = document.getElementById('name').value;
-    officers.push(new Officer(id, name));
-    printAllOfficers();
-    printAllOfficersToHtml();
-    document.getElementById('name').value = "";
+    //prevent empty officer-names
+    if (name != "") {
+        officers.push(new Officer(id, name));
+        document.getElementById('name').value = "";
+        printAllOfficers();
+        printAllOfficersToHtml();
+    }
 }
 function printAllOfficers() {
     officers.forEach(function (element) {
-        console.log(element.name, element.id);
+        console.log(element.name, element.id, element.subordinates);
     });
 }
 function printAllOfficersToHtml() {
@@ -40,7 +50,13 @@ function printAllOfficersToHtml() {
     document.getElementById("officers").innerHTML = temp;
 }
 //initial test objects
-officers.push(new Officer(1, "Peter"));
-officers.push(new Officer(2, "An"));
-officers.push(new Officer(3, "Johannes"));
-window.onload = function () { printAllOfficersToHtml(); };
+mmp = new Officer(1, "MMP");
+officers.push(mmp);
+general = new General(mmp, 1, "MMP");
+//general = new General(1, "MMP");
+officers.push(new Officer(2, "Peter"));
+officers.push(new Officer(3, "An"));
+officers.push(new Officer(4, "Johannes"));
+window.onload = function () {
+    printAllOfficersToHtml();
+};
