@@ -36,8 +36,10 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         if (officers[future_subordinate_id - 1] !== app["general"] && !isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
             console.log("Not MMP and not already in subordinates. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
+      
         } else if (officers[future_subordinate_id - 1] === app["general"]) {
             console.log("You cannot move the general MMP under somebody!");
+      
         } else if (isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
             console.log("Officer is already Subordinate of the manager.");
         }
