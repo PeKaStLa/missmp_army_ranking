@@ -41,19 +41,20 @@ class General{
         this.name = name;
     }
 
+    //move A under B. 
+    //Move officerID under managerID. 
+    //Push A to B's subordinates.
     moveOfficer(officerID: number, managerID: number){
         console.log("inside of moceOfficer");
         officers[managerID].subordinates.push(officers[officerID]);
     }
-
 }
 
 class Officer {
-    
     id: number;
     name: string;
     subordinates: Officer[] = [];
-
+    
     constructor(id: number, name: string) {
         this.id = id;
         this.name = name;
@@ -61,7 +62,7 @@ class Officer {
 }
 
 
-
+//create Office by name from the formular. The ID gets assigned automatically
 function createOfficer() {
     let id = officers.length + 1;
     let name = (<HTMLInputElement>document.getElementById('name')).value;

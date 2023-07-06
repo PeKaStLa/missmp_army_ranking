@@ -24,17 +24,15 @@
                 Create new Officer
             </h3>
             <form id="createOfficer" action="javascript:createOfficer();">
-                <!--not needed because of placeholder
-                    <label for="name">Officer name:</label>
-                <br>-->
                 <input type="text" id="name" name="name" placeholder="Officer name">
                 <br><br><input type="submit" value="Create Officer">
             </form>
         </div>
     </div>
     <div>
+        <br>
         <button id="moveOfficer"
-        onclick="console.log('button clicked'); javascript:general.moveOfficer(4, 2);"
+        onclick="console.log('moveOfficer button clicked'); javascript:general.moveOfficer(4, 2);"
         >Move A under B    
     </button>
         <p id="officers">
