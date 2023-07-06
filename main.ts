@@ -93,9 +93,7 @@ function createOfficer() {
     let name = (<HTMLInputElement>document.getElementById('name')).value;
     //prevent empty officer-names
     if (name != "") {
-        console.log("name is not empty inside createOfficer")
         officers.push(new Officer(id, name));
-        console.log("can we move officer:" + officers[id - 1]);
         console.log("can we move officer:" + officers[id - 1].name);
         app.moveOfficer(id, 1);
         (<HTMLInputElement>document.getElementById('name')).value = "";
