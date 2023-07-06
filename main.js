@@ -114,6 +114,8 @@ function printAllOfficersToHtml() {
                 b = element.id;
             }
             console.log("A-officer:" + a);
+            document.getElementById("a").innerHTML = officers[a - 1].name;
+            document.getElementById("b").innerHTML = officers[b - 1].name;
             console.log("B-officer:" + b);
         };
         //p_el.setAttribute("element", "#");
