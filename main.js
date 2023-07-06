@@ -43,3 +43,4 @@ function printAllOfficersToHtml() {
 officers.push(new Officer(1, "Peter"));
 officers.push(new Officer(2, "An"));
 officers.push(new Officer(3, "Johannes"));
+window.onload = function () { printAllOfficersToHtml(); };
