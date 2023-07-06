@@ -144,83 +144,67 @@ function printAllOfficersToHtml() {
 }
 
 function printLeftRight() {
+    let myP = document.getElementById("leftrightp");
+    let temp = "";
+    temp += "MMP";
+
+
+    mmp.subordinates.forEach(el => {
+        temp += "<br><span class='tab'></span>" + el.name;
+
+        el.subordinates.forEach(el => {
+            temp += "<br><span class='tab'></span><span class='tab'></span>" + el.name;
+
+
+            el.subordinates.forEach(el => {
+                temp += "<br><span class='tab'></span><span class='tab'></span><span class='tab'></span>" + el.name;
+
+                el.subordinates.forEach(el => {
+                    temp += "<br><span class='tab'></span><span class='tab'></span><span class='tab'></span><span class='tab'></span>" + el.name;
+                });
+
+            });
+        });
+    });
+
+    myP.innerHTML = temp;
+
+}
+
+/* 
+function printLeftRight() {
     console.log("printLeftRight");
     let myP = document.getElementById("leftrightp");
     let temp = "";
     temp += "MMP";
-    temp += "<br><span class='tab'>"
 
     mmp.subordinates.forEach(el => {
-        temp +=  el.name;
-        temp += "<br><span class='tab'>"
+        temp += "<br><span class='tab'>";
+        temp += el.name;
 
         el.subordinates.forEach(el => {
-            temp +=  el.name;
-            temp += "<br><span class='tab'>"
+            temp += "<br><span class='tab'>";
+            temp += el.name;
 
             el.subordinates.forEach(el => {
-                temp += el.name + "<br>";
+                temp += "<br><span class='tab'>";
+                temp += el.name;
+
+                el.subordinates.forEach(el => {
+                    temp += "<br><span class='tab'>";
+                    temp += el.name;
+                })
+                temp += "</span>";
             })
-            temp += "</span><br>";
+            temp += "</span>";
         })
-        temp += "</span><br>";
+        temp += "</span>";
     })
+    temp += "</span>";
+
     myP.innerHTML = temp;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function printTopBottom() {
-    console.log("print top to bottom");
-    let myP = document.getElementById("leftrightp");
-    let temp = "edeef";
-    //const start = document.createElement("p");
-    temp += "MMP";
-    mmp.subordinates.forEach(el => {
-        temp += "<br><span class='tab'>" + el.name;
-        el.subordinates.forEach(el => {
-            temp += "<br><span class='tab'>" + el.name;
-            el.subordinates.forEach(el => {
-                temp += "<br><span class='tab'>" + el.name;
-            })
-        })
-    })
-    myP.innerHTML = temp;
-}
+*/
 
 //
 //4. window.onload
@@ -246,12 +230,24 @@ window.onload = function () {
     officers.push(new Officer(4, "Johannes"));
     officers.push(new Officer(5, "superman"));
     officers.push(new Officer(6, "iron man"));
+    officers.push(new Officer(7, "Garfield"));
+    officers.push(new Officer(8, "Frodo"));
+    officers.push(new Officer(9, "Gandalf"));
+    officers.push(new Officer(10, "Legolas"));
+    officers.push(new Officer(11, "Gimli"));
+    officers.push(new Officer(12, "Katze"));
 
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[1].subordinates.push(officers[3]);
     officers[3].subordinates.push(officers[4]);
     officers[3].subordinates.push(officers[5]);
+    officers[2].subordinates.push(officers[6]);
+    officers[2].subordinates.push(officers[7]);
+    officers[0].subordinates.push(officers[8]);
+    officers[1].subordinates.push(officers[9]);
+    officers[1].subordinates.push(officers[10]);
+    officers[5].subordinates.push(officers[11]);
 
     //printTopBottom();
     printLeftRight();
