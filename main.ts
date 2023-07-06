@@ -77,12 +77,10 @@ var test: string = "test main.ts works";
 console.log(test);
 
 var officers: Officer[] = [];
-var app: ArmyRankingApp;
-var mmp: Officer;
 
-mmp = new Officer(1, "MMP");
+const mmp: Officer = new Officer(1, "MMP");
 officers.push(mmp);
-app = new ArmyRankingApp(mmp);
+const app: ArmyRankingApp = new ArmyRankingApp(mmp);
 
 //
 //3. functions

@@ -11,19 +11,9 @@
     4. window.onload
 */
 var ArmyRankingApp = /** @class */ (function () {
-    //id: number;
-    //name: string;
-    //subordinates: Officer[] = [];
     function ArmyRankingApp(general) {
         this.general = general;
     }
-    /*
-    constructor(general: Officer, id: number, name: string) {
-        this.general = general;
-        this.id = id;
-        this.name = name;
-    }
-    */
     //move A under B//Move officerID under managerID//Push A to B's subordinates.
     //but prevent the general to be moved under somebody
     ArmyRankingApp.prototype.moveOfficer = function (officerID, managerID) {
@@ -58,11 +48,9 @@ var Officer = /** @class */ (function () {
 var test = "test main.ts works";
 console.log(test);
 var officers = [];
-var app;
-var mmp;
-mmp = new Officer(1, "MMP");
+var mmp = new Officer(1, "MMP");
 officers.push(mmp);
-app = new ArmyRankingApp(mmp);
+var app = new ArmyRankingApp(mmp);
 //
 //3. functions
 //
