@@ -82,7 +82,8 @@ function createOfficer() {
     if (name != "") {
         officers.push(new Officer(id, name));
         //console.log("can we move officer:" + officers[id - 1].name);
-        app.moveOfficer(id, 1);
+        // here: move every freshly created officer under MMP-General!
+        //app.moveOfficer(id, 1);
         document.getElementById('name').value = "";
         printAllOfficers();
         printAllOfficersToHtml();
@@ -98,6 +99,45 @@ function printAllOfficersToHtml() {
     temp += "Apps' General:" + app["general"].name + app["general"].id + "<br>";
     officers.forEach(function (element) { temp += "officer: " + element.name + element.id + "<br>"; });
     document.getElementById("officers").innerHTML = temp;
+    printLeftRight();
+}
+function printLeftRight() {
+    console.log("printLeftRight");
+    var myP = document.getElementById("leftrightp");
+    var temp = "";
+    temp += "MMP";
+    temp += "<br><span class='tab'>";
+    mmp.subordinates.forEach(function (el) {
+        temp += el.name;
+        temp += "<br><span class='tab'>";
+        el.subordinates.forEach(function (el) {
+            temp += el.name;
+            temp += "<br><span class='tab'>";
+            el.subordinates.forEach(function (el) {
+                temp += el.name + "<br>";
+            });
+            temp += "</span><br>";
+        });
+        temp += "</span><br>";
+    });
+    myP.innerHTML = temp;
+}
+function printTopBottom() {
+    console.log("print top to bottom");
+    var myP = document.getElementById("leftrightp");
+    var temp = "edeef";
+    //const start = document.createElement("p");
+    temp += "MMP";
+    mmp.subordinates.forEach(function (el) {
+        temp += "<br><span class='tab'>" + el.name;
+        el.subordinates.forEach(function (el) {
+            temp += "<br><span class='tab'>" + el.name;
+            el.subordinates.forEach(function (el) {
+                temp += "<br><span class='tab'>" + el.name;
+            });
+        });
+    });
+    myP.innerHTML = temp;
 }
 //
 //4. window.onload
@@ -105,7 +145,7 @@ function printAllOfficersToHtml() {
 window.onload = function () {
     console.log(app);
     console.log("Apps' General:" + app["general"].name);
-    printAllOfficersToHtml();
+    //printAllOfficersToHtml();
     //initial test objects
     /*
     let peter = new Officer(2, "Peter");
@@ -116,9 +156,16 @@ window.onload = function () {
     officers.push(joh);
     officers.push(an);
     */
-    //officers.push(new Officer(2, "Peter"));
-    //officers.push(new Officer(3, "An"));
-    //officers.push(new Officer(4, "Johannes"));
-    //officers[1].subordinates.push(officers[2]);
-    //officers[1].subordinates.push(officers[3]);
+    officers.push(new Officer(2, "Peter"));
+    officers.push(new Officer(3, "An"));
+    officers.push(new Officer(4, "Johannes"));
+    officers.push(new Officer(5, "superman"));
+    officers.push(new Officer(6, "iron man"));
+    officers[0].subordinates.push(officers[1]);
+    officers[0].subordinates.push(officers[2]);
+    officers[1].subordinates.push(officers[3]);
+    officers[3].subordinates.push(officers[4]);
+    officers[3].subordinates.push(officers[5]);
+    //printTopBottom();
+    printLeftRight();
 };

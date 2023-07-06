@@ -36,10 +36,10 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         if (officers[future_subordinate_id - 1] !== app["general"] && !isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
             console.log("Not MMP and not already in subordinates. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
-      
+
         } else if (officers[future_subordinate_id - 1] === app["general"]) {
             console.log("You cannot move the general MMP under somebody!");
-      
+
         } else if (isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
             console.log("Officer is already Subordinate of the manager.");
         }
@@ -91,20 +91,20 @@ const app: ArmyRankingApp = new ArmyRankingApp(mmp);
 //3. functions
 //
 
-function moveSubordinatesToAnotherOfficer(old_officer_id: number, future_officer_id: number): boolean{
+function moveSubordinatesToAnotherOfficer(old_officer_id: number, future_officer_id: number): boolean {
     return true;
 }
 
-function removeSubordinateFromOfficer(old_subordinate_id: number, old_officer_id: number): boolean{
+function removeSubordinateFromOfficer(old_subordinate_id: number, old_officer_id: number): boolean {
     return true;
 }
 
-function isOfficerAndSubordinateTheSame(future_subordinate_id: number, future_officer_id: number){
+function isOfficerAndSubordinateTheSame(future_subordinate_id: number, future_officer_id: number) {
     return true;
 }
 
 // check isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
-function isOfficerAlreadySubordinate(future_subordinate_id: number, future_officer_id: number): boolean{
+function isOfficerAlreadySubordinate(future_subordinate_id: number, future_officer_id: number): boolean {
     // return true if future_subordinate is already in subordinates of future_officer
     // return true if officers[future_subordinate_id - 1] is already in officers[future_officer_id - 1].subordinates
     return officers[future_officer_id - 1].subordinates.some(e => e === officers[future_subordinate_id - 1]);
@@ -120,7 +120,9 @@ function createOfficer() {
     if (name != "") {
         officers.push(new Officer(id, name));
         //console.log("can we move officer:" + officers[id - 1].name);
-        app.moveOfficer(id, 1);
+
+        // here: move every freshly created officer under MMP-General!
+        //app.moveOfficer(id, 1);
         (<HTMLInputElement>document.getElementById('name')).value = "";
         printAllOfficers();
         printAllOfficersToHtml();
@@ -138,8 +140,87 @@ function printAllOfficersToHtml() {
     temp += "Apps' General:" + app["general"].name + app["general"].id + "<br>";
     officers.forEach(element => { temp += "officer: " + element.name + element.id + "<br>"; });
     document.getElementById("officers").innerHTML = temp;
+    printLeftRight();
 }
 
+function printLeftRight() {
+    console.log("printLeftRight");
+    let myP = document.getElementById("leftrightp");
+    let temp = "";
+    temp += "MMP";
+    temp += "<br><span class='tab'>"
+
+    mmp.subordinates.forEach(el => {
+        temp +=  el.name;
+        temp += "<br><span class='tab'>"
+
+        el.subordinates.forEach(el => {
+            temp +=  el.name;
+            temp += "<br><span class='tab'>"
+
+            el.subordinates.forEach(el => {
+                temp += el.name + "<br>";
+            })
+            temp += "</span><br>";
+        })
+        temp += "</span><br>";
+    })
+    myP.innerHTML = temp;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function printTopBottom() {
+    console.log("print top to bottom");
+    let myP = document.getElementById("leftrightp");
+    let temp = "edeef";
+    //const start = document.createElement("p");
+    temp += "MMP";
+    mmp.subordinates.forEach(el => {
+        temp += "<br><span class='tab'>" + el.name;
+        el.subordinates.forEach(el => {
+            temp += "<br><span class='tab'>" + el.name;
+            el.subordinates.forEach(el => {
+                temp += "<br><span class='tab'>" + el.name;
+            })
+        })
+    })
+    myP.innerHTML = temp;
+}
 
 //
 //4. window.onload
@@ -148,7 +229,7 @@ function printAllOfficersToHtml() {
 window.onload = function () {
     console.log(app)
     console.log("Apps' General:" + app["general"].name)
-    printAllOfficersToHtml();
+    //printAllOfficersToHtml();
 
     //initial test objects
     /*
@@ -160,12 +241,20 @@ window.onload = function () {
     officers.push(joh);
     officers.push(an);
     */
-    //officers.push(new Officer(2, "Peter"));
-    //officers.push(new Officer(3, "An"));
-    //officers.push(new Officer(4, "Johannes"));
+    officers.push(new Officer(2, "Peter"));
+    officers.push(new Officer(3, "An"));
+    officers.push(new Officer(4, "Johannes"));
+    officers.push(new Officer(5, "superman"));
+    officers.push(new Officer(6, "iron man"));
 
-    //officers[1].subordinates.push(officers[2]);
-    //officers[1].subordinates.push(officers[3]);
+    officers[0].subordinates.push(officers[1]);
+    officers[0].subordinates.push(officers[2]);
+    officers[1].subordinates.push(officers[3]);
+    officers[3].subordinates.push(officers[4]);
+    officers[3].subordinates.push(officers[5]);
+
+    //printTopBottom();
+    printLeftRight();
 }
 
 

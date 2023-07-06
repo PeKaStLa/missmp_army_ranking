@@ -67,3 +67,20 @@ p#officers{
     display: inline-block;
         width: fit-content;
 }
+
+.tab {
+    display: inline-block;
+    margin-left: 4em;
+}
+
+div#topbottom{
+    background-color: green;
+}
+
+div#leftright{
+    background-color: lightgreen;
+}
+
+p#leftrightp{
+    background-color: lightcoral;
+}
