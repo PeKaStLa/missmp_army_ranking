@@ -16,15 +16,19 @@ var ArmyRankingApp = /** @class */ (function () {
     }
     //move A under B//Move officerID under managerID//Push A to B's subordinates.
     //but prevent the general to be moved under somebody
-    ArmyRankingApp.prototype.moveOfficer = function (officerID, managerID) {
+    ArmyRankingApp.prototype.moveOfficer = function (future_subordinate_id, future_officer_id) {
         //console.log("inside of moceOfficer");
-        if (officers[officerID - 1] !== app["general"]) {
-            console.log("Not MMP. Now move officer:" + officers[officerID - 1].name);
-            officers[managerID - 1].subordinates.push(officers[officerID - 1]);
+        if (officers[future_subordinate_id - 1] !== app["general"] && !isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
+            console.log("Not MMP and not already in subordinates. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
+            officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
         }
-        else if (officers[officerID - 1] === app["general"]) {
+        else if (officers[future_subordinate_id - 1] === app["general"]) {
             console.log("You cannot move the general MMP under somebody!");
         }
+        else if (isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
+            console.log("Officer is already Subordinate of the manager.");
+        }
+        printAllOfficers();
     };
     ArmyRankingApp.prototype.undo = function () {
         console.log("doing undo");
@@ -54,6 +58,18 @@ var app = new ArmyRankingApp(mmp);
 //
 //3. functions
 //
+function moveSubordinatesToAnotherOfficer(old_officer_id, future_officer_id) {
+    return true;
+}
+function removeSubordinateFromOfficer(old_subordinate_id, old_officer_id) {
+    return true;
+}
+// check isOfficerAlreadySubordinate(), so that subordinate can not get moved under the same officer multiple times
+function isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id) {
+    // return true if future_subordinate is already in subordinates of future_officer
+    // return true if officers[future_subordinate_id - 1] is already in officers[future_officer_id - 1].subordinates
+    return officers[future_officer_id - 1].subordinates.some(function (e) { return e === officers[future_subordinate_id - 1]; });
+}
 //create Office by name from the formular-input. The ID gets assigned automatically
 function createOfficer() {
     console.log("inside createOfficer");
