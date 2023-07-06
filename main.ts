@@ -82,6 +82,9 @@ const mmp: Officer = new Officer(1, "MMP");
 officers.push(mmp);
 const app: ArmyRankingApp = new ArmyRankingApp(mmp);
 
+var a: number;
+var b: number;
+
 //
 //3. functions
 //
@@ -108,12 +111,71 @@ function printAllOfficers() {
     });
 }
 
+/*
+function handleClick(officer: Officer){
+    console.log("A-officer:" + a);
+    console.log("B-officer:" + b);
+    if (a == undefined){
+        a = officer;
+    } else if(b == undefined){
+        b = officer;
+    }
+    console.log("A-officer:" + a);
+    console.log("B-officer:" + b); 
+}
+*/
+
 function printAllOfficersToHtml() {
     let temp = "";
     temp += "Apps' General:" + app["general"].name + app["general"].id + "<br>";
     officers.forEach(element => { temp += "officer: " + element.name + element.id + "<br>"; });
-    document.getElementById("officers").innerHTML = temp;
+    document.getElementById("all_officers_p").innerHTML = temp;
+
+    //let ps = [];
+
+    var officer_div = document.getElementById('all_officers_div');
+    officer_div.innerHTML = "";
+
+    officers.forEach(element => {
+
+        let temp2 = element.name + " : " + element.id;
+        let p_el = document.createElement("p");
+        let el_id = element.id;
+        //p_el.innerHTML="";
+
+        p_el.innerHTML = temp2;
+
+        p_el.setAttribute("onclick", 'handleClick(element)');
+
+        p_el.onclick = function handleClick(el_id) {
+            console.log("A-officer:" + officers[a - 1]);
+            console.log("B-officer:" + officers[b - 1]);
+            if (a == undefined) {
+                a = element.id;
+            } else if (b == undefined) {
+                b = element.id;
+            }
+            console.log("A-officer:" + a);
+            console.log("B-officer:" + b);
+        }
+
+
+
+        //p_el.setAttribute("element", "#");
+        //p_el.setAttribute("#", "element");
+        p_el.setAttribute("class", "officer");
+        //p_el.addEventListener('click', handleClick(element), false);
+        //p_el.onclick = handleClick(this.element);
+        //p_el.setAttribute("onclick","handleClick(element);");
+        officer_div.appendChild(p_el);
+        //officer_div?.replaceChildren(p_el);
+    });
+
+
+
 }
+
+
 
 
 //
