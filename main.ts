@@ -32,9 +32,9 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
     //move A under B//Move officerID under managerID//Push A to B's subordinates.
     //but prevent the general to be moved under somebody
     moveOfficer(officerID: number, managerID: number) {
-        console.log("inside of moceOfficer");
+        //console.log("inside of moceOfficer");
         if (officers[officerID - 1] !== app["general"]) {
-            console.log("Not MMP. Now move officer:" + officers[officerID - 1])
+            console.log("Not MMP. Now move officer:" + officers[officerID - 1].name)
             officers[managerID - 1].subordinates.push(officers[officerID - 1]);
         } else if (officers[officerID - 1] === app["general"]) {
             console.log("You cannot move the general MMP under somebody!");
@@ -94,7 +94,7 @@ function createOfficer() {
     //prevent empty officer-names
     if (name != "") {
         officers.push(new Officer(id, name));
-        console.log("can we move officer:" + officers[id - 1].name);
+        //console.log("can we move officer:" + officers[id - 1].name);
         app.moveOfficer(id, 1);
         (<HTMLInputElement>document.getElementById('name')).value = "";
         printAllOfficers();
