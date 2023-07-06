@@ -26,6 +26,7 @@ function createOfficer() {
     var name = document.getElementById('name').value;
     officers.push(new Officer(id, name));
     printAllOfficers();
+    document.getElementById('name').value = "";
 }
 //initial test objects
 officers.push(new Officer(1, "Peter"));

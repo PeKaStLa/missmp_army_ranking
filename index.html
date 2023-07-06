@@ -1,39 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <!--
+<!--
     index.html
     missmp_army_ranking
     Frontend assignment
     by Peter Stadler
     05.07.2023, 22:45 Uhr
 -->
-    <head>
-        <title>Missmp army ranking app</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <script src="main.js"></script>
-    </head>
+
+<head>
+    <title>Missmp army ranking app</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="main.js"></script>
+</head>
+
 <body>
     <h1>
-        Miss Moneypenny Army Ranking App
+        MMP Army Ranking
     </h1>
-<br>
-<div>
-    
-<div id="army-form-comp">
-    <h3>
-        Create new Officer
-    </h3>
-   
-    
-<form action="javascript:createOfficer()">
-    <label for="name">Officer name:</label>
-    <br><input type="text" id="name" name="name" placeholder="Officer name">
-  <br><br><input type="submit" value="Create Officer">
-</form>
-
-</div>
-</div>
-
+    <br>
+    <div>
+        <div id="army-form-comp">
+            <h3 id="headline">
+                Create new Officer
+            </h3>
+            <form id="createOfficer" action="javascript:createOfficer();">
+                <label for="name">Officer name:</label>
+                <br><input type="text" id="name" name="name" placeholder="Officer name">
+                <br><br><input type="submit" value="Create Officer">
+            </form>
+        </div>
+    </div>
 </body>
 </html>
-

@@ -41,7 +41,9 @@ function createOfficer(){
     let id = officers.length + 1;
     let name = (<HTMLInputElement>document.getElementById('name')).value;
     officers.push(new Officer(id, name));
-    printAllOfficers()
+    printAllOfficers();
+    (<HTMLInputElement>document.getElementById('name')).value = "";
+
 }
 
 
