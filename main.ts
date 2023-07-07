@@ -199,12 +199,8 @@ function printLeftRight() {
 
             if (el.subordinates.length === 0) {
                 found_end = true;
-                if (found_end && isOfficerInArray(el, already_saved)) {
-                    to_use_els.pop();
-                    removed_from_to_use_els.push(el);
-                    found_end = false;
-                }
             } else if (el.subordinates.length !== 0) {
+                found_end = false;
                 el.subordinates.forEach(el => {
                     to_use_els.push(el);
                 })
@@ -212,11 +208,13 @@ function printLeftRight() {
             console.log("found_end: ", found_end);
         }
 
-        if (isOfficerInArray(el, already_saved) &&
+        if (found_end && isOfficerInArray(el, already_saved) &&
             areAllSubordinatesAlreadySaved(el, already_saved) &&
             areAllSubordinatesAlreadySaved(el, removed_from_to_use_els)) {
             to_use_els.pop();
             removed_from_to_use_els.push(el);
+            //found_end = false;
+            if (el.name=="MMP"){break;}
         }
 
 
@@ -387,22 +385,22 @@ window.onload = function () {
     //officers.push(new Officer(5, "superman"));
     //officers.push(new Officer(6, "iron man"));
     //officers.push(new Officer(7, "Garfield"));
-    // officers.push(new Officer(8, "Frodo"));
-    //officers.push(new Officer(9, "Gandalf"));
-    //officers.push(new Officer(10, "Legolas"));
-    //officers.push(new Officer(11, "Gimli"));
-    // officers.push(new Officer(12, "Katze"));
+    officers.push(new Officer(8, "Frodo"));
+    officers.push(new Officer(9, "Gandalf"));
+    officers.push(new Officer(10, "Legolas"));
+    officers.push(new Officer(11, "Gimli"));
+    officers.push(new Officer(12, "Katze"));
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[1].subordinates.push(officers[3]);
     officers[1].subordinates.push(officers[4]);
     officers[1].subordinates.push(officers[5]);
     officers[2].subordinates.push(officers[6]);
-    // officers[2].subordinates.push(officers[7]);
-    // officers[0].subordinates.push(officers[8]);
-    //officers[1].subordinates.push(officers[9]);
-    // officers[1].subordinates.push(officers[10]);
-    // officers[5].subordinates.push(officers[11]);
+    officers[3].subordinates.push(officers[7]);
+    officers[9].subordinates.push(officers[8]);
+    officers[3].subordinates.push(officers[9]);
+    officers[3].subordinates.push(officers[10]);
+    officers[0].subordinates.push(officers[11]);
    // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
@@ -412,8 +410,8 @@ window.onload = function () {
 
 
 
-    //printLeftRight();
-    //printAllOfficers();
+    printLeftRight();
+    printAllOfficers();
 
 
 }
