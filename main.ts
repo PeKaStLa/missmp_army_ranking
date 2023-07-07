@@ -69,8 +69,6 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
     redo(): void {
         console.log("doing redo");
     }
-
-
 }
 
 
@@ -78,8 +76,7 @@ interface OfficerInterface {
     readonly id: number;
     readonly name: string;
     subordinates: Officer[];
-
-    printSubordinates(level: number): void;
+    printSubordinates(): void;
 }
 
 class Officer implements OfficerInterface {
@@ -94,13 +91,19 @@ class Officer implements OfficerInterface {
 
     printSubordinates(level: number = 0): void {
         let myP = document.getElementById("oop");
+        //clear the HTML-element
         if (level==0){myP.innerHTML = "";}
         console.log(" Doing printSubordinates() now in: ", this.name, this.id);
         let br = "<br>";
         let span = "<span class='tab'></span>";
+        //the in the end to be printed string
         let temp = "";
 
-        for (let i = level; i > 0; i--) { temp += span; }
+        for (let i = level; i > 0; i--) { 
+            //level adds the right amount of space to the left
+            temp += span; 
+        }
+        //add the current officers' name to the string
         temp = temp + this.name + br;
 
         this.subordinates.forEach(element => {
