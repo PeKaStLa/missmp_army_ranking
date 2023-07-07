@@ -54,13 +54,16 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         console.log("doing redo");
     }
 
+
 }
 
 
 interface OfficerInterface {
     readonly id: number;
     readonly name: string;
-    subordinates: Officer[]
+    subordinates: Officer[];
+
+    printSubordinates(level: number): void;
 }
 
 class Officer implements OfficerInterface {
@@ -71,6 +74,37 @@ class Officer implements OfficerInterface {
     constructor(id: number, name: string) {
         this.id = id;
         this.name = name;
+    }
+
+    printSubordinates(level: number = 0): void {
+        if (this.id==1){
+            console.log("check Doing printSubordinates in MPP !");
+            removed_from_to_use_els2 = [];
+            to_use_els2 = [];
+            already_saved2 = [];
+        }
+        console.log(" Doing printSubordinates() now in: ", this.name, this.id);
+        //console.log(this.subordinates);
+        let br = "<br>";
+        let span = "<span class='tab'></span>";
+        let temp = "";
+        let myP = document.getElementById("oop");
+        //let level=0;
+
+        
+        for (let i = level; i > 0; i--) {temp += span;}
+        temp += this.name + br;
+
+        this.subordinates.forEach(element => {
+
+            level = level + 1;
+            element.printSubordinates(level);
+            level = level +- 1;
+
+
+        });
+        myP.innerHTML += temp;
+
     }
 }
 
@@ -86,6 +120,11 @@ var officers: Officer[] = [];
 const mmp: Officer = new Officer(1, "MMP");
 officers.push(mmp);
 const app: ArmyRankingApp = new ArmyRankingApp(mmp);
+
+var already_saved2: Officer[] = [];
+var to_use_els2: Officer[] = [mmp];
+var removed_from_to_use_els2: Officer[] = [];
+var reached_end2 = false;
 
 //
 //3. functions
@@ -161,70 +200,12 @@ function areAllSubordinatesAlreadySaved(officer: Officer, array: Officer[]): boo
     return all_in_array;
 }
 
-//first working algorithm
-function printLeftRight() {
-    let myP = document.getElementById("leftrightp");
-
-    let already_saved: Officer[] = [];
-    let to_use_els: Officer[] = [mmp];
-    let removed_from_to_use_els: Officer[] = [];
-    let temp = "";
-    let br = "<br>";
-    let span = "<span class='tab'></span>";
-    let level = 0;
-    let found_end = false;
-    let el;
-    let reached_end = false;
-
-    while (!reached_end) {
-
-        el = to_use_els[to_use_els.length - 1];
-        console.log("to_use_els_continue_names: ", to_use_els.map(a => a.name));
-        console.log("use next: ", el.name, "continue_with: ", to_use_els.map(a => a.name));
-        console.log("to_use_els_continue_length: ", to_use_els.length);
-        console.log("to use next: ", el);
-        console.log("to_use_els_continue_length: ", to_use_els.length);
-        console.log("already_saved_names: ", already_saved.map(a => a.name));
-        console.log("removed_from_to_use_els_names: ", removed_from_to_use_els.map(a => a.name));
-        console.log("start found_end: ", found_end);
-        myP.innerHTML = temp;
-
-        if (!isOfficerInArray(el, already_saved) && !isOfficerInArray(el, removed_from_to_use_els)) {
-
-            temp += el.name + br;
-            already_saved.push(el);
-
-            if (el.subordinates.length === 0) {
-                found_end = true;
-            } else if (el.subordinates.length !== 0) {
-                found_end = false;
-                el.subordinates.forEach(el => {
-                    to_use_els.push(el);
-                })
-            }
-            console.log("found_end: ", found_end);
-        }
-
-        if (found_end && isOfficerInArray(el, already_saved) && areAllSubordinatesAlreadySaved(el, already_saved) && areAllSubordinatesAlreadySaved(el, removed_from_to_use_els)) {
-            to_use_els.pop();
-            removed_from_to_use_els.push(el);
-
-            if (el.name == "MMP") {
-                console.log("Wieder bei MMP angelangt. FINISH!");
-                console.log("all_officers: ", officers.map(a => a.name));
-                reached_end = true;
-            }
-        }
-    }
-    myP.innerHTML = temp;
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // try the algorithm with visualization now:
 function printVisualHierarchyTopLeftToRightBottom() {
-    let myP = document.getElementById("leftrightp");
+    let myP = document.getElementById("officers");
 
     let already_saved: Officer[] = [];
     let to_use_els: Officer[] = [mmp];
@@ -259,7 +240,7 @@ function printVisualHierarchyTopLeftToRightBottom() {
 
             temp += el.name + br;
             already_saved.push(el);
-            level = level + 1 ;
+            level = level + 1;
 
             if (el.subordinates.length === 0) {
                 found_end = true;
@@ -377,6 +358,13 @@ window.onload = function () {
     //printAllOfficers();
 
     printVisualHierarchyTopLeftToRightBottom();
+
+    peter.printSubordinates();
+    /*
+    officers.forEach(element => {
+        element.printSubordinates();
+    });
+    */
 
 
 }

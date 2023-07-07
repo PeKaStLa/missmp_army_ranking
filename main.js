@@ -44,6 +44,32 @@ var Officer = /** @class */ (function () {
         this.id = id;
         this.name = name;
     }
+    Officer.prototype.printSubordinates = function (level) {
+        if (level === void 0) { level = 0; }
+        if (this.id == 1) {
+            console.log("check Doing printSubordinates in MPP !");
+            removed_from_to_use_els2 = [];
+            to_use_els2 = [];
+            already_saved2 = [];
+        }
+        console.log(" Doing printSubordinates() now in: ", this.name, this.id);
+        //console.log(this.subordinates);
+        var br = "<br>";
+        var span = "<span class='tab'></span>";
+        var temp = "";
+        var myP = document.getElementById("oop");
+        //let level=0;
+        for (var i = level; i > 0; i--) {
+            temp += span;
+        }
+        temp += this.name + br;
+        this.subordinates.forEach(function (element) {
+            level = level + 1;
+            element.printSubordinates(level);
+            level = level + -1;
+        });
+        myP.innerHTML += temp;
+    };
     return Officer;
 }());
 //
@@ -55,6 +81,10 @@ var officers = [];
 var mmp = new Officer(1, "MMP");
 officers.push(mmp);
 var app = new ArmyRankingApp(mmp);
+var already_saved2 = [];
+var to_use_els2 = [mmp];
+var removed_from_to_use_els2 = [];
+var reached_end2 = false;
 //
 //3. functions
 //
@@ -114,61 +144,11 @@ function areAllSubordinatesAlreadySaved(officer, array) {
     });
     return all_in_array;
 }
-//first working algorithm
-function printLeftRight() {
-    var myP = document.getElementById("leftrightp");
-    var already_saved = [];
-    var to_use_els = [mmp];
-    var removed_from_to_use_els = [];
-    var temp = "";
-    var br = "<br>";
-    var span = "<span class='tab'></span>";
-    var level = 0;
-    var found_end = false;
-    var el;
-    var reached_end = false;
-    while (!reached_end) {
-        el = to_use_els[to_use_els.length - 1];
-        console.log("to_use_els_continue_names: ", to_use_els.map(function (a) { return a.name; }));
-        console.log("use next: ", el.name, "continue_with: ", to_use_els.map(function (a) { return a.name; }));
-        console.log("to_use_els_continue_length: ", to_use_els.length);
-        console.log("to use next: ", el);
-        console.log("to_use_els_continue_length: ", to_use_els.length);
-        console.log("already_saved_names: ", already_saved.map(function (a) { return a.name; }));
-        console.log("removed_from_to_use_els_names: ", removed_from_to_use_els.map(function (a) { return a.name; }));
-        console.log("start found_end: ", found_end);
-        myP.innerHTML = temp;
-        if (!isOfficerInArray(el, already_saved) && !isOfficerInArray(el, removed_from_to_use_els)) {
-            temp += el.name + br;
-            already_saved.push(el);
-            if (el.subordinates.length === 0) {
-                found_end = true;
-            }
-            else if (el.subordinates.length !== 0) {
-                found_end = false;
-                el.subordinates.forEach(function (el) {
-                    to_use_els.push(el);
-                });
-            }
-            console.log("found_end: ", found_end);
-        }
-        if (found_end && isOfficerInArray(el, already_saved) && areAllSubordinatesAlreadySaved(el, already_saved) && areAllSubordinatesAlreadySaved(el, removed_from_to_use_els)) {
-            to_use_els.pop();
-            removed_from_to_use_els.push(el);
-            if (el.name == "MMP") {
-                console.log("Wieder bei MMP angelangt. FINISH!");
-                console.log("all_officers: ", officers.map(function (a) { return a.name; }));
-                reached_end = true;
-            }
-        }
-    }
-    myP.innerHTML = temp;
-}
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // try the algorithm with visualization now:
 function printVisualHierarchyTopLeftToRightBottom() {
-    var myP = document.getElementById("leftrightp");
+    var myP = document.getElementById("officers");
     var already_saved = [];
     var to_use_els = [mmp];
     var removed_from_to_use_els = [];
@@ -299,4 +279,10 @@ window.onload = function () {
     console.log("Math random: " + Math.floor(Math.random() * 10));
     //printAllOfficers();
     printVisualHierarchyTopLeftToRightBottom();
+    peter.printSubordinates();
+    /*
+    officers.forEach(element => {
+        element.printSubordinates();
+    });
+    */
 };
