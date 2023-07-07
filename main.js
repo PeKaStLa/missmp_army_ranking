@@ -14,6 +14,11 @@ var ArmyRankingApp = /** @class */ (function () {
     function ArmyRankingApp(general) {
         this.general = general;
     }
+    ArmyRankingApp.prototype.printAllOfficersToConsole = function () {
+        officers.forEach(function (element) {
+            console.log(element.name, element.id, element.subordinates);
+        });
+    };
     //create Office by name from the formular-input. The ID gets assigned automatically
     ArmyRankingApp.prototype.createOfficer = function () {
         console.log("inside createOfficer");
@@ -31,18 +36,29 @@ var ArmyRankingApp = /** @class */ (function () {
     //move A under B//Move officerID under managerID//Push A to B's subordinates.
     //but prevent the general to be moved under somebody
     ArmyRankingApp.prototype.moveOfficer = function (future_subordinate_id, future_officer_id) {
-        //console.log("inside of moceOfficer");
-        if (officers[future_subordinate_id - 1] !== app["general"] && !isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
-            console.log("Not MMP and not already in subordinates. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
-            officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
+        console.log("inside of moceOfficer");
+        if (future_subordinate_id == future_officer_id) {
+            console.log("You cannot move an Officer under itself.");
         }
-        else if (officers[future_subordinate_id - 1] === app["general"]) {
+        else if (future_subordinate_id == 1) {
             console.log("You cannot move the general MMP under somebody!");
         }
         else if (isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
-            console.log("Officer is already Subordinate of the manager.");
+            console.log("future_subordinate_id is already Subordinate of the future_officer_id.");
         }
-        //printAllOfficers();
+        else {
+            var old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
+            // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
+            removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
+            //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
+            copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id);
+            //delete future_subordinate_id's old subordinates 
+            officers[future_subordinate_id - 1].subordinates = [];
+            //push future_subordinate_id to subordinates of future_officer_id
+            console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
+            officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
+        }
+        this.general.printSubordinates();
     };
     ArmyRankingApp.prototype.undo = function () {
         console.log("doing undo");
@@ -61,17 +77,21 @@ var Officer = /** @class */ (function () {
     Officer.prototype.printSubordinates = function (level) {
         if (level === void 0) { level = 0; }
         var myP = document.getElementById("oop");
+        //clear the HTML-element
         if (level == 0) {
             myP.innerHTML = "";
         }
-        console.log(" Doing printSubordinates() now in: ", this.name, this.id);
+        //console.log(" Doing printSubordinates() now in: ", this.name, this.id);
         var br = "<br>";
         var span = "<span class='tab'></span>";
+        //the in the end to be printed string
         var temp = "";
         for (var i = level; i > 0; i--) {
+            //level adds the right amount of space to the left
             temp += span;
         }
-        temp = temp + this.name + br;
+        //add the current officers' name to the string
+        temp = temp + this.name + " " + this.id + br;
         this.subordinates.forEach(function (element) {
             level = level + 1;
             element.printSubordinates(level);
@@ -94,25 +114,29 @@ var app = new ArmyRankingApp(mmp);
 //
 //3. functions
 //
-function moveSubordinatesToAnotherOfficer(old_officer_id, future_officer_id) {
-    return true;
+function copySubordinatesToAnotherOfficer(old_officer_id, future_officer_id) {
+    officers[old_officer_id - 1].subordinates.forEach(function (el) {
+        officers[future_officer_id - 1].subordinates.push(el);
+    });
 }
-function removeSubordinateFromOfficer(old_subordinate_id, old_officer_id) {
-    return true;
+function removeSpecificSubordinateFromOfficer(old_subordinate_id, old_officer_id) {
+    var index = officers[old_officer_id - 1].subordinates.indexOf(officers[old_subordinate_id - 1]);
+    officers[old_officer_id - 1].subordinates.splice(index, 1);
 }
-function isOfficerAndSubordinateTheSame(future_subordinate_id, future_officer_id) {
-    return true;
+function whoIsOfficerOfSubordinate(subordinate_id) {
+    var officer;
+    officers.forEach(function (el) {
+        if (isOfficerAlreadySubordinate(subordinate_id, el.id)) {
+            officer = el;
+        }
+    });
+    return officer;
 }
 // check isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
 function isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id) {
     // return true if future_subordinate is already in subordinates of future_officer
     // return true if officers[future_subordinate_id - 1] is already in officers[future_officer_id - 1].subordinates
     return officers[future_officer_id - 1].subordinates.some(function (e) { return e === officers[future_subordinate_id - 1]; });
-}
-function printAllOfficers() {
-    officers.forEach(function (element) {
-        console.log(element.name, element.id, element.subordinates);
-    });
 }
 function printAllOfficersToHtml() {
     var temp = "";
@@ -207,7 +231,15 @@ window.onload = function () {
     //testing of the function areAllSubordinatesAlreadySaved()
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
-    console.log("Math random: " + Math.floor(Math.random() * 10));
+    //console.log("Math random: " + Math.floor(Math.random() * 10));
+    //console.log("Test: ", isOfficerAlreadySubordinate(12, 12));
+    //console.log("Test: ", whoIsOfficerOfSubordinate(3));
+    //console.log("test: ", officers[19].subordinates[0].name);
+    //removeSpecificSubordinateFromOfficer(27, 20);
+    //console.log("test: ", officers[19].subordinates);
+    //copySubordinatesToAnotherOfficer(18, 20);
+    //console.log("test: ", officers[19].subordinates);
     printAllOfficersToHtml();
     app.general.printSubordinates();
+    app.printAllOfficersToConsole();
 };
