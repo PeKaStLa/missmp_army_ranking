@@ -220,7 +220,8 @@ function printLeftRight() {
             removed_from_to_use_els.push(el);
             //found_end = false;
             if (el.name=="MMP"){
-                console.log("Wieder bei MMP angelangt.");
+                console.log("Wieder bei MMP angelangt. FINISH!");
+                console.log("all_officers: ", officers.map(a => a.name));
                 break;
             }
         }
@@ -375,10 +376,10 @@ window.onload = function () {
 
     //initial test objects
     let peter = new Officer(2, "Peter");
-    let an = new Officer(3, "an");
-    let johan = new Officer(4, "Johannes");
-    let superman = new Officer(5, "superman");
-    let iron = new Officer(6, "iron");
+    let an = new Officer(3, "An");
+    let johan = new Officer(4, "Rex the dog");
+    let superman = new Officer(5, "Superman");
+    let iron = new Officer(6, "Ironman");
     let Garfield = new Officer(7, "Garfield");
     officers.push(peter);
     officers.push(an);
@@ -397,17 +398,17 @@ window.onload = function () {
     officers.push(new Officer(9, "Gandalf"));
     officers.push(new Officer(10, "Legolas"));
     officers.push(new Officer(11, "Gimli"));
-    officers.push(new Officer(12, "Katze"));
+    officers.push(new Officer(12, "Johannes"));
 
     officers.push(new Officer(13, "John Lennon"));
-    officers.push(new Officer(14, "Harry potter"));
-    officers.push(new Officer(15, "Baumbart"));
-    officers.push(new Officer(16, "Darth vader"));
+    officers.push(new Officer(14, "Harry Potter"));
+    officers.push(new Officer(15, "Treebeard"));
+    officers.push(new Officer(16, "Darth Vader"));
     officers.push(new Officer(17, "Han Solo"));
-    officers.push(new Officer(18, "Asoka Tano"));
-    officers.push(new Officer(19, "Koenig von Thailand"));
-    officers.push(new Officer(20, "Scholz"));
-    officers.push(new Officer(21, "Leonardo de caprio"));
+    officers.push(new Officer(18, "Ahsoka Tano"));
+    officers.push(new Officer(19, "King of Thailand"));
+    officers.push(new Officer(20, "Olaf Scholz"));
+    officers.push(new Officer(21, "Leonardo DiCaprio"));
     officers.push(new Officer(22, "Amelie"));
     officers.push(new Officer(23, "John Biden"));
 

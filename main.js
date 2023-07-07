@@ -162,7 +162,8 @@ function printLeftRight() {
             removed_from_to_use_els.push(el);
             //found_end = false;
             if (el.name == "MMP") {
-                console.log("Wieder bei MMP angelangt.");
+                console.log("Wieder bei MMP angelangt. FINISH!");
+                console.log("all_officers: ", officers.map(function (a) { return a.name; }));
                 break;
             }
         }
@@ -309,10 +310,10 @@ window.onload = function () {
     //printAllOfficersToHtml();
     //initial test objects
     var peter = new Officer(2, "Peter");
-    var an = new Officer(3, "an");
-    var johan = new Officer(4, "Johannes");
-    var superman = new Officer(5, "superman");
-    var iron = new Officer(6, "iron");
+    var an = new Officer(3, "An");
+    var johan = new Officer(4, "Rex the dog");
+    var superman = new Officer(5, "Superman");
+    var iron = new Officer(6, "Ironman");
     var Garfield = new Officer(7, "Garfield");
     officers.push(peter);
     officers.push(an);
@@ -331,17 +332,18 @@ window.onload = function () {
     officers.push(new Officer(9, "Gandalf"));
     officers.push(new Officer(10, "Legolas"));
     officers.push(new Officer(11, "Gimli"));
-    officers.push(new Officer(12, "Katze"));
+    officers.push(new Officer(12, "Johannes"));
     officers.push(new Officer(13, "John Lennon"));
-    officers.push(new Officer(14, "Harry potter"));
-    officers.push(new Officer(15, "Baumbart"));
-    officers.push(new Officer(16, "Darth vader"));
+    officers.push(new Officer(14, "Harry Potter"));
+    officers.push(new Officer(15, "Treebeard"));
+    officers.push(new Officer(16, "Darth Vader"));
     officers.push(new Officer(17, "Han Solo"));
-    officers.push(new Officer(18, "Asoka Tano"));
-    officers.push(new Officer(19, "Koenig von Thailand"));
-    officers.push(new Officer(20, "Scholz"));
-    officers.push(new Officer(21, "Leonardo de caprio"));
+    officers.push(new Officer(18, "Ahsoka Tano"));
+    officers.push(new Officer(19, "King of Thailand"));
+    officers.push(new Officer(20, "Olaf Scholz"));
+    officers.push(new Officer(21, "Leonardo DiCaprio"));
     officers.push(new Officer(22, "Amelie"));
+    officers.push(new Officer(23, "John Biden"));
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[1].subordinates.push(officers[3]);
@@ -353,6 +355,7 @@ window.onload = function () {
     officers[3].subordinates.push(officers[9]);
     officers[3].subordinates.push(officers[10]);
     officers[0].subordinates.push(officers[11]);
+    officers[20].subordinates.push(officers[12]);
     officers[1].subordinates.push(officers[13]);
     officers[2].subordinates.push(officers[14]);
     officers[11].subordinates.push(officers[15]);
@@ -362,7 +365,7 @@ window.onload = function () {
     officers[15].subordinates.push(officers[19]);
     officers[7].subordinates.push(officers[20]);
     officers[6].subordinates.push(officers[21]);
-    //officers[6].subordinates.push(officers[22]);
+    officers[17].subordinates.push(officers[22]);
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
