@@ -113,6 +113,7 @@ function areAllSubordinatesAlreadySaved(officer, array) {
     });
     return all_in_array;
 }
+//first working algorithm
 function printLeftRight() {
     var myP = document.getElementById("leftrightp");
     var already_saved = [];
@@ -121,6 +122,7 @@ function printLeftRight() {
     var temp = "";
     var br = "<br>";
     var span = "<span class='tab'></span>";
+    var level = 0;
     var found_end = false;
     var el;
     var reached_end = false;
@@ -161,6 +163,64 @@ function printLeftRight() {
     }
     myP.innerHTML = temp;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// try the algorithm with visualization now:
+function printVisualHierarchy() {
+    var myP = document.getElementById("leftrightp");
+    var already_saved = [];
+    var to_use_els = [mmp];
+    var removed_from_to_use_els = [];
+    var temp = "";
+    var br = "<br>";
+    var span = "<span class='tab'></span>";
+    var level = 0;
+    var found_end = false;
+    var el;
+    var reached_end = false;
+    while (!reached_end) {
+        el = to_use_els[to_use_els.length - 1];
+        console.log("to_use_els_continue_names: ", to_use_els.map(function (a) { return a.name; }));
+        console.log("use next: ", el.name, "continue_with: ", to_use_els.map(function (a) { return a.name; }));
+        console.log("to_use_els_continue_length: ", to_use_els.length);
+        console.log("to use next: ", el);
+        console.log("to_use_els_continue_length: ", to_use_els.length);
+        console.log("already_saved_names: ", already_saved.map(function (a) { return a.name; }));
+        console.log("removed_from_to_use_els_names: ", removed_from_to_use_els.map(function (a) { return a.name; }));
+        console.log("start found_end: ", found_end);
+        myP.innerHTML = temp;
+        if (!isOfficerInArray(el, already_saved) && !isOfficerInArray(el, removed_from_to_use_els)) {
+            for (var i = level; i > 0; i--) {
+                temp += span;
+            }
+            temp += el.name + br;
+            already_saved.push(el);
+            level = level + 1;
+            if (el.subordinates.length === 0) {
+                found_end = true;
+            }
+            else if (el.subordinates.length !== 0) {
+                found_end = false;
+                el.subordinates.forEach(function (el) {
+                    to_use_els.push(el);
+                });
+            }
+            console.log("found_end: ", found_end);
+        }
+        if (found_end && isOfficerInArray(el, already_saved) && areAllSubordinatesAlreadySaved(el, already_saved) && areAllSubordinatesAlreadySaved(el, removed_from_to_use_els)) {
+            to_use_els.pop();
+            removed_from_to_use_els.push(el);
+            level = level - 1;
+            if (el.name == "MMP") {
+                console.log("Wieder bei MMP angelangt. FINISH!");
+                console.log("all_officers: ", officers.map(function (a) { return a.name; }));
+                reached_end = true;
+            }
+        }
+    }
+    myP.innerHTML = temp;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //4. window.onload
 //
@@ -222,6 +282,6 @@ window.onload = function () {
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
-    printLeftRight();
-    printAllOfficers();
+    //printAllOfficers();
+    printVisualHierarchy();
 };

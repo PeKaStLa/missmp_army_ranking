@@ -231,7 +231,7 @@ function printVisualHierarchy() {
     let temp = "";
     let br = "<br>";
     let span = "<span class='tab'></span>";
-    let level = 1;
+    let level = 0;
     let found_end = false;
     let el;
     let reached_end = false;
@@ -258,6 +258,7 @@ function printVisualHierarchy() {
 
             temp += el.name + br;
             already_saved.push(el);
+            level = level + 1 ;
 
             if (el.subordinates.length === 0) {
                 found_end = true;
@@ -273,6 +274,8 @@ function printVisualHierarchy() {
         if (found_end && isOfficerInArray(el, already_saved) && areAllSubordinatesAlreadySaved(el, already_saved) && areAllSubordinatesAlreadySaved(el, removed_from_to_use_els)) {
             to_use_els.pop();
             removed_from_to_use_els.push(el);
+            level = level - 1;
+
 
             if (el.name == "MMP") {
                 console.log("Wieder bei MMP angelangt. FINISH!");
