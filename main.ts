@@ -45,8 +45,8 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         //prevent empty officer-names
         if (name != "") {
             officers.push(new Officer(id, name));
-            // here: move every freshly created officer under MMP-General on default!
-            app.moveOfficer(id, 1);
+            // here: push every freshly created officer to MMP-General's subordinates on default!
+            app.general.subordinates.push(officers[id - 1]);
             (<HTMLInputElement>document.getElementById('name')).value = "";
         }
         this.general.printSubordinates();
@@ -69,14 +69,13 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         } else {
             console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             let old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
-            if (old_officer != undefined) {
 
-                // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
-                removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
+            // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
+            removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
 
-                //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
-                copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id)
-            }
+            //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
+            copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id)
+
             //delete future_subordinate_id's old subordinates 
             officers[future_subordinate_id - 1].subordinates = [];
 

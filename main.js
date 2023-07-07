@@ -28,7 +28,8 @@ var ArmyRankingApp = /** @class */ (function () {
         if (name != "") {
             officers.push(new Officer(id, name));
             // here: move every freshly created officer under MMP-General on default!
-            app.moveOfficer(id, 1);
+            //app.moveOfficer(id, 1);
+            app.general.subordinates.push(officers[id - 1]);
             document.getElementById('name').value = "";
         }
         this.general.printSubordinates();
@@ -49,6 +50,7 @@ var ArmyRankingApp = /** @class */ (function () {
         else {
             console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             var old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
+            //check if old_officer is undefinde in case a newly created Officer gets moved under MMP
             if (old_officer != undefined) {
                 // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
                 removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
