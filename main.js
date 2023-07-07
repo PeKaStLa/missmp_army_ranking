@@ -14,6 +14,20 @@ var ArmyRankingApp = /** @class */ (function () {
     function ArmyRankingApp(general) {
         this.general = general;
     }
+    //create Office by name from the formular-input. The ID gets assigned automatically
+    ArmyRankingApp.prototype.createOfficer = function () {
+        console.log("inside createOfficer");
+        var id = officers.length + 1;
+        var name = document.getElementById('name').value;
+        //prevent empty officer-names
+        if (name != "") {
+            officers.push(new Officer(id, name));
+            // here: move every freshly created officer under MMP-General on default!
+            app.moveOfficer(id, 1);
+            document.getElementById('name').value = "";
+        }
+        this.general.printSubordinates();
+    };
     //move A under B//Move officerID under managerID//Push A to B's subordinates.
     //but prevent the general to be moved under somebody
     ArmyRankingApp.prototype.moveOfficer = function (future_subordinate_id, future_officer_id) {
@@ -46,11 +60,14 @@ var Officer = /** @class */ (function () {
     }
     Officer.prototype.printSubordinates = function (level) {
         if (level === void 0) { level = 0; }
+        var myP = document.getElementById("oop");
+        if (level == 0) {
+            myP.innerHTML = "";
+        }
         console.log(" Doing printSubordinates() now in: ", this.name, this.id);
         var br = "<br>";
         var span = "<span class='tab'></span>";
         var temp = "";
-        var myP = document.getElementById("oop");
         for (var i = level; i > 0; i--) {
             temp += span;
         }
@@ -62,6 +79,7 @@ var Officer = /** @class */ (function () {
         });
         myP.innerHTML = temp + myP.innerHTML;
     };
+    ;
     return Officer;
 }());
 //
@@ -90,22 +108,6 @@ function isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id) {
     // return true if future_subordinate is already in subordinates of future_officer
     // return true if officers[future_subordinate_id - 1] is already in officers[future_officer_id - 1].subordinates
     return officers[future_officer_id - 1].subordinates.some(function (e) { return e === officers[future_subordinate_id - 1]; });
-}
-//create Office by name from the formular-input. The ID gets assigned automatically
-function createOfficer() {
-    console.log("inside createOfficer");
-    var id = officers.length + 1;
-    var name = document.getElementById('name').value;
-    //prevent empty officer-names
-    if (name != "") {
-        officers.push(new Officer(id, name));
-        //console.log("can we move officer:" + officers[id - 1].name);
-        // here: move every freshly created officer under MMP-General!
-        app.moveOfficer(id, 1);
-        document.getElementById('name').value = "";
-        printAllOfficers();
-        printAllOfficersToHtml();
-    }
 }
 function printAllOfficers() {
     officers.forEach(function (element) {

@@ -17,6 +17,7 @@
 
 interface ArmyRankingAppInterface {
     general: Officer
+    createOfficer(): void 
     moveOfficer(officerID: number, managerID: number): void
     undo(): void
     redo(): void
@@ -27,6 +28,21 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
 
     constructor(general: Officer) {
         this.general = general;
+    }
+
+    //create Office by name from the formular-input. The ID gets assigned automatically
+    createOfficer(): void {
+        console.log("inside createOfficer")
+        let id = officers.length + 1;
+        let name = (<HTMLInputElement>document.getElementById('name')).value;
+        //prevent empty officer-names
+        if (name != "") {
+            officers.push(new Officer(id, name));
+            // here: move every freshly created officer under MMP-General on default!
+            app.moveOfficer(id, 1);
+            (<HTMLInputElement>document.getElementById('name')).value = "";
+        }
+        this.general.printSubordinates();
     }
 
     //move A under B//Move officerID under managerID//Push A to B's subordinates.
@@ -77,23 +93,23 @@ class Officer implements OfficerInterface {
     }
 
     printSubordinates(level: number = 0): void {
+        let myP = document.getElementById("oop");
+        if (level==0){myP.innerHTML = "";}
         console.log(" Doing printSubordinates() now in: ", this.name, this.id);
         let br = "<br>";
         let span = "<span class='tab'></span>";
         let temp = "";
-        let myP = document.getElementById("oop");
 
-        for (let i = level; i > 0; i--) {temp += span;}
+        for (let i = level; i > 0; i--) { temp += span; }
         temp = temp + this.name + br;
 
         this.subordinates.forEach(element => {
             level = level + 1;
             element.printSubordinates(level);
-            level = level +- 1;
+            level = level + - 1;
         });
         myP.innerHTML = temp + myP.innerHTML;
-
-    }
+    };
 }
 
 //
@@ -133,23 +149,7 @@ function isOfficerAlreadySubordinate(future_subordinate_id: number, future_offic
 }
 
 
-//create Office by name from the formular-input. The ID gets assigned automatically
-function createOfficer() {
-    console.log("inside createOfficer")
-    let id = officers.length + 1;
-    let name = (<HTMLInputElement>document.getElementById('name')).value;
-    //prevent empty officer-names
-    if (name != "") {
-        officers.push(new Officer(id, name));
-        //console.log("can we move officer:" + officers[id - 1].name);
 
-        // here: move every freshly created officer under MMP-General!
-        app.moveOfficer(id, 1);
-        (<HTMLInputElement>document.getElementById('name')).value = "";
-        printAllOfficers();
-        printAllOfficersToHtml();
-    }
-}
 
 function printAllOfficers() {
     officers.forEach(element => {
@@ -264,11 +264,10 @@ window.onload = function () {
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
-    
+
     printAllOfficersToHtml();
 
     app.general.printSubordinates();
-  
 }
 
 
