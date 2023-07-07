@@ -221,7 +221,11 @@ window.onload = function () {
     console.log(app)
     console.log("Apps' General:" + app["general"].name)
 
+
     //initial test objects
+
+    /*
+    
     let peter = new Officer(2, "Peter");
     let an = new Officer(3, "An");
     let johan = new Officer(4, "Rex the dog");
@@ -293,6 +297,8 @@ window.onload = function () {
     officers[25].subordinates.push(officers[28]);
     officers[28].subordinates.push(officers[29]);
 
+    */
+
     //testing of the function areAllSubordinatesAlreadySaved()
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
@@ -304,12 +310,9 @@ window.onload = function () {
     //console.log("test: ", officers[19].subordinates);
     //copySubordinatesToAnotherOfficer(18, 20);
     //console.log("test: ", officers[19].subordinates);
-
-
-    printAllOfficersToHtml();
-
-    app.general.printSubordinates();
-    app.printAllOfficersToConsole();
+    //printAllOfficersToHtml();
+    //app.general.printSubordinates();
+    //app.printAllOfficersToConsole();
 
 }
 
