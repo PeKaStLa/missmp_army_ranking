@@ -28,7 +28,7 @@ var ArmyRankingApp = /** @class */ (function () {
         else if (isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
             console.log("Officer is already Subordinate of the manager.");
         }
-        printAllOfficers();
+        //printAllOfficers();
     };
     ArmyRankingApp.prototype.undo = function () {
         console.log("doing undo");
