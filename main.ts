@@ -173,7 +173,7 @@ function printLeftRight() {
     let level = 0;
     let br = "<br>";
     let span = "<span class='tab'></span>";
-    let safe = 40;
+    let safe = 50;
     let found_end = false;
     let el;
 
@@ -181,15 +181,18 @@ function printLeftRight() {
     while (safe >= 1) {
 
         el = to_use_els[to_use_els.length - 1];
+        console.log("to_use_els_continue_names: ", to_use_els.map(a => a.name));
 
         console.log("use next: ", el.name, "continue_with: ", to_use_els.map(a => a.name));
+        console.log("to_use_els_continue_length: ", to_use_els.length);
+
         console.log("to use next: ", el);
-        console.log("to_use_els_continue_names: ", to_use_els.map(a => a.name));
         console.log("to_use_els_continue_length: ", to_use_els.length);
         //console.log("to_use_els_continue_stringify: ", JSON.stringify(to_use_els));
         console.log("already_saved_names: ", already_saved.map(a => a.name));
         console.log("removed_from_to_use_els_names: ", removed_from_to_use_els.map(a => a.name));
-        console.log("found_end: ", found_end);
+        console.log("start found_end: ", found_end);
+        myP.innerHTML = temp;
 
         if (!isOfficerInArray(el, already_saved) &&
             !isOfficerInArray(el, removed_from_to_use_els)) {
@@ -205,6 +208,8 @@ function printLeftRight() {
                     to_use_els.push(el);
                 })
             }
+            printAllOfficers();
+
             console.log("found_end: ", found_end);
         }
 
@@ -214,7 +219,10 @@ function printLeftRight() {
             to_use_els.pop();
             removed_from_to_use_els.push(el);
             //found_end = false;
-            if (el.name=="MMP"){break;}
+            if (el.name=="MMP"){
+                console.log("Wieder bei MMP angelangt.");
+                break;
+            }
         }
 
 
@@ -390,6 +398,18 @@ window.onload = function () {
     officers.push(new Officer(10, "Legolas"));
     officers.push(new Officer(11, "Gimli"));
     officers.push(new Officer(12, "Katze"));
+
+    officers.push(new Officer(13, "John Lennon"));
+    officers.push(new Officer(14, "Harry potter"));
+    officers.push(new Officer(15, "Baumbart"));
+    officers.push(new Officer(16, "Darth vader"));
+    officers.push(new Officer(17, "Han Solo"));
+    officers.push(new Officer(18, "Asoka Tano"));
+    officers.push(new Officer(19, "Koenig von Thailand"));
+    officers.push(new Officer(20, "Scholz"));
+    officers.push(new Officer(21, "Leonardo de caprio"));
+    officers.push(new Officer(22, "Amelie"));
+
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[1].subordinates.push(officers[3]);
@@ -401,6 +421,17 @@ window.onload = function () {
     officers[3].subordinates.push(officers[9]);
     officers[3].subordinates.push(officers[10]);
     officers[0].subordinates.push(officers[11]);
+
+    officers[1].subordinates.push(officers[13]);
+    officers[2].subordinates.push(officers[14]);
+    officers[11].subordinates.push(officers[15]);
+    officers[11].subordinates.push(officers[16]);
+    officers[12].subordinates.push(officers[17]);
+    officers[11].subordinates.push(officers[18]);
+    officers[15].subordinates.push(officers[19]);
+    officers[7].subordinates.push(officers[20]);
+    officers[6].subordinates.push(officers[21]);
+    //officers[6].subordinates.push(officers[22]);
    // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
