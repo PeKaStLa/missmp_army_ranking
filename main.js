@@ -118,7 +118,6 @@ function printLeftRight() {
     var already_saved = [];
     var to_use_els = [mmp];
     var removed_from_to_use_els = [];
-    //let first_element = 1;
     var temp = "";
     var br = "<br>";
     var span = "<span class='tab'></span>";
@@ -136,8 +135,7 @@ function printLeftRight() {
         console.log("removed_from_to_use_els_names: ", removed_from_to_use_els.map(function (a) { return a.name; }));
         console.log("start found_end: ", found_end);
         myP.innerHTML = temp;
-        if (!isOfficerInArray(el, already_saved) &&
-            !isOfficerInArray(el, removed_from_to_use_els)) {
+        if (!isOfficerInArray(el, already_saved) && !isOfficerInArray(el, removed_from_to_use_els)) {
             temp += el.name + br;
             already_saved.push(el);
             if (el.subordinates.length === 0) {
@@ -151,12 +149,9 @@ function printLeftRight() {
             }
             console.log("found_end: ", found_end);
         }
-        if (found_end && isOfficerInArray(el, already_saved) &&
-            areAllSubordinatesAlreadySaved(el, already_saved) &&
-            areAllSubordinatesAlreadySaved(el, removed_from_to_use_els)) {
+        if (found_end && isOfficerInArray(el, already_saved) && areAllSubordinatesAlreadySaved(el, already_saved) && areAllSubordinatesAlreadySaved(el, removed_from_to_use_els)) {
             to_use_els.pop();
             removed_from_to_use_els.push(el);
-            //found_end = false;
             if (el.name == "MMP") {
                 console.log("Wieder bei MMP angelangt. FINISH!");
                 console.log("all_officers: ", officers.map(function (a) { return a.name; }));
@@ -166,143 +161,12 @@ function printLeftRight() {
     }
     myP.innerHTML = temp;
 }
-/*
-function printLeftRight() {
-    let myP = document.getElementById("leftrightp");
-
-    let already_seen: Officer[] = [];
-    let possible_elements: Officer[] = [mmp];
-    let first_element = 1;
-    let temp = "";
-    let safety_rounds = 30;
-
-    while (safety_rounds >= 1) {
-        //while (already_seen.length !== officers.length || safety_rounds >= 1) {
-        safety_rounds = safety_rounds - 1;
-
-        possible_elements.forEach(el_possible => {
-            safety_rounds = safety_rounds - 1;
-
-            officers.forEach(el_officers => {
-                safety_rounds = safety_rounds - 1;
-
-                if (el_possible == el_officers && !isOfficerInArray(el_officers, already_seen)) {
-                    console.log("gefunden");
-                    temp += el_officers.name + '<br>';
-                    already_seen.push(el_officers);
-                    
-                    if (possible_elements.length === 1) {
-                        possible_elements = []
-
-                        el_officers.subordinates.forEach(elements_next => {
-                            possible_elements.push(elements_next);
-                            console.log("already_seen.length: " + already_seen.length);
-                            console.log("possible_elements.length: " + possible_elements.length);
-
-                        })
-                    }
-                }
-            })
-
-
-
-            /*
-                        officers.forEach(el_officers => {
-            
-                            console.log("already_seen.length: " + already_seen.length);
-                                console.log("possible_elements.length: " + possible_elements.length);
-            
-                                if (el_officers == el_possible && !isOfficerInArray(el_officers, already_seen)) {
-                                    temp += el_officers.name + '<br>';
-            
-                                    already_seen.push(el_officers);
-            
-                                    if (possible_elements.length === 1) {
-                                        possible_elements = []
-            
-                                        el_officers.subordinates.forEach(elements_next => {
-                                            possible_elements.push(elements_next);
-                                            console.log("already_seen.length: " + already_seen.length);
-                                            console.log("possible_elements.length: " + possible_elements.length);
-            
-                                        })
-                                    }
-                                }
-                            })
-        })
-    }
-    myP.innerHTML = temp;
-
-}
-*/
-/*
-function printLeftRight() {
-    // simple try.. only specific loops when programmed...
-    let myP = document.getElementById("leftrightp");
-    let temp = "test";
-    //myP.innerHTML = temp;
- 
-    temp += "MMP";
-    
-    mmp.subordinates.forEach(el => {
-        temp += "<br><span class='tab'></span>" + el.name;
- 
-        el.subordinates.forEach(el => {
-            temp += "<br><span class='tab'></span><span class='tab'></span>" + el.name;
- 
-            el.subordinates.forEach(el => {
-                temp += "<br><span class='tab'></span><span class='tab'></span><span class='tab'></span>" + el.name;
-    
-                el.subordinates.forEach(el => {
-                    temp += "<br><span class='tab'></span><span class='tab'></span><span class='tab'></span><span class='tab'></span>" + el.name;
-                });
-            });
-        });
-    });
-    myP.innerHTML = temp;
-}
-*/
-/*
-function printLeftRight() {
-    console.log("printLeftRight");
-    let myP = document.getElementById("leftrightp");
-    let temp = "";
-    temp += "MMP";
- 
-    mmp.subordinates.forEach(el => {
-        temp += "<br><span class='tab'>";
-        temp += el.name;
- 
-        el.subordinates.forEach(el => {
-            temp += "<br><span class='tab'>";
-            temp += el.name;
- 
-            el.subordinates.forEach(el => {
-                temp += "<br><span class='tab'>";
-                temp += el.name;
- 
-                el.subordinates.forEach(el => {
-                    temp += "<br><span class='tab'>";
-                    temp += el.name;
-                })
-                temp += "</span>";
-            })
-            temp += "</span>";
-        })
-        temp += "</span>";
-    })
-    temp += "</span>";
- 
-    myP.innerHTML = temp;
-}
-*/
 //
 //4. window.onload
 //
 window.onload = function () {
     console.log(app);
     console.log("Apps' General:" + app["general"].name);
-    //printAllOfficersToHtml();
     //initial test objects
     var peter = new Officer(2, "Peter");
     var an = new Officer(3, "An");
@@ -316,13 +180,6 @@ window.onload = function () {
     officers.push(superman);
     officers.push(iron);
     officers.push(Garfield);
-    //officers.push(an);
-    //officers.push(new Officer(2, "Peter"));
-    //officers.push(new Officer(3, "An"));
-    //officers.push(new Officer(4, "Johannes"));
-    //officers.push(new Officer(5, "superman"));
-    //officers.push(new Officer(6, "iron man"));
-    //officers.push(new Officer(7, "Garfield"));
     officers.push(new Officer(8, "Frodo"));
     officers.push(new Officer(9, "Gandalf"));
     officers.push(new Officer(10, "Legolas"));
@@ -361,10 +218,10 @@ window.onload = function () {
     officers[7].subordinates.push(officers[20]);
     officers[6].subordinates.push(officers[21]);
     officers[17].subordinates.push(officers[22]);
+    //testing of the function areAllSubordinatesAlreadySaved()
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
-    //printTopBottom();
     printLeftRight();
     printAllOfficers();
 };
