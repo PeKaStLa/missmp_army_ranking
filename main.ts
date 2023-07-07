@@ -43,7 +43,7 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         } else if (isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
             console.log("Officer is already Subordinate of the manager.");
         }
-        printAllOfficers();
+        //printAllOfficers();
     }
 
     undo(): void {
@@ -122,10 +122,11 @@ function createOfficer() {
         //console.log("can we move officer:" + officers[id - 1].name);
 
         // here: move every freshly created officer under MMP-General!
-        //app.moveOfficer(id, 1);
+        app.moveOfficer(id, 1);
         (<HTMLInputElement>document.getElementById('name')).value = "";
         printAllOfficers();
         printAllOfficersToHtml();
+        printVisualHierarchyTopLeftToRightBottom();
     }
 }
 

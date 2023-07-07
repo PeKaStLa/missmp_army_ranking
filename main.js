@@ -83,10 +83,11 @@ function createOfficer() {
         officers.push(new Officer(id, name));
         //console.log("can we move officer:" + officers[id - 1].name);
         // here: move every freshly created officer under MMP-General!
-        //app.moveOfficer(id, 1);
+        app.moveOfficer(id, 1);
         document.getElementById('name').value = "";
         printAllOfficers();
         printAllOfficersToHtml();
+        printVisualHierarchyTopLeftToRightBottom();
     }
 }
 function printAllOfficers() {
