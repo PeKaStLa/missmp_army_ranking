@@ -160,7 +160,7 @@ function areAllSubordinatesAlreadySaved(officer: Officer, array: Officer[]): boo
     return all_in_array;
 }
 
-
+//first working algorithm
 function printLeftRight() {
     let myP = document.getElementById("leftrightp");
 
@@ -170,6 +170,7 @@ function printLeftRight() {
     let temp = "";
     let br = "<br>";
     let span = "<span class='tab'></span>";
+    let level = 0;
     let found_end = false;
     let el;
     let reached_end = false;
@@ -217,6 +218,73 @@ function printLeftRight() {
     myP.innerHTML = temp;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// try the algorithm with visualization now:
+function printVisualHierarchy() {
+    let myP = document.getElementById("leftrightp");
+
+    let already_saved: Officer[] = [];
+    let to_use_els: Officer[] = [mmp];
+    let removed_from_to_use_els: Officer[] = [];
+    let temp = "";
+    let br = "<br>";
+    let span = "<span class='tab'></span>";
+    let level = 1;
+    let found_end = false;
+    let el;
+    let reached_end = false;
+
+    while (!reached_end) {
+
+        el = to_use_els[to_use_els.length - 1];
+        console.log("to_use_els_continue_names: ", to_use_els.map(a => a.name));
+        console.log("use next: ", el.name, "continue_with: ", to_use_els.map(a => a.name));
+        console.log("to_use_els_continue_length: ", to_use_els.length);
+        console.log("to use next: ", el);
+        console.log("to_use_els_continue_length: ", to_use_els.length);
+        console.log("already_saved_names: ", already_saved.map(a => a.name));
+        console.log("removed_from_to_use_els_names: ", removed_from_to_use_els.map(a => a.name));
+        console.log("start found_end: ", found_end);
+        myP.innerHTML = temp;
+
+        if (!isOfficerInArray(el, already_saved) && !isOfficerInArray(el, removed_from_to_use_els)) {
+
+
+            for (let i = level; i > 0; i--) {
+                temp += span;
+            }
+
+            temp += el.name + br;
+            already_saved.push(el);
+
+            if (el.subordinates.length === 0) {
+                found_end = true;
+            } else if (el.subordinates.length !== 0) {
+                found_end = false;
+                el.subordinates.forEach(el => {
+                    to_use_els.push(el);
+                })
+            }
+            console.log("found_end: ", found_end);
+        }
+
+        if (found_end && isOfficerInArray(el, already_saved) && areAllSubordinatesAlreadySaved(el, already_saved) && areAllSubordinatesAlreadySaved(el, removed_from_to_use_els)) {
+            to_use_els.pop();
+            removed_from_to_use_els.push(el);
+
+            if (el.name == "MMP") {
+                console.log("Wieder bei MMP angelangt. FINISH!");
+                console.log("all_officers: ", officers.map(a => a.name));
+                reached_end = true;
+            }
+        }
+    }
+    myP.innerHTML = temp;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //
 //4. window.onload
@@ -239,7 +307,7 @@ window.onload = function () {
     officers.push(superman);
     officers.push(iron);
     officers.push(Garfield);
-   
+
     officers.push(new Officer(8, "Frodo"));
     officers.push(new Officer(9, "Gandalf"));
     officers.push(new Officer(10, "Legolas"));
@@ -286,10 +354,9 @@ window.onload = function () {
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
+    //printAllOfficers();
 
-
-    printLeftRight();
-    printAllOfficers();
+    printVisualHierarchy();
 
 
 }
