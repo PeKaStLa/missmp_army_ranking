@@ -93,7 +93,8 @@ class Officer implements OfficerInterface {
 
         
         for (let i = level; i > 0; i--) {temp += span;}
-        temp += this.name + br;
+        temp = this.name + br + temp;
+        //temp += this.name + br;
 
         this.subordinates.forEach(element => {
 
@@ -103,7 +104,7 @@ class Officer implements OfficerInterface {
 
 
         });
-        myP.innerHTML += temp;
+        myP.innerHTML = temp;
 
     }
 }
