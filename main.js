@@ -33,8 +33,8 @@ var ArmyRankingApp = /** @class */ (function () {
         }
         this.general.printSubordinates();
     };
-    //move A under B//Move officerID under managerID//Push A to B's subordinates.
-    //but prevent the general to be moved under somebody
+    //move A under B. Move future_subordinate_id under future_officer_id 
+    //Push future_subordinate_id to future_officer_id's subordinates.
     ArmyRankingApp.prototype.moveOfficer = function (future_subordinate_id, future_officer_id) {
         console.log("inside of moceOfficer");
         if (future_subordinate_id == future_officer_id) {
@@ -47,15 +47,17 @@ var ArmyRankingApp = /** @class */ (function () {
             console.log("future_subordinate_id is already Subordinate of the future_officer_id.");
         }
         else {
+            console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             var old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
-            // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
-            removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
-            //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
-            copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id);
+            if (old_officer != undefined) {
+                // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
+                removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
+                //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
+                copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id);
+            }
             //delete future_subordinate_id's old subordinates 
             officers[future_subordinate_id - 1].subordinates = [];
             //push future_subordinate_id to subordinates of future_officer_id
-            console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
         }
         this.general.printSubordinates();
@@ -163,24 +165,31 @@ function areAllSubordinatesAlreadySaved(officer, array) {
 window.onload = function () {
     console.log(app);
     console.log("Apps' General:" + app["general"].name);
+    app.general.printSubordinates();
+    printAllOfficersToHtml();
+    app.printAllOfficersToConsole();
     //initial test objects
-    var peter = new Officer(2, "Peter");
-    var an = new Officer(3, "An");
-    var johan = new Officer(4, "Rex the dog");
-    var superman = new Officer(5, "Superman");
-    var iron = new Officer(6, "Ironman");
-    var Garfield = new Officer(7, "Garfield");
+    /*
+
+    let peter = new Officer(2, "Peter");
+    let an = new Officer(3, "An");
+    let johan = new Officer(4, "Rex the dog");
+    let superman = new Officer(5, "Superman");
+    let iron = new Officer(6, "Ironman");
+    let Garfield = new Officer(7, "Garfield");
     officers.push(peter);
     officers.push(an);
     officers.push(johan);
     officers.push(superman);
     officers.push(iron);
     officers.push(Garfield);
+
     officers.push(new Officer(8, "Frodo"));
     officers.push(new Officer(9, "Gandalf"));
     officers.push(new Officer(10, "Legolas"));
     officers.push(new Officer(11, "Gimli"));
     officers.push(new Officer(12, "Johannes"));
+
     officers.push(new Officer(13, "John Lennon"));
     officers.push(new Officer(14, "Harry Potter"));
     officers.push(new Officer(15, "Treebeard"));
@@ -192,6 +201,7 @@ window.onload = function () {
     officers.push(new Officer(21, "Leonardo DiCaprio"));
     officers.push(new Officer(22, "Amelie"));
     officers.push(new Officer(23, "John Biden"));
+
     officers.push(new Officer(24, "Neil Armstrong"));
     officers.push(new Officer(25, "Audrey Hepburn"));
     officers.push(new Officer(26, "Macron"));
@@ -199,6 +209,7 @@ window.onload = function () {
     officers.push(new Officer(28, "Karsten"));
     officers.push(new Officer(29, "Alien"));
     officers.push(new Officer(30, "Polarbear"));
+
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[1].subordinates.push(officers[3]);
@@ -210,6 +221,7 @@ window.onload = function () {
     officers[3].subordinates.push(officers[9]);
     officers[3].subordinates.push(officers[10]);
     officers[0].subordinates.push(officers[11]);
+
     officers[20].subordinates.push(officers[12]);
     officers[1].subordinates.push(officers[13]);
     officers[2].subordinates.push(officers[14]);
@@ -221,6 +233,7 @@ window.onload = function () {
     officers[7].subordinates.push(officers[20]);
     officers[6].subordinates.push(officers[21]);
     officers[17].subordinates.push(officers[22]);
+
     officers[18].subordinates.push(officers[23]);
     officers[23].subordinates.push(officers[24]);
     officers[24].subordinates.push(officers[25]);
@@ -228,6 +241,8 @@ window.onload = function () {
     officers[20].subordinates.push(officers[27]);
     officers[25].subordinates.push(officers[28]);
     officers[28].subordinates.push(officers[29]);
+
+    */
     //testing of the function areAllSubordinatesAlreadySaved()
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
@@ -239,7 +254,7 @@ window.onload = function () {
     //console.log("test: ", officers[19].subordinates);
     //copySubordinatesToAnotherOfficer(18, 20);
     //console.log("test: ", officers[19].subordinates);
-    printAllOfficersToHtml();
-    app.general.printSubordinates();
-    app.printAllOfficersToConsole();
+    //printAllOfficersToHtml();
+    //app.general.printSubordinates();
+    //app.printAllOfficersToConsole();
 };

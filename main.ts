@@ -69,13 +69,14 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         } else {
             console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             let old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
+            if (old_officer != undefined) {
 
-            // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
-            removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
+                // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
+                removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
 
-            //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
-            copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id)
-
+                //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
+                copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id)
+            }
             //delete future_subordinate_id's old subordinates 
             officers[future_subordinate_id - 1].subordinates = [];
 
@@ -158,13 +159,13 @@ const app: ArmyRankingApp = new ArmyRankingApp(mmp);
 //
 
 function copySubordinatesToAnotherOfficer(old_officer_id: number, future_officer_id: number): void {
-    officers[old_officer_id-1].subordinates.forEach(el => {
-        officers[future_officer_id-1].subordinates.push(el);
+    officers[old_officer_id - 1].subordinates.forEach(el => {
+        officers[future_officer_id - 1].subordinates.push(el);
     })
 }
 
-function removeSpecificSubordinateFromOfficer(old_subordinate_id: number, old_officer_id: number):void {
-    let index = officers[old_officer_id - 1].subordinates.indexOf(officers[old_subordinate_id-1]);
+function removeSpecificSubordinateFromOfficer(old_subordinate_id: number, old_officer_id: number): void {
+    let index = officers[old_officer_id - 1].subordinates.indexOf(officers[old_subordinate_id - 1]);
     officers[old_officer_id - 1].subordinates.splice(index, 1);
 }
 
@@ -220,12 +221,14 @@ function areAllSubordinatesAlreadySaved(officer: Officer, array: Officer[]): boo
 window.onload = function () {
     console.log(app)
     console.log("Apps' General:" + app["general"].name)
-
+    app.general.printSubordinates();
+    printAllOfficersToHtml();
+    app.printAllOfficersToConsole();
 
     //initial test objects
 
     /*
-    
+
     let peter = new Officer(2, "Peter");
     let an = new Officer(3, "An");
     let johan = new Officer(4, "Rex the dog");
