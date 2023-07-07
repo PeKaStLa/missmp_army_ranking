@@ -166,7 +166,7 @@ function printLeftRight() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // try the algorithm with visualization now:
-function printVisualHierarchy() {
+function printVisualHierarchyTopLeftToRightBottom() {
     var myP = document.getElementById("leftrightp");
     var already_saved = [];
     var to_use_els = [mmp];
@@ -256,6 +256,13 @@ window.onload = function () {
     officers.push(new Officer(21, "Leonardo DiCaprio"));
     officers.push(new Officer(22, "Amelie"));
     officers.push(new Officer(23, "John Biden"));
+    officers.push(new Officer(24, "Neil Armstrong"));
+    officers.push(new Officer(25, "Audrey Hepburn"));
+    officers.push(new Officer(26, "Macron"));
+    officers.push(new Officer(27, "Lukas"));
+    officers.push(new Officer(28, "Karsten"));
+    officers.push(new Officer(29, "Alien"));
+    officers.push(new Officer(30, "Polarbear"));
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[1].subordinates.push(officers[3]);
@@ -278,10 +285,17 @@ window.onload = function () {
     officers[7].subordinates.push(officers[20]);
     officers[6].subordinates.push(officers[21]);
     officers[17].subordinates.push(officers[22]);
+    officers[18].subordinates.push(officers[23]);
+    officers[23].subordinates.push(officers[24]);
+    officers[24].subordinates.push(officers[25]);
+    officers[19].subordinates.push(officers[26]);
+    officers[20].subordinates.push(officers[27]);
+    officers[25].subordinates.push(officers[28]);
+    officers[28].subordinates.push(officers[29]);
     //testing of the function areAllSubordinatesAlreadySaved()
     // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
     //printAllOfficers();
-    printVisualHierarchy();
+    printVisualHierarchyTopLeftToRightBottom();
 };
