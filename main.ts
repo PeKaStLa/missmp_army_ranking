@@ -409,6 +409,7 @@ window.onload = function () {
     officers.push(new Officer(20, "Scholz"));
     officers.push(new Officer(21, "Leonardo de caprio"));
     officers.push(new Officer(22, "Amelie"));
+    officers.push(new Officer(23, "John Biden"));
 
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
@@ -422,6 +423,7 @@ window.onload = function () {
     officers[3].subordinates.push(officers[10]);
     officers[0].subordinates.push(officers[11]);
 
+    officers[20].subordinates.push(officers[12]);
     officers[1].subordinates.push(officers[13]);
     officers[2].subordinates.push(officers[14]);
     officers[11].subordinates.push(officers[15]);
@@ -431,7 +433,7 @@ window.onload = function () {
     officers[15].subordinates.push(officers[19]);
     officers[7].subordinates.push(officers[20]);
     officers[6].subordinates.push(officers[21]);
-    //officers[6].subordinates.push(officers[22]);
+    officers[17].subordinates.push(officers[22]);
    // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
