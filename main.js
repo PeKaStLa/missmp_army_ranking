@@ -118,23 +118,20 @@ function printLeftRight() {
     var already_saved = [];
     var to_use_els = [mmp];
     var removed_from_to_use_els = [];
-    var first_element = 1;
+    //let first_element = 1;
     var temp = "";
-    var safety_rounds = 30;
-    var level = 0;
     var br = "<br>";
     var span = "<span class='tab'></span>";
-    var safe = 50;
     var found_end = false;
     var el;
-    while (safe >= 1) {
+    var reached_end = false;
+    while (!reached_end) {
         el = to_use_els[to_use_els.length - 1];
         console.log("to_use_els_continue_names: ", to_use_els.map(function (a) { return a.name; }));
         console.log("use next: ", el.name, "continue_with: ", to_use_els.map(function (a) { return a.name; }));
         console.log("to_use_els_continue_length: ", to_use_els.length);
         console.log("to use next: ", el);
         console.log("to_use_els_continue_length: ", to_use_els.length);
-        //console.log("to_use_els_continue_stringify: ", JSON.stringify(to_use_els));
         console.log("already_saved_names: ", already_saved.map(function (a) { return a.name; }));
         console.log("removed_from_to_use_els_names: ", removed_from_to_use_els.map(function (a) { return a.name; }));
         console.log("start found_end: ", found_end);
@@ -152,7 +149,6 @@ function printLeftRight() {
                     to_use_els.push(el);
                 });
             }
-            printAllOfficers();
             console.log("found_end: ", found_end);
         }
         if (found_end && isOfficerInArray(el, already_saved) &&
@@ -164,10 +160,9 @@ function printLeftRight() {
             if (el.name == "MMP") {
                 console.log("Wieder bei MMP angelangt. FINISH!");
                 console.log("all_officers: ", officers.map(function (a) { return a.name; }));
-                break;
+                reached_end = true;
             }
         }
-        safe = safe - 1;
     }
     myP.innerHTML = temp;
 }

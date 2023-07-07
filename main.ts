@@ -167,28 +167,22 @@ function printLeftRight() {
     let already_saved: Officer[] = [];
     let to_use_els: Officer[] = [mmp];
     let removed_from_to_use_els: Officer[] = [];
-    let first_element = 1;
+    //let first_element = 1;
     let temp = "";
-    let safety_rounds = 30;
-    let level = 0;
     let br = "<br>";
     let span = "<span class='tab'></span>";
-    let safe = 50;
     let found_end = false;
     let el;
+    let reached_end = false;
 
-
-    while (safe >= 1) {
+    while (!reached_end) {
 
         el = to_use_els[to_use_els.length - 1];
         console.log("to_use_els_continue_names: ", to_use_els.map(a => a.name));
-
         console.log("use next: ", el.name, "continue_with: ", to_use_els.map(a => a.name));
         console.log("to_use_els_continue_length: ", to_use_els.length);
-
         console.log("to use next: ", el);
         console.log("to_use_els_continue_length: ", to_use_els.length);
-        //console.log("to_use_els_continue_stringify: ", JSON.stringify(to_use_els));
         console.log("already_saved_names: ", already_saved.map(a => a.name));
         console.log("removed_from_to_use_els_names: ", removed_from_to_use_els.map(a => a.name));
         console.log("start found_end: ", found_end);
@@ -208,8 +202,6 @@ function printLeftRight() {
                     to_use_els.push(el);
                 })
             }
-            printAllOfficers();
-
             console.log("found_end: ", found_end);
         }
 
@@ -219,15 +211,12 @@ function printLeftRight() {
             to_use_els.pop();
             removed_from_to_use_els.push(el);
             //found_end = false;
-            if (el.name=="MMP"){
+            if (el.name == "MMP") {
                 console.log("Wieder bei MMP angelangt. FINISH!");
                 console.log("all_officers: ", officers.map(a => a.name));
-                break;
+                reached_end = true;
             }
         }
-
-
-        safe = safe - 1;
     }
     myP.innerHTML = temp;
 }
@@ -435,7 +424,7 @@ window.onload = function () {
     officers[7].subordinates.push(officers[20]);
     officers[6].subordinates.push(officers[21]);
     officers[17].subordinates.push(officers[22]);
-   // let already_saved: Officer[] = [peter];
+    // let already_saved: Officer[] = [peter];
     //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
     console.log("Math random: " + Math.floor(Math.random() * 10));
 
