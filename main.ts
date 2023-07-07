@@ -52,8 +52,8 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         this.general.printSubordinates();
     }
 
-    //move A under B//Move officerID under managerID//Push A to B's subordinates.
-    //but prevent the general to be moved under somebody
+    //move A under B. Move future_subordinate_id under future_officer_id 
+    //Push future_subordinate_id to future_officer_id's subordinates.
     moveOfficer(future_subordinate_id: number, future_officer_id: number) {
         console.log("inside of moceOfficer");
 
