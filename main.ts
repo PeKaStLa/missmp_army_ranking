@@ -92,6 +92,7 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
     }
 
     undo(): void {
+        // undo last change like redo() or moveOfficer()
         console.log("doing undo");
     }
 
