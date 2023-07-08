@@ -173,7 +173,9 @@ class Officer implements OfficerInterface {
         let empty_line_box = document.createElement("div");
         let text = document.createElement("p");
         let tab = document.createElement("span");
-        let already: Officer[] = [];
+        let already = [];
+        //let already: { [id: string] : [level: number] } = {};
+        //let already: Officer[] = [];
         box.classList.add("box");
         tab.classList.add("tab");
         text.classList.add("box");
@@ -182,9 +184,8 @@ class Officer implements OfficerInterface {
 
         //clear the HTML-element
         if (level == 0) { visual.innerHTML = ""; }
-
         //console.log(" Doing printSubordinates() now in: ", this.name, this.id);
-        
+    
         //level adds the right amount of space to the left
         if (level != 0) {
             let testvar = level - 1;
@@ -193,9 +194,8 @@ class Officer implements OfficerInterface {
                 testvar = testvar - 1;
             }
         }
-        
+
         for (let i = level; i > 0; i--) {
-            //level adds the right amount of space to the left
 
             officers.forEach(el => {
                 if (isOfficerInArray(el, already)) {
@@ -204,23 +204,18 @@ class Officer implements OfficerInterface {
                         console.log("in der großen loop gerade...");
                     }
                 }
-
             })
 
             if (i == 1) {
                 tab.innerHTML += "&emsp;|_";
                 tab.innerHTML += "_________";
             }
-
-
         }
 
         //add the current officers' name to the string
         text.innerHTML = this.name + " (" + this.id + ")";
         box.appendChild(text);
-        already.push(this);
-
-
+        already.push({id: this.id, level: 12});
 
         this.subordinates.forEach(element => {
             level = level + 1;
