@@ -69,11 +69,13 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         } else {
             console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             let old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
-
-            // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
+            last_change_old_officer = old_officer;
+            last_change_moved_officer = officers[future_subordinate_id - 1];
+            last_change_new_officer = officers[future_officer_id - 1];
+            //Entfernen des future_subordinate_id vom alten Officer:
             removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
 
-            //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
+            //nachrücken der alten Subs vom future_subordinate_id zum alten Officer
             copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id)
 
             //delete future_subordinate_id's old subordinates 
@@ -93,14 +95,28 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
 
     undo(): void {
         // undo last change like redo() or moveOfficer()
-        //
-        //use variables:
-        //last_change_moved_officer
-        //last_change_old_officer
-        //last_change_old_subordinates
-        //
-        //
         console.log("doing undo");
+
+        if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)){
+
+        //remove moved Officer from new Officers' subordinates
+        removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+
+        //push officer to old_officers' subordinated
+        last_change_old_officer.subordinates.push(last_change_moved_officer);
+
+        last_change_old_subordinates.forEach(el => {
+            //remove old subordinates from old officer
+            removeSpecificSubordinateFromOfficer(el.id, last_change_old_officer.id);
+            //add old subordinates to moved_officer
+            last_change_moved_officer.subordinates.push(el);
+        })
+    } else
+    {
+        console.log("Officer " , last_change_moved_officer.name, " wurde bereits zurueck zu officer ", last_change_old_officer.name, " verschoben")
+    }
+        this.general.printSubordinates();
+
     }
 
     redo(): void {
@@ -168,6 +184,7 @@ const app: ArmyRankingApp = new ArmyRankingApp(mmp);
 var last_change_old_subordinates: Officer[] = [];
 var last_change_old_officer: Officer;
 var last_change_moved_officer: Officer;
+var last_change_new_officer: Officer;
 
 //
 //3. functions
@@ -176,6 +193,7 @@ var last_change_moved_officer: Officer;
 function copySubordinatesToAnotherOfficer(old_officer_id: number, future_officer_id: number): void {
     officers[old_officer_id - 1].subordinates.forEach(el => {
         officers[future_officer_id - 1].subordinates.push(el);
+        last_change_old_subordinates.push(el)
     })
 }
 
@@ -242,7 +260,7 @@ window.onload = function () {
 
     //initial test objects
 
-    
+
 
     let peter = new Officer(2, "Peter");
     let an = new Officer(3, "An");
@@ -250,14 +268,14 @@ window.onload = function () {
     let superman = new Officer(5, "Superman");
     let iron = new Officer(6, "Ironman");
     let garfield = new Officer(7, "Garfield");
-    
+
     officers.push(peter);
     officers.push(an);
     officers.push(johan);
     officers.push(superman);
     officers.push(iron);
     officers.push(garfield);
-    
+
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[0].subordinates.push(officers[3]);
@@ -266,66 +284,66 @@ window.onload = function () {
     officers[3].subordinates.push(officers[6]);
 
 
-/*
-    officers.push(new Officer(8, "Frodo"));
-    officers.push(new Officer(9, "Gandalf"));
-    officers.push(new Officer(10, "Legolas"));
-    officers.push(new Officer(11, "Gimli"));
-    officers.push(new Officer(12, "Johannes"));
-
-    officers.push(new Officer(13, "John Lennon"));
-    officers.push(new Officer(14, "Harry Potter"));
-    officers.push(new Officer(15, "Treebeard"));
-    officers.push(new Officer(16, "Darth Vader"));
-    officers.push(new Officer(17, "Han Solo"));
-    officers.push(new Officer(18, "Ahsoka Tano"));
-    officers.push(new Officer(19, "King of Thailand"));
-    officers.push(new Officer(20, "Olaf Scholz"));
-    officers.push(new Officer(21, "Leonardo DiCaprio"));
-    officers.push(new Officer(22, "Amelie"));
-    officers.push(new Officer(23, "John Biden"));
-
-    officers.push(new Officer(24, "Neil Armstrong"));
-    officers.push(new Officer(25, "Audrey Hepburn"));
-    officers.push(new Officer(26, "Macron"));
-    officers.push(new Officer(27, "Lukas"));
-    officers.push(new Officer(28, "Karsten"));
-    officers.push(new Officer(29, "Alien"));
-    officers.push(new Officer(30, "Polarbear"));
-
-    officers[0].subordinates.push(officers[1]);
-    officers[0].subordinates.push(officers[2]);
-    officers[1].subordinates.push(officers[3]);
-    officers[1].subordinates.push(officers[4]);
-    officers[1].subordinates.push(officers[5]);
-    officers[2].subordinates.push(officers[6]);
-    officers[3].subordinates.push(officers[7]);
-    officers[9].subordinates.push(officers[8]);
-    officers[3].subordinates.push(officers[9]);
-    officers[3].subordinates.push(officers[10]);
-    officers[0].subordinates.push(officers[11]);
-
-    officers[20].subordinates.push(officers[12]);
-    officers[1].subordinates.push(officers[13]);
-    officers[2].subordinates.push(officers[14]);
-    officers[11].subordinates.push(officers[15]);
-    officers[11].subordinates.push(officers[16]);
-    officers[12].subordinates.push(officers[17]);
-    officers[11].subordinates.push(officers[18]);
-    officers[15].subordinates.push(officers[19]);
-    officers[7].subordinates.push(officers[20]);
-    officers[6].subordinates.push(officers[21]);
-    officers[17].subordinates.push(officers[22]);
-
-    officers[18].subordinates.push(officers[23]);
-    officers[23].subordinates.push(officers[24]);
-    officers[24].subordinates.push(officers[25]);
-    officers[19].subordinates.push(officers[26]);
-    officers[20].subordinates.push(officers[27]);
-    officers[25].subordinates.push(officers[28]);
-    officers[28].subordinates.push(officers[29]);
-
-    */
+    /*
+        officers.push(new Officer(8, "Frodo"));
+        officers.push(new Officer(9, "Gandalf"));
+        officers.push(new Officer(10, "Legolas"));
+        officers.push(new Officer(11, "Gimli"));
+        officers.push(new Officer(12, "Johannes"));
+    
+        officers.push(new Officer(13, "John Lennon"));
+        officers.push(new Officer(14, "Harry Potter"));
+        officers.push(new Officer(15, "Treebeard"));
+        officers.push(new Officer(16, "Darth Vader"));
+        officers.push(new Officer(17, "Han Solo"));
+        officers.push(new Officer(18, "Ahsoka Tano"));
+        officers.push(new Officer(19, "King of Thailand"));
+        officers.push(new Officer(20, "Olaf Scholz"));
+        officers.push(new Officer(21, "Leonardo DiCaprio"));
+        officers.push(new Officer(22, "Amelie"));
+        officers.push(new Officer(23, "John Biden"));
+    
+        officers.push(new Officer(24, "Neil Armstrong"));
+        officers.push(new Officer(25, "Audrey Hepburn"));
+        officers.push(new Officer(26, "Macron"));
+        officers.push(new Officer(27, "Lukas"));
+        officers.push(new Officer(28, "Karsten"));
+        officers.push(new Officer(29, "Alien"));
+        officers.push(new Officer(30, "Polarbear"));
+    
+        officers[0].subordinates.push(officers[1]);
+        officers[0].subordinates.push(officers[2]);
+        officers[1].subordinates.push(officers[3]);
+        officers[1].subordinates.push(officers[4]);
+        officers[1].subordinates.push(officers[5]);
+        officers[2].subordinates.push(officers[6]);
+        officers[3].subordinates.push(officers[7]);
+        officers[9].subordinates.push(officers[8]);
+        officers[3].subordinates.push(officers[9]);
+        officers[3].subordinates.push(officers[10]);
+        officers[0].subordinates.push(officers[11]);
+    
+        officers[20].subordinates.push(officers[12]);
+        officers[1].subordinates.push(officers[13]);
+        officers[2].subordinates.push(officers[14]);
+        officers[11].subordinates.push(officers[15]);
+        officers[11].subordinates.push(officers[16]);
+        officers[12].subordinates.push(officers[17]);
+        officers[11].subordinates.push(officers[18]);
+        officers[15].subordinates.push(officers[19]);
+        officers[7].subordinates.push(officers[20]);
+        officers[6].subordinates.push(officers[21]);
+        officers[17].subordinates.push(officers[22]);
+    
+        officers[18].subordinates.push(officers[23]);
+        officers[23].subordinates.push(officers[24]);
+        officers[24].subordinates.push(officers[25]);
+        officers[19].subordinates.push(officers[26]);
+        officers[20].subordinates.push(officers[27]);
+        officers[25].subordinates.push(officers[28]);
+        officers[28].subordinates.push(officers[29]);
+    
+        */
 
     //testing of the function areAllSubordinatesAlreadySaved()
     // let already_saved: Officer[] = [peter];

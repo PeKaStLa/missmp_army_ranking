@@ -49,9 +49,12 @@ var ArmyRankingApp = /** @class */ (function () {
         else {
             console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             var old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
-            // es fehlt noch das Entfernen des future_subordinate_id vom alten Officer:
+            last_change_old_officer = old_officer;
+            last_change_moved_officer = officers[future_subordinate_id - 1];
+            last_change_new_officer = officers[future_officer_id - 1];
+            //Entfernen des future_subordinate_id vom alten Officer:
             removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
-            //und es fehlt noch das nachrücken der alten Subs vom future_subordinate_id zum alten Officer
+            //nachrücken der alten Subs vom future_subordinate_id zum alten Officer
             copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id);
             //delete future_subordinate_id's old subordinates 
             officers[future_subordinate_id - 1].subordinates = [];
@@ -63,7 +66,24 @@ var ArmyRankingApp = /** @class */ (function () {
         this.general.printSubordinates();
     };
     ArmyRankingApp.prototype.undo = function () {
+        // undo last change like redo() or moveOfficer()
         console.log("doing undo");
+        if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
+            //remove moved Officer from new Officers' subordinates
+            removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+            //push officer to old_officers' subordinated
+            last_change_old_officer.subordinates.push(last_change_moved_officer);
+            last_change_old_subordinates.forEach(function (el) {
+                //remove old subordinates from old officer
+                removeSpecificSubordinateFromOfficer(el.id, last_change_old_officer.id);
+                //add old subordinates to moved_officer
+                last_change_moved_officer.subordinates.push(el);
+            });
+        }
+        else {
+            console.log("Officer ", last_change_moved_officer.name, " wurde bereits zurueck zu officer ", last_change_old_officer.name, " verschoben");
+        }
+        this.general.printSubordinates();
     };
     ArmyRankingApp.prototype.redo = function () {
         console.log("doing redo");
@@ -113,12 +133,17 @@ var officers = [];
 var mmp = new Officer(1, "MMP");
 officers.push(mmp);
 var app = new ArmyRankingApp(mmp);
+var last_change_old_subordinates = [];
+var last_change_old_officer;
+var last_change_moved_officer;
+var last_change_new_officer;
 //
 //3. functions
 //
 function copySubordinatesToAnotherOfficer(old_officer_id, future_officer_id) {
     officers[old_officer_id - 1].subordinates.forEach(function (el) {
         officers[future_officer_id - 1].subordinates.push(el);
+        last_change_old_subordinates.push(el);
     });
 }
 function removeSpecificSubordinateFromOfficer(old_subordinate_id, old_officer_id) {
