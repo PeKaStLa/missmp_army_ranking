@@ -11,8 +11,14 @@ body {
 }
 
 div#visual {
-    background-color: yellow;
-    padding: 20px;
+    background-color: #d4d7dd;
+    padding: 5px;
+    margin: 20px 5px 15px 5px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #cfccd9;
+    border-radius: 0.2rem;
+
 }
 
 
@@ -24,7 +30,8 @@ div.box {
 
 p.box {
     display: inline;
-    background-color: lightgrey;
+    /*background-color: lightgrey;*/
+    background-color: rgb(243, 235, 235);
     margin: 3px 0px 3px 0px;
     padding: 5px;
     width: fit-content;
@@ -67,7 +74,7 @@ button,
 }
 
 .middle {
-    width: fit-content;
+    max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
     align-content: center;
@@ -83,7 +90,7 @@ button,
 }
 
 #redo {
-    background-color: lightgreen;
+    background-color: #63b77f;
 }
 
 .redoundo:hover {
@@ -92,7 +99,7 @@ button,
 }
 
 #redo:hover {
-    background-color: #42A362;
+    background-color: lightgreen;
 }
 
 #undo:hover {
@@ -101,17 +108,23 @@ button,
 
 
 h1 {
-    margin: 0;
-    background-color: #f3f4f6;
+    margin: 0px 0px 0px 0px;
+    background-color: #c7c9ce;
     padding: 15px;
+    /*
     border-radius: 0.375rem;
+        display: block;
+ 
 
-    font-weight: normal;
+        font-weight: normal;
+
+    */
+    font-weight: larger;
     font-family: Arial, sans-serif;
-    display: block;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
 }
 
 h3 {
@@ -129,6 +142,7 @@ div#redoundobuttons {
     background-color: #e5e7eb;
     padding: 15px;
     margin: 5px;
+    margin-top: 20px;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -152,8 +166,9 @@ div#redoundobuttons {
 .parent {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
     justify-content: center;
+
+    gap: 10px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -173,7 +188,7 @@ div#redoundobuttons {
 /* tab is used in the Hierarchy for putting teh correct space on the left side of the names*/
 .tab {
     display: inline-block;
-    margin-left: 5em;
+    /*margin-left: 5em;*/
 }
 
 

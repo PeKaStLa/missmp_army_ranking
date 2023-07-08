@@ -116,41 +116,57 @@ var Officer = /** @class */ (function () {
     Officer.prototype.printSubordinates = function (level) {
         if (level === void 0) { level = 0; }
         //the in the end to be printed string
-        var temp = "";
         var br = "<br>";
         var span = "<span class='tab'></span>";
+        var counter = 0;
         var visual = document.getElementById("visual");
         var box = document.createElement("div");
         var empty_line_box = document.createElement("div");
         var text = document.createElement("p");
         var tab = document.createElement("span");
-        var margin_left = 7 * level;
-        tab.setAttribute('style', "margin-left: " + margin_left + "em");
-        box.appendChild(tab);
+        var already = [];
         box.classList.add("box");
         tab.classList.add("tab");
         text.classList.add("box");
-        var myP = document.getElementById("oop");
+        box.appendChild(tab);
         //clear the HTML-element
         if (level == 0) {
-            myP.innerHTML = "";
             visual.innerHTML = "";
         }
         //console.log(" Doing printSubordinates() now in: ", this.name, this.id);
+        //level adds the right amount of space to the left
+        if (level != 0) {
+            var testvar = level - 1;
+            while (testvar > 0) {
+                tab.innerHTML += "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;";
+                testvar = testvar - 1;
+            }
+        }
         for (var i = level; i > 0; i--) {
             //level adds the right amount of space to the left
-            temp += span;
+            officers.forEach(function (el) {
+                if (isOfficerInArray(el, already)) {
+                    if (!areAllSubordinatesAlreadySaved(el, already)) {
+                        //let el = document.querySelector("#visual a:nth-child(" + counter + ")")
+                        console.log("in der großen loop gerade...");
+                    }
+                }
+            });
+            if (i == 1) {
+                tab.innerHTML += "&emsp;|_";
+                tab.innerHTML += "_________";
+            }
         }
         //add the current officers' name to the string
-        temp = temp + this.name + " " + this.id + br;
-        text.innerHTML = this.name + " " + this.id;
+        text.innerHTML = this.name + " (" + this.id + ")";
         box.appendChild(text);
+        already.push(this);
         this.subordinates.forEach(function (element) {
             level = level + 1;
+            counter = counter + 1;
             element.printSubordinates(level);
             level = level + -1;
         });
-        myP.innerHTML = temp + myP.innerHTML;
         //visual.appendChild(box);
         visual.insertBefore(box, visual.firstChild);
     };
