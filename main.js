@@ -87,6 +87,8 @@ var ArmyRankingApp = /** @class */ (function () {
     };
     ArmyRankingApp.prototype.redo = function () {
         console.log("doing redo");
+        this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+        this.general.printSubordinates();
     };
     return ArmyRankingApp;
 }());
@@ -141,6 +143,7 @@ var last_change_new_officer;
 //3. functions
 //
 function copySubordinatesToAnotherOfficer(old_officer_id, future_officer_id) {
+    last_change_old_subordinates = [];
     officers[old_officer_id - 1].subordinates.forEach(function (el) {
         officers[future_officer_id - 1].subordinates.push(el);
         last_change_old_subordinates.push(el);

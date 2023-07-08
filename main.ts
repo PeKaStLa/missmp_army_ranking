@@ -99,30 +99,32 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         // undo last change like redo() or moveOfficer()
         console.log("doing undo");
 
-        if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)){
+        if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
 
-        //remove moved Officer from new Officers' subordinates
-        removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+            //remove moved Officer from new Officers' subordinates
+            removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
 
-        //push officer to old_officers' subordinated
-        last_change_old_officer.subordinates.push(last_change_moved_officer);
+            //push officer to old_officers' subordinated
+            last_change_old_officer.subordinates.push(last_change_moved_officer);
 
-        last_change_old_subordinates.forEach(el => {
-            //remove old subordinates from old officer
-            removeSpecificSubordinateFromOfficer(el.id, last_change_old_officer.id);
-            //add old subordinates to moved_officer
-            last_change_moved_officer.subordinates.push(el);
-        })
-    } else
-    {
-        console.log("Officer " , last_change_moved_officer.name, " wurde bereits zurueck zu officer ", last_change_old_officer.name, " verschoben")
-    }
+            last_change_old_subordinates.forEach(el => {
+                //remove old subordinates from old officer
+                removeSpecificSubordinateFromOfficer(el.id, last_change_old_officer.id);
+                //add old subordinates to moved_officer
+                last_change_moved_officer.subordinates.push(el);
+            })
+        } else {
+            console.log("Officer ", last_change_moved_officer.name, " wurde bereits zurueck zu officer ", last_change_old_officer.name, " verschoben")
+        }
         this.general.printSubordinates();
 
     }
 
     redo(): void {
         console.log("doing redo");
+        this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+        this.general.printSubordinates();
+
     }
 }
 
