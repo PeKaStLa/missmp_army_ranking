@@ -97,31 +97,30 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
             (<HTMLInputElement>document.getElementById('b')).value = "";
 
             app.displayHierarchy();
-
         }
-
     }
 
     undo(): void {
-        // undo last change like redo() or moveOfficer()
-        console.log("doing undo");
+        //Check if an officer was moved before and if there is a past action to undo
         if (last_change_old_officer == undefined) {
             console.log("cannot undo an action because no action was done yet.");
 
         } else if (isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
-            console.log("Officer ", last_change_moved_officer.name, " wurde bereits zurueck zu officer ", last_change_old_officer.name, " verschoben")
+            console.log("Officer ", last_change_moved_officer.name, " already was pushed back to its old officer ", last_change_old_officer.name)
 
         } else {
-            //remove moved Officer from its new Officers' subordinates
+            //Undo the last action. Therefore we need to undo 4 tasks.
+
+            //1. remove moved Officer from its new Officers' subordinates
             removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
 
-            //move back the moved Officer to its old original Officer's subordinates
+            //2. move back the moved Officer to its old original Officer's subordinates
             last_change_old_officer.subordinates.push(last_change_moved_officer);
 
             last_change_old_subordinates.forEach(el => {
-                //remove old subordinates from moved_officers' old original officer
+                //3. remove old subordinates from moved_officers' old original officer
                 removeSpecificSubordinateFromOfficer(el.id, last_change_old_officer.id);
-                //add old subordinates to moved_officers' subordinates
+                //4. add old subordinates to moved_officers' subordinates
                 last_change_moved_officer.subordinates.push(el);
             })
             app.displayHierarchy();
@@ -129,7 +128,7 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
     }
 
     redo(): void {
-        console.log("doing redo");
+        //Check if an officer was moved before and if there is a past action to undo
         if (last_change_old_officer == undefined) {
             console.log("cannot redo an action because no action was done yet.");
 
@@ -139,7 +138,6 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
             this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
             app.displayHierarchy();
         }
-
     }
 }
 
@@ -161,9 +159,8 @@ class Officer implements OfficerInterface {
         this.name = name;
     }
 
+    //print this officers' subordinates and also their subordinates inside the visual-div.
     printSubordinates(level: number = 0): void {
-        console.log("This.name: " + this.name + " ID: " + this.id + " Level: " + level);
-
         let visual = document.getElementById("visual");
         let box = document.createElement("div");
         let text = document.createElement("p");
@@ -284,7 +281,7 @@ window.onload = function () {
     officers.push(iron);
     officers.push(garfield);
 
-    
+
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[0].subordinates.push(officers[3]);

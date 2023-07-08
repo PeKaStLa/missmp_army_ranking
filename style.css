@@ -75,7 +75,7 @@ h3 {
     box-shadow: 0px 15px 19px -14px grey;
 }
 
-/* the div where all div.box are inserted in*/
+/* the div where all div.box for Hierarchy-Lines are inserted in*/
 div#visual {
     background-color: #d4d7dd;
     padding: 5px;
@@ -106,14 +106,14 @@ p.box {
     box-shadow: 0px 12px 15px -5px grey;
 }
 
-
+/* For the buttons*/
 .redoundo {
     margin: 17px;
     font-size: large;
     border-color: rgb(90, 169, 155);
 }
 
-
+/* Padding for around the A and B inputs*/
 .pad {
     padding-top: 3px;
     padding-bottom: 3px;
@@ -123,47 +123,32 @@ p.box {
     padding: 4px;
 }
 
+/*Parent of the three main-cards*/
 .parent {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-
     gap: 10px;
     margin-left: auto;
     margin-right: auto;
 }
 
+/*Keep Text and inputs in same line*/
 .inputs {
     display: inline;
     width: fit-content;
 }
 
+/*Padding for the input fields*/
 #name,
 #a,
 #b {
     padding: 5px;
 }
 
-
-/* tab is used in the Hierarchy for putting teh correct space on the left side of the names*/
+/*tab is used in the Hierarchy for the tab-spans dynamically.*/
+/*It is putting the correct spaces on the left side of the Officer-cards*/
 .tab {
     display: inline-block;
     /*margin-left: 5em;*/
-}
-
-
-div#leftright {
-    background-color: lightgreen;
-}
-
-p#leftrightp {
-    background-color: lightcoral;
-}
-
-p#oop {
-    background-color: lightskyblue;
-}
-
-p#officers {
-    background-color: yellow;
 }
