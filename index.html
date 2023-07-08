@@ -19,49 +19,61 @@
     <h1>
         MMP Army Ranking
     </h1>
-    <div>
-        <div id="army-form-comp">
+    <div class="parent">
+        <div id="army-form-comp" class="">
             <h3 id="headline">
                 Create new Officer
             </h3>
             <form id="createOfficer" action="javascript:app.createOfficer();">
-                <input type="text" id="name" name="name" placeholder="Officer name">
-                <br><br><input type="submit" value="Create Officer">
+                <input type="text" class="inputs" id="name" name="name" placeholder="Officer name">
+                <p class="inputs">&nbsp;&nbsp;</p>
+
+                <br><br>
+                <input type="submit" class="submit" value="Create Officer">
             </form>
         </div>
-    </div>
-    <br>
-    <div id="move">
-        <h3 id="headline">
-            Move A under B
-        </h3>
-        <form id="moveOfficer" action="javascript:console.log('moveOfficer button clicked'); javascript:app.moveOfficer(a.value, b.value);">
-            <div class="move_inputs">  <p class="move_inputs">&nbsp;move&nbsp;</p>
-                <input type="text" id="a" class="move_inputs" name="a" placeholder="ID of future subordinate">
-            </div><div class="move_inputs"><p class="move_inputs">&nbsp;under&nbsp;</p>
-                <input type="text" id="b" class="move_inputs"  name="b" placeholder="ID of A's future Officer">
-            </div> <br><br><input type="submit" value="Move A under B">
-        </form>
+        <div id="move-comp" class="">
+
+            <h3 id="headline">
+                Move A under B
+            </h3>
+            <form id="moveOfficer" action="javascript:console.log('moveOfficer button clicked'); 
+                javascript:app.moveOfficer(a.value, b.value);">
+                <div class="">
+                    <div class="inputs">
+
+                        <p class="inputs">&nbsp;move&nbsp;</p>
+                        <input type="text" id="a" class="inputs" name="a" placeholder="ID of future subordinate">
+                    </div>
+                    <div class="inputs">
+                        <p class="inputs">&nbsp;under&nbsp;</p>
+                        <input type="text" id="b" class="inputs" name="b" placeholder="ID of A's future Officer">
+                    </div>
+                </div>
+                <br><input type="submit" class="submit" value="Move A under B">
+            </form>
+
+        </div>
     </div>
     <div>
-        
+
         <p id="oop">
-    </p>
+        </p>
         <p id="leftrightp">
             test leftrightp
         </p>
-        
+
         <br>
         <p id="officers">
             test officers
         </p>
     </div>
     <p id="leftrightp">
-test leftrightp
+        test leftrightp
     </p>
 
     <div id="leftright">
-test leftright
+        test leftright
 
     </div>
     <div id="topbottom">

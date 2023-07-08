@@ -82,6 +82,10 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
             //push future_subordinate_id to subordinates of future_officer_id
             officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
 
+            (<HTMLInputElement>document.getElementById('a')).value = "";
+            (<HTMLInputElement>document.getElementById('b')).value = "";
+
+
         }
 
         this.general.printSubordinates();

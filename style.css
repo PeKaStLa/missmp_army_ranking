@@ -13,7 +13,7 @@ body {
 h1 {
     margin: 0;
     background-color: #f3f4f6;
-    padding:15px;
+    padding: 15px;
     border-radius: 0.375rem;
 
     font-weight: normal;
@@ -33,59 +33,67 @@ h3 {
 
 
 
-div#army-form-comp, div#move {
+div#army-form-comp,
+div#move-comp {
     background-color: #e5e7eb;
-    padding: 12px;
-    margin-top: 10px;
-
-    /* keep in the middle */
-    display: block;
+    padding: 15px;
+    margin: 5px;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
-
     border-style: solid;
     border-width: 2px;
     border-color: rgb(119, 226, 208);
     border-radius: 0.375rem;
-    box-shadow: 0px 15px 15px -10px grey;
+    box-shadow: 0px 15px 19px -14px grey;
 }
 
-form#moveOfficer{
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+.submit {
+    padding: 4px;
+}
+
+.parent {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
 
 }
 
-p#officers{
-    background-color: yellow;
-
-}
-
-.move_inputs{
+.inputs {
     display: inline-block;
-        width: fit-content;
+    width: fit-content;
 }
 
+#name,
+#a,
+#b {
+    padding: 5px;
+}
+
+
+/* tab is used in the Hierarchy for putting teh correct space on the left side of the names*/
 .tab {
     display: inline-block;
-    margin-left: 4em;
+    margin-left: 5em;
 }
 
-div#topbottom{
+div#topbottom {
     background-color: green;
 }
 
-div#leftright{
+div#leftright {
     background-color: lightgreen;
 }
 
-p#leftrightp{
+p#leftrightp {
     background-color: lightcoral;
-    margin:10px;
 }
-p#oop{
+
+p#oop {
     background-color: lightskyblue;
-    margin:10px;
+}
+
+p#officers {
+    background-color: yellow;
 }
