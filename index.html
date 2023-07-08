@@ -25,7 +25,7 @@
     </h1>
     <div class="parent">
         <div id="army-form-comp" class="">
-            <h3 id="headline">
+            <h3 id="">
                 Create new officer
             </h3>
             <form id="createOfficer" action="javascript:app.createOfficer();">
@@ -36,22 +36,22 @@
                 <input type="submit" class="submit" value="Create Officer">
             </form>
         </div>
-        <div id="move-comp" class="">
+        <div id="move-comp" class="middle">
 
-            <h3 id="headline">
+            <h3 id="">
                 Move A under B
             </h3>
             <form id="moveOfficer" action="javascript:console.log('moveOfficer button clicked'); 
                 javascript:app.moveOfficer(a.value, b.value);">
-                <div class="">
-                    <div class="inputs">
+                <div class="center">
+                    <div class="pad">
 
                         <p class="inputs">&nbsp;move&nbsp;</p>
-                        <input type="text" id="a" class="inputs" name="a" placeholder="ID of future subordinate">
+                        <input type="text" id="a" class="" name="a" placeholder="ID of future subordinate">
                     </div>
-                    <div class="inputs">
+                    <div class="pad">
                         <p class="inputs">&nbsp;under&nbsp;</p>
-                        <input type="text" id="b" class="inputs" name="b" placeholder="ID of A's future Officer">
+                        <input type="text" id="b" class="" name="b" placeholder="ID of A's future Officer">
                     </div>
                 </div>
                 <br><input type="submit" class="submit" value="Move A under B">
@@ -59,7 +59,7 @@
 
         </div>
         <div id="redoundobuttons" class="">
-            <h3 id="headline">
+            <h3 id="">
                 Redo and undo last action
             </h3>
             <button type="submit" id="undo" class="redoundo">Undo</button>
