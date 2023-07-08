@@ -7,61 +7,55 @@
     by Peter Stadler
     05.07.2023, 22:45 Uhr
 -->
-
 <head>
     <title>Missmp army ranking app</title>
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="main.js"></script>
 </head>
-
 <body>
     <h1>
         MMP Army Ranking
     </h1>
     <div class="parent">
-        <div id="" class="card">
-            <h3 id="">
+        <div  class="card">
+            <h3 >
                 Create new officer
             </h3>
-            <form id="createOfficer" action="javascript:app.createOfficer();">
+            <form id="createOfficer" action="javascript:app.createOfficer(name.value);">
                 <input type="text" class="inputs" id="name" name="name" placeholder="Officer name">
                 <p class="inputs">&nbsp;&nbsp;</p>
-
                 <br><br>
                 <input type="submit" class="submit" value="Create Officer">
             </form>
         </div>
-        <div id="" class="card">
-            <h3 id="">
+        <div class="card">
+            <h3 >
                 Move A under B
             </h3>
-            <form id="moveOfficer" action="javascript:console.log('moveOfficer button clicked'); 
-                javascript:app.moveOfficer(a.value, b.value);">
-                <div class="">
+            <form id="moveOfficer" action="javascript:app.moveOfficer(a.value, b.value);">
+                <div >
                     <div class="pad">
                         <p class="inputs">&nbsp;move&nbsp;</p>
-                        <input type="text" id="a" class="" name="a" placeholder="ID of future subordinate">
+                        <input type="text" id="a"  name="a" placeholder="ID of future subordinate">
                     </div>
                     <div class="pad">
                         <p class="inputs">&nbsp;under&nbsp;</p>
-                        <input type="text" id="b" class="" name="b" placeholder="ID of A's future Officer">
+                        <input type="text" id="b"  name="b" placeholder="ID of A's future Officer">
                     </div>
                 </div>
                 <br><input type="submit" class="submit" value="Move A under B">
             </form>
-
         </div>
-        <div id="" class="card">
-            <h3 id="">
+        <div class="card">
+            <h3>
                 Redo and undo last action
             </h3>
             <button onclick="app.undo();" id="undo" class="redoundo">Undo</button>
             <button onclick="app.redo();" id="redo" class="redoundo">Redo</button>
         </div>
     </div>
-    <div id="visual" class="">
+    <div id="visual" >
         test visual
     </div>
 </body>
