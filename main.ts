@@ -93,6 +93,13 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
 
     undo(): void {
         // undo last change like redo() or moveOfficer()
+        //
+        //use variables:
+        //last_change_moved_officer
+        //last_change_old_officer
+        //last_change_old_subordinates
+        //
+        //
         console.log("doing undo");
     }
 
@@ -157,6 +164,10 @@ var officers: Officer[] = [];
 const mmp: Officer = new Officer(1, "MMP");
 officers.push(mmp);
 const app: ArmyRankingApp = new ArmyRankingApp(mmp);
+
+var last_change_old_subordinates: Officer[] = [];
+var last_change_old_officer: Officer;
+var last_change_moved_officer: Officer;
 
 //
 //3. functions
