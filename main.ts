@@ -74,16 +74,16 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
             last_change_moved_officer = officers[future_subordinate_id - 1];
             last_change_new_officer = officers[future_officer_id - 1];
 
-            //Entfernen des future_subordinate_id vom alten Officer:
+            //remove future_subordinate_id from its old Officer:
             removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
 
-            //nachrücken der alten Subs vom future_subordinate_id zum alten Officer
+            //copy the own subordinates from future_subordinate to its old officer
             copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id)
 
             //delete future_subordinate_id's old subordinates 
             officers[future_subordinate_id - 1].subordinates = [];
 
-            //push future_subordinate_id to subordinates of future_officer_id
+            //push future_subordinate_id to future_officer_id's subordinates
             officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
 
             (<HTMLInputElement>document.getElementById('a')).value = "";
@@ -101,16 +101,16 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
 
         if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
 
-            //remove moved Officer from new Officers' subordinates
+            //remove moved Officer from its new Officers' subordinates
             removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
 
-            //push officer to old_officers' subordinated
+            //move back the moved Officer to its old original Officer's subordinates
             last_change_old_officer.subordinates.push(last_change_moved_officer);
 
             last_change_old_subordinates.forEach(el => {
-                //remove old subordinates from old officer
+                //remove old subordinates from moved_officers' old original officer
                 removeSpecificSubordinateFromOfficer(el.id, last_change_old_officer.id);
-                //add old subordinates to moved_officer
+                //add old subordinates to moved_officers' subordinates
                 last_change_moved_officer.subordinates.push(el);
             })
         } else {
@@ -122,6 +122,7 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
 
     redo(): void {
         console.log("doing redo");
+        //move back the moved Officer to its last new Officer
         this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
         this.general.printSubordinates();
 
