@@ -105,8 +105,6 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
     undo(): void {
         // undo last change like redo() or moveOfficer()
         console.log("doing undo");
-        //console.log("last_change_moved_officer: ", last_change_moved_officer)
-        //console.log("last_change_old_officer: ", last_change_old_officer)
         if (last_change_old_officer == undefined) {
             console.log("cannot undo an action because no action was done yet.");
 
@@ -165,77 +163,25 @@ class Officer implements OfficerInterface {
 
     printSubordinates(level: number = 0): void {
         console.log("This.name: " + this.name + " ID: " + this.id + " Level: " + level);
-        //console.log("level: ", level)
-        console.log("start")
 
-        //the in the end to be printed string
-        let br = "<br>";
-        let span = "<span class='tab'></span>";
-        let counter = 0;
         let visual = document.getElementById("visual");
         let box = document.createElement("div");
-        let empty_line_box = document.createElement("div");
         let text = document.createElement("p");
         let tab = document.createElement("span");
-        //let already: { [id: string] : [level: number] } = {};
 
-        //already: [] = [ "id": 1, "levels": 0 ];
         box.classList.add("box");
         tab.classList.add("tab");
         text.classList.add("box");
 
         //clear the HTML-element
-        if (level == 0) { visual.innerHTML = ""; already_id = []; already_level = []; }
+        if (level == 0) { visual.innerHTML = ""; }
 
         //add the current officers' name to the string
         text.innerHTML = this.name + " (" + this.id + ")";
-        console.log("bitte specihern jetzt")
-        already_id.push(this.id);
-        already_level.push(level);
 
-        let set = false;
         for (let i = level; i > 0; i--) {
-            tab.innerHTML += "&emsp;";
-
-            already_id.forEach(el => {
-                if (!set) {
-
-                    let all_subs_displayed = true;
-
-                    officers[el - 1].subordinates.forEach(element => {
-
-                        if (already_id.some(e => e == element.id)) {
-                            console.log("aktueller officers[el - 1]: ", officers[el - 1])
-                            console.log("sub is saved: ", element.name)
-                        } else {
-                            all_subs_displayed = false;
-                        }
-                    })
-
-
-                    if (!all_subs_displayed) {
-                        if (already_level[already_id.indexOf(el)] == level) {
-                            //tab.innerHTML += "|";
-                            set = true;
-                        }
-                    } else {
-                        tab.innerHTML += "|";
-
-                        console.log("all_subs_displayed is true: ", all_subs_displayed)
-                    }
-                }
-            })
-
-            set = false;
-            if (i != 1) { tab.innerHTML += "&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;"; }
-
-            if (i == 1) {
-                tab.innerHTML += "&emsp;|";
-                // without this last line here, all end-officers have this line missing..
-                //tab.innerHTML += "&emsp;|";
-                tab.innerHTML += "_________";
-            }
-            //until here for i in level
+            if (i == 1) { tab.innerHTML += "&emsp;|_________"; }
+            if (i != 1) { tab.innerHTML += "&emsp; &emsp; &emsp; &emsp; &emsp; &emsp;"; }
         }
 
         box.appendChild(tab);
@@ -243,13 +189,10 @@ class Officer implements OfficerInterface {
 
         this.subordinates.forEach(element => {
             level = level + 1;
-            counter = counter + 1;
             element.printSubordinates(level);
             level = level + - 1;
         });
-        //visual.appendChild(box);
         visual.insertBefore(box, visual.firstChild);
-        //until here function printSubordinates
     };
 }
 
@@ -257,13 +200,7 @@ class Officer implements OfficerInterface {
 //2. variable declarations
 //
 
-var test: string = "test main.ts works";
-console.log(test);
-
 var officers: Officer[] = [];
-var already_id = [];
-var already_level = [];
-
 
 const mmp: Officer = new Officer(1, "MMP");
 officers.push(mmp);

@@ -71,8 +71,6 @@ var ArmyRankingApp = /** @class */ (function () {
     ArmyRankingApp.prototype.undo = function () {
         // undo last change like redo() or moveOfficer()
         console.log("doing undo");
-        //console.log("last_change_moved_officer: ", last_change_moved_officer)
-        //console.log("last_change_old_officer: ", last_change_old_officer)
         if (last_change_old_officer == undefined) {
             console.log("cannot undo an action because no action was done yet.");
         }
@@ -116,80 +114,35 @@ var Officer = /** @class */ (function () {
     Officer.prototype.printSubordinates = function (level) {
         if (level === void 0) { level = 0; }
         console.log("This.name: " + this.name + " ID: " + this.id + " Level: " + level);
-        //console.log("level: ", level)
-        console.log("start");
-        //the in the end to be printed string
-        var br = "<br>";
-        var span = "<span class='tab'></span>";
-        var counter = 0;
         var visual = document.getElementById("visual");
         var box = document.createElement("div");
-        var empty_line_box = document.createElement("div");
         var text = document.createElement("p");
         var tab = document.createElement("span");
-        //let already: { [id: string] : [level: number] } = {};
-        //already: [] = [ "id": 1, "levels": 0 ];
         box.classList.add("box");
         tab.classList.add("tab");
         text.classList.add("box");
         //clear the HTML-element
         if (level == 0) {
             visual.innerHTML = "";
-            already_id = [];
-            already_level = [];
         }
         //add the current officers' name to the string
         text.innerHTML = this.name + " (" + this.id + ")";
-        console.log("bitte specihern jetzt");
-        already_id.push(this.id);
-        already_level.push(level);
-        var set = false;
         for (var i = level; i > 0; i--) {
-            tab.innerHTML += "&emsp;";
-            already_id.forEach(function (el) {
-                if (!set) {
-                    var all_subs_displayed_1 = true;
-                    officers[el - 1].subordinates.forEach(function (element) {
-                        if (already_id.some(function (e) { return e == element.id; })) {
-                            console.log("aktueller officers[el - 1]: ", officers[el - 1]);
-                            console.log("sub is saved: ", element.name);
-                        }
-                        else {
-                            all_subs_displayed_1 = false;
-                        }
-                    });
-                    if (!all_subs_displayed_1) {
-                        if (already_level[already_id.indexOf(el)] == level) {
-                            //tab.innerHTML += "|";
-                            set = true;
-                        }
-                    }
-                    else {
-                        console.log("all_subs_displayed is true: ", all_subs_displayed_1);
-                    }
-                }
-            });
-            set = false;
-            if (i != 1) {
-                tab.innerHTML += "&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;";
-            }
             if (i == 1) {
-                tab.innerHTML += "&emsp;|";
-                tab.innerHTML += "_________";
+                tab.innerHTML += "&emsp;|_________";
             }
-            //until here for i in level
+            if (i != 1) {
+                tab.innerHTML += "&emsp; &emsp; &emsp; &emsp; &emsp; &emsp;";
+            }
         }
         box.appendChild(tab);
         box.appendChild(text);
         this.subordinates.forEach(function (element) {
             level = level + 1;
-            counter = counter + 1;
             element.printSubordinates(level);
             level = level + -1;
         });
-        //visual.appendChild(box);
         visual.insertBefore(box, visual.firstChild);
-        //until here function printSubordinates
     };
     ;
     return Officer;
@@ -197,11 +150,7 @@ var Officer = /** @class */ (function () {
 //
 //2. variable declarations
 //
-var test = "test main.ts works";
-console.log(test);
 var officers = [];
-var already_id = [];
-var already_level = [];
 var mmp = new Officer(1, "MMP");
 officers.push(mmp);
 var app = new ArmyRankingApp(mmp);
