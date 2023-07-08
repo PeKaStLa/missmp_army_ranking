@@ -15,7 +15,7 @@ var ArmyRankingApp = /** @class */ (function () {
         this.general = general;
     }
     ArmyRankingApp.prototype.displayHierarchy = function () {
-        this.general.printSubordinates();
+        mmp.printSubordinates();
     };
     ArmyRankingApp.prototype.printAllOfficersToConsole = function () {
         officers.forEach(function (element) {
@@ -115,6 +115,9 @@ var Officer = /** @class */ (function () {
     }
     Officer.prototype.printSubordinates = function (level) {
         if (level === void 0) { level = 0; }
+        console.log("This.name: " + this.name + " ID: " + this.id + " Level: " + level);
+        //console.log("level: ", level)
+        console.log("start");
         //the in the end to be printed string
         var br = "<br>";
         var span = "<span class='tab'></span>";
@@ -124,43 +127,48 @@ var Officer = /** @class */ (function () {
         var empty_line_box = document.createElement("div");
         var text = document.createElement("p");
         var tab = document.createElement("span");
-        var already = [];
+        //let already: { [id: string] : [level: number] } = {};
+        //already: [] = [ "id": 1, "levels": 0 ];
         box.classList.add("box");
         tab.classList.add("tab");
         text.classList.add("box");
-        box.appendChild(tab);
         //clear the HTML-element
         if (level == 0) {
             visual.innerHTML = "";
-        }
-        //console.log(" Doing printSubordinates() now in: ", this.name, this.id);
-        //level adds the right amount of space to the left
-        if (level != 0) {
-            var testvar = level - 1;
-            while (testvar > 0) {
-                tab.innerHTML += "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;";
-                testvar = testvar - 1;
-            }
-        }
-        for (var i = level; i > 0; i--) {
-            //level adds the right amount of space to the left
-            officers.forEach(function (el) {
-                if (isOfficerInArray(el, already)) {
-                    if (!areAllSubordinatesAlreadySaved(el, already)) {
-                        //let el = document.querySelector("#visual a:nth-child(" + counter + ")")
-                        console.log("in der großen loop gerade...");
-                    }
-                }
-            });
-            if (i == 1) {
-                tab.innerHTML += "&emsp;|_";
-                tab.innerHTML += "_________";
-            }
+            already_id = [];
+            already_level = [];
         }
         //add the current officers' name to the string
         text.innerHTML = this.name + " (" + this.id + ")";
+        console.log("bitte specihern jetzt");
+        already_id.push(this.id);
+        already_level.push(level);
+        var set = false;
+        for (var i = level; i > 0; i--) {
+            tab.innerHTML += "&emsp;";
+            if (already_id[0] != undefined) {
+                console.log(already_id);
+                already_id.forEach(function (el) {
+                    if (!set && officers[el - 1].subordinates[0] != undefined) {
+                        tab.innerHTML += "|";
+                        set = true;
+                    }
+                });
+                var index_fro_char = (7 * level) + 1;
+                console.log("in der grossen loop gerade...");
+            }
+            set = false;
+            if (i != 1) {
+                tab.innerHTML += "&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;";
+            }
+            if (i == 1) {
+                tab.innerHTML += "&emsp;";
+                tab.innerHTML += "_________";
+            }
+            //until here for i in level
+        }
+        box.appendChild(tab);
         box.appendChild(text);
-        already.push(this);
         this.subordinates.forEach(function (element) {
             level = level + 1;
             counter = counter + 1;
@@ -169,6 +177,7 @@ var Officer = /** @class */ (function () {
         });
         //visual.appendChild(box);
         visual.insertBefore(box, visual.firstChild);
+        //until here function printSubordinates
     };
     ;
     return Officer;
@@ -179,6 +188,8 @@ var Officer = /** @class */ (function () {
 var test = "test main.ts works";
 console.log(test);
 var officers = [];
+var already_id = [];
+var already_level = [];
 var mmp = new Officer(1, "MMP");
 officers.push(mmp);
 var app = new ArmyRankingApp(mmp);

@@ -33,7 +33,7 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
     }
 
     displayHierarchy(): void {
-        this.general.printSubordinates();
+        mmp.printSubordinates();
     }
 
 
@@ -164,6 +164,10 @@ class Officer implements OfficerInterface {
     }
 
     printSubordinates(level: number = 0): void {
+        console.log("This.name: " + this.name + " ID: " + this.id + " Level: " + level);
+        //console.log("level: ", level)
+        console.log("start")
+
         //the in the end to be printed string
         let br = "<br>";
         let span = "<span class='tab'></span>";
@@ -173,49 +177,50 @@ class Officer implements OfficerInterface {
         let empty_line_box = document.createElement("div");
         let text = document.createElement("p");
         let tab = document.createElement("span");
-        let already = [];
         //let already: { [id: string] : [level: number] } = {};
-        //let already: Officer[] = [];
+
+        //already: [] = [ "id": 1, "levels": 0 ];
         box.classList.add("box");
         tab.classList.add("tab");
         text.classList.add("box");
 
-        box.appendChild(tab);
-
         //clear the HTML-element
-        if (level == 0) { visual.innerHTML = ""; }
-        //console.log(" Doing printSubordinates() now in: ", this.name, this.id);
-    
-        //level adds the right amount of space to the left
-        if (level != 0) {
-            let testvar = level - 1;
-            while (testvar > 0) {
-                tab.innerHTML += "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;";
-                testvar = testvar - 1;
-            }
-        }
-
-        for (let i = level; i > 0; i--) {
-
-            officers.forEach(el => {
-                if (isOfficerInArray(el, already)) {
-                    if (!areAllSubordinatesAlreadySaved(el, already)) {
-                        //let el = document.querySelector("#visual a:nth-child(" + counter + ")")
-                        console.log("in der großen loop gerade...");
-                    }
-                }
-            })
-
-            if (i == 1) {
-                tab.innerHTML += "&emsp;|_";
-                tab.innerHTML += "_________";
-            }
-        }
+        if (level == 0) { visual.innerHTML = ""; already_id = []; already_level = []; }
 
         //add the current officers' name to the string
         text.innerHTML = this.name + " (" + this.id + ")";
+        console.log("bitte specihern jetzt")
+        already_id.push(this.id);
+        already_level.push(level);
+
+        let set = false;
+        for (let i = level; i > 0; i--) {
+            tab.innerHTML += "&emsp;";
+
+            if (already_id[0] != undefined) {
+                console.log(already_id)
+
+                already_id.forEach(el => {
+                    if (!set && officers[el - 1].subordinates[0] != undefined) {
+                        tab.innerHTML += "|";
+                        set = true;
+                    }
+                })
+                let index_fro_char = (7 * level) + 1;
+                console.log("in der grossen loop gerade...");
+            }
+            set = false;
+            if (i != 1) { tab.innerHTML += "&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;"; }
+
+            if (i == 1) {
+                tab.innerHTML += "&emsp;";
+                tab.innerHTML += "_________";
+            }
+            //until here for i in level
+        }
+
+        box.appendChild(tab);
         box.appendChild(text);
-        already.push({id: this.id, level: 12});
 
         this.subordinates.forEach(element => {
             level = level + 1;
@@ -225,7 +230,7 @@ class Officer implements OfficerInterface {
         });
         //visual.appendChild(box);
         visual.insertBefore(box, visual.firstChild);
-
+        //until here function printSubordinates
     };
 }
 
@@ -237,6 +242,9 @@ var test: string = "test main.ts works";
 console.log(test);
 
 var officers: Officer[] = [];
+var already_id = [];
+var already_level = [];
+
 
 const mmp: Officer = new Officer(1, "MMP");
 officers.push(mmp);
