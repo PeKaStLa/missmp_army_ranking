@@ -10,41 +10,6 @@ body {
     background-color: white;
 }
 
-div#visual {
-    background-color: #d4d7dd;
-    padding: 5px;
-    margin: 20px 5px 15px 5px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: #cfccd9;
-    border-radius: 0.2rem;
-
-}
-
-
-div.box {
-    margin: 3px 0px 3px 0px;
-    padding: 10px;
-}
-
-
-p.box {
-    display: inline;
-    /*background-color: lightgrey;*/
-    background-color: rgb(243, 235, 235);
-    margin: 3px 0px 3px 0px;
-    padding: 5px;
-    width: fit-content;
-    border-style: solid;
-    border-width: 2px;
-    border-color: #BBB9C1;
-    border-radius: 0.2rem;
-    /*border-radius: 1rem;*/
-    box-shadow: 0px 12px 15px -5px grey;
-    /*box-shadow: 0px 15px 19px -14px grey;*/
-}
-
-
 /*change mouse cursor to pointer when hovering over sth clickable*/
 a[href],
 input[type='submit'],
@@ -56,35 +21,6 @@ button,
     cursor: pointer;
 }
 
-.redoundo {
-    background-color: #e5e7eb;
-    border-radius: 0.375rem;
-    margin: 17px;
-    padding: 15px;
-    font-size: large;
-
-    width: fit-content;
-    border-style: solid;
-    border-width: 2px;
-    border-color: rgb(90, 169, 155);
-    border-radius: 0.375rem;
-    box-shadow: 0px 15px 19px -14px grey;
-
-
-}
-
-.middle {
-    max-width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    align-content: center;
-}
-
-.center {
-    margin: auto;
-
-}
-
 #undo {
     background-color: lightcoral;
 }
@@ -94,7 +30,6 @@ button,
 }
 
 .redoundo:hover {
-    color: black;
     box-shadow: 0px 20px 25px -5px grey;
 }
 
@@ -106,19 +41,10 @@ button,
     background-color: #cb0000;
 }
 
-
 h1 {
     margin: 0px 0px 0px 0px;
     background-color: #c7c9ce;
     padding: 15px;
-    /*
-    border-radius: 0.375rem;
-        display: block;
- 
-
-        font-weight: normal;
-
-    */
     font-weight: larger;
     font-family: Arial, sans-serif;
     width: fit-content;
@@ -134,11 +60,7 @@ h3 {
     font-family: Arial, sans-serif;
 }
 
-
-
-div#army-form-comp,
-div#move-comp,
-div#redoundobuttons {
+.redoundo, .card {
     background-color: #e5e7eb;
     padding: 15px;
     margin: 5px;
@@ -151,6 +73,44 @@ div#redoundobuttons {
     border-color: rgb(119, 226, 208);
     border-radius: 0.375rem;
     box-shadow: 0px 15px 19px -14px grey;
+}
+
+/* the div where all div.box are inserted in*/
+div#visual {
+    background-color: #d4d7dd;
+    padding: 5px;
+    margin: 20px 5px 15px 5px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #cfccd9;
+    border-radius: 0.2rem;
+}
+
+/*Every div for one line of the Hierarchy*/
+div.box {
+    margin: 3px 0px 3px 0px;
+    padding: 10px;
+}
+
+/*All the small Officer-cards in the Hierarchy*/
+p.box {
+    display: inline;
+    background-color: rgb(255, 245, 245);
+    margin: 3px 0px 3px 0px;
+    padding: 5px;
+    width: fit-content;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #929197;
+    border-radius: 0.2rem;
+    box-shadow: 0px 12px 15px -5px grey;
+}
+
+
+.redoundo {
+    margin: 17px;
+    font-size: large;
+    border-color: rgb(90, 169, 155);
 }
 
 

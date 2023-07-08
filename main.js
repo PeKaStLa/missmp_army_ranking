@@ -187,13 +187,6 @@ function isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id) {
     // return true if officers[future_subordinate_id - 1] is already in officers[future_officer_id - 1].subordinates
     return officers[future_officer_id - 1].subordinates.some(function (e) { return e === officers[future_subordinate_id - 1]; });
 }
-function printAllOfficersToHtml() {
-    var temp = "";
-    temp += "Apps' General:" + app["general"].name + app["general"].id + "<br>";
-    officers.forEach(function (element) { temp += "officer: " + element.name + element.id + "<br>"; });
-    document.getElementById("officers").innerHTML = temp;
-    //printLeftRight();
-}
 function isOfficerInArray(officer, array) {
     return array.some(function (e) { return e === officer; });
 }
@@ -212,7 +205,6 @@ function areAllSubordinatesAlreadySaved(officer, array) {
 window.onload = function () {
     console.log(app);
     console.log("Apps' General:" + app["general"].name);
-    //printAllOfficersToHtml();
     //app.printAllOfficersToConsole();
     //initial test objects
     var peter = new Officer(2, "Peter");
@@ -227,82 +219,14 @@ window.onload = function () {
     officers.push(superman);
     officers.push(iron);
     officers.push(garfield);
-    /*
     officers[0].subordinates.push(officers[1]);
     officers[0].subordinates.push(officers[2]);
     officers[0].subordinates.push(officers[3]);
     officers[2].subordinates.push(officers[4]);
     officers[3].subordinates.push(officers[5]);
     officers[3].subordinates.push(officers[6]);
-*/
     //////////////////////////////////////////////////
     //tested until Here 
     ///////////////////////////////////////////////////
-    officers.push(new Officer(8, "Frodo"));
-    officers.push(new Officer(9, "Gandalf"));
-    officers.push(new Officer(10, "Legolas"));
-    officers.push(new Officer(11, "Gimli"));
-    officers.push(new Officer(12, "Johannes"));
-    officers.push(new Officer(13, "John Lennon"));
-    officers.push(new Officer(14, "Harry Potter"));
-    officers.push(new Officer(15, "Treebeard"));
-    officers.push(new Officer(16, "Darth Vader"));
-    officers.push(new Officer(17, "Han Solo"));
-    officers.push(new Officer(18, "Ahsoka Tano"));
-    officers.push(new Officer(19, "King of Thailand"));
-    officers.push(new Officer(20, "Olaf Scholz"));
-    officers.push(new Officer(21, "Leonardo DiCaprio"));
-    officers.push(new Officer(22, "Amelie"));
-    officers.push(new Officer(23, "John Biden"));
-    officers.push(new Officer(24, "Neil Armstrong"));
-    officers.push(new Officer(25, "Audrey Hepburn"));
-    officers.push(new Officer(26, "Macron"));
-    officers.push(new Officer(27, "Lukas"));
-    officers.push(new Officer(28, "Karsten"));
-    officers.push(new Officer(29, "Alien"));
-    officers.push(new Officer(30, "Polarbear"));
-    officers[0].subordinates.push(officers[1]);
-    officers[0].subordinates.push(officers[2]);
-    officers[1].subordinates.push(officers[3]);
-    officers[1].subordinates.push(officers[4]);
-    officers[1].subordinates.push(officers[5]);
-    officers[2].subordinates.push(officers[6]);
-    officers[3].subordinates.push(officers[7]);
-    officers[9].subordinates.push(officers[8]);
-    officers[3].subordinates.push(officers[9]);
-    officers[3].subordinates.push(officers[10]);
-    officers[0].subordinates.push(officers[11]);
-    officers[20].subordinates.push(officers[12]);
-    officers[1].subordinates.push(officers[13]);
-    officers[2].subordinates.push(officers[14]);
-    officers[11].subordinates.push(officers[15]);
-    officers[11].subordinates.push(officers[16]);
-    officers[12].subordinates.push(officers[17]);
-    officers[11].subordinates.push(officers[18]);
-    officers[15].subordinates.push(officers[19]);
-    officers[7].subordinates.push(officers[20]);
-    officers[6].subordinates.push(officers[21]);
-    officers[17].subordinates.push(officers[22]);
-    officers[18].subordinates.push(officers[23]);
-    officers[23].subordinates.push(officers[24]);
-    officers[24].subordinates.push(officers[25]);
-    officers[19].subordinates.push(officers[26]);
-    officers[20].subordinates.push(officers[27]);
-    officers[25].subordinates.push(officers[28]);
-    officers[28].subordinates.push(officers[29]);
-    //testing of the function areAllSubordinatesAlreadySaved()
-    // let already_saved: Officer[] = [peter];
-    //console.log("areAllSubordinatesAlreadySaved: ", areAllSubordinatesAlreadySaved(iron, already_saved));
-    //console.log("Math random: " + Math.floor(Math.random() * 10));
-    //console.log("Test: ", isOfficerAlreadySubordinate(12, 12));
-    //console.log("Test: ", whoIsOfficerOfSubordinate(3));
-    //console.log("test: ", officers[19].subordinates[0].name);
-    //removeSpecificSubordinateFromOfficer(27, 20);
-    //console.log("test: ", officers[19].subordinates);
-    //copySubordinatesToAnotherOfficer(18, 20);
-    //console.log("test: ", officers[19].subordinates);
-    //printAllOfficersToHtml();
-    //app.general.printSubordinates();
-    //app.printAllOfficersToConsole();
     app.displayHierarchy();
 };

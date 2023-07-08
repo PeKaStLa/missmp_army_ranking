@@ -267,7 +267,6 @@ function areAllSubordinatesAlreadySaved(officer: Officer, array: Officer[]): boo
 window.onload = function () {
     console.log(app)
     console.log("Apps' General:" + app["general"].name)
-
     //app.printAllOfficersToConsole();
 
     //initial test objects
