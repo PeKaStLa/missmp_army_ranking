@@ -98,8 +98,11 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
     undo(): void {
         // undo last change like redo() or moveOfficer()
         console.log("doing undo");
-
-        if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
+        //console.log("last_change_moved_officer: ", last_change_moved_officer)
+        //console.log("last_change_old_officer: ", last_change_old_officer)
+        if (last_change_old_officer == undefined) {
+            console.log("cannot undo an action because no action was done yet.");
+        } else if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
 
             //remove moved Officer from its new Officers' subordinates
             removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
@@ -122,9 +125,13 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
 
     redo(): void {
         console.log("doing redo");
-        //move back the moved Officer to its last new Officer
-        this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
-        this.general.printSubordinates();
+        if (last_change_old_officer != undefined) {
+            //move back the moved Officer to its last new Officer
+            this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+            this.general.printSubordinates();
+        } else {
+            console.log("cannot redo an action because no action was done yet.");
+        }
 
     }
 }
@@ -148,21 +155,43 @@ class Officer implements OfficerInterface {
     }
 
     printSubordinates(level: number = 0): void {
-        let myP = document.getElementById("oop");
-        //clear the HTML-element
-        if (level == 0) { myP.innerHTML = ""; }
-        //console.log(" Doing printSubordinates() now in: ", this.name, this.id);
-        let br = "<br>";
-        let span = "<span class='tab'></span>";
         //the in the end to be printed string
         let temp = "";
+        let br = "<br>";
+        let span = "<span class='tab'></span>";
+
+        let visual = document.getElementById("visual");
+        let box = document.createElement("div");
+        let empty_line_box = document.createElement("div");
+        let text = document.createElement("p");
+        let tab = document.createElement("span");
+        let margin_left = 5 * level;
+        tab.setAttribute('style', "margin-left: " + margin_left + "em");
+        box.appendChild(tab);
+
+
+        box.classList.add("box");
+        tab.classList.add("tab");
+        text.classList.add("box");
+
+
+
+        let myP = document.getElementById("oop");
+        //clear the HTML-element
+        if (level == 0) { myP.innerHTML = ""; visual.innerHTML = ""; }
+
+        //console.log(" Doing printSubordinates() now in: ", this.name, this.id);
 
         for (let i = level; i > 0; i--) {
             //level adds the right amount of space to the left
             temp += span;
         }
+
         //add the current officers' name to the string
         temp = temp + this.name + " " + this.id + br;
+        text.innerHTML = this.name + " " + this.id;
+        box.appendChild(text);
+
 
         this.subordinates.forEach(element => {
             level = level + 1;
@@ -170,6 +199,9 @@ class Officer implements OfficerInterface {
             level = level + - 1;
         });
         myP.innerHTML = temp + myP.innerHTML;
+        //visual.appendChild(box);
+        visual.insertBefore(box, visual.firstChild);
+
     };
 }
 

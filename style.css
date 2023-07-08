@@ -10,13 +10,47 @@ body {
     background-color: white;
 }
 
+div#visual {
+    background-color: yellow;
+    padding: 20px;
+}
+
+
+div.box {
+    margin: 15px;
+    padding: 10px;
+}
+
+
+p.box {
+    display: inline;
+    background-color: lightgrey;
+    margin: 10px;
+    padding: 5px;
+    width: fit-content;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #BBB9C1;
+    border-radius: 0.2rem;
+    /*border-radius: 1rem;*/
+    box-shadow: 0px 12px 15px -5px grey;
+    /*box-shadow: 0px 15px 19px -14px grey;*/
+}
+
+
 /*change mouse cursor to pointer when hovering over sth clickable*/
-a[href], input[type='submit'], input[type='image'], label[for], select, button, .pointer {
+a[href],
+input[type='submit'],
+input[type='image'],
+label[for],
+select,
+button,
+.pointer {
     cursor: pointer;
 }
 
-.redoundo{
-    background-color: lightgray;
+.redoundo {
+    background-color: #e5e7eb;
     border-radius: 0.375rem;
     margin: 17px;
     padding: 15px;
@@ -25,14 +59,14 @@ a[href], input[type='submit'], input[type='image'], label[for], select, button, 
     width: fit-content;
     border-style: solid;
     border-width: 2px;
-    border-color: rgb(119, 226, 208);
+    border-color: rgb(90, 169, 155);
     border-radius: 0.375rem;
     box-shadow: 0px 15px 19px -14px grey;
 
-  
+
 }
 
-.middle{
+.middle {
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -42,26 +76,27 @@ a[href], input[type='submit'], input[type='image'], label[for], select, button, 
 .center {
     margin: auto;
 
-  }
-  
-#undo{
+}
+
+#undo {
     background-color: lightcoral;
 }
-#redo{
+
+#redo {
     background-color: lightgreen;
 }
 
-.redoundo:hover{
+.redoundo:hover {
     color: black;
     box-shadow: 0px 20px 25px -5px grey;
 }
 
-#redo:hover{
-    background-color:  #42A362;
+#redo:hover {
+    background-color: #42A362;
 }
 
-#undo:hover{
-    background-color:  #cb0000;
+#undo:hover {
+    background-color: #cb0000;
 }
 
 
@@ -105,7 +140,7 @@ div#redoundobuttons {
 }
 
 
-.pad{
+.pad {
     padding-top: 3px;
     padding-bottom: 3px;
 }
@@ -119,8 +154,8 @@ div#redoundobuttons {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-margin-left: auto;
-margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .inputs {
@@ -141,9 +176,6 @@ margin-right: auto;
     margin-left: 5em;
 }
 
-div#topbottom {
-    background-color: green;
-}
 
 div#leftright {
     background-color: lightgreen;

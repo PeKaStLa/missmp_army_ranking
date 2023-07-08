@@ -52,13 +52,13 @@ var ArmyRankingApp = /** @class */ (function () {
             last_change_old_officer = old_officer;
             last_change_moved_officer = officers[future_subordinate_id - 1];
             last_change_new_officer = officers[future_officer_id - 1];
-            //Entfernen des future_subordinate_id vom alten Officer:
+            //remove future_subordinate_id from its old Officer:
             removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
-            //nachrücken der alten Subs vom future_subordinate_id zum alten Officer
+            //copy the own subordinates from future_subordinate to its old officer
             copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id);
             //delete future_subordinate_id's old subordinates 
             officers[future_subordinate_id - 1].subordinates = [];
-            //push future_subordinate_id to subordinates of future_officer_id
+            //push future_subordinate_id to future_officer_id's subordinates
             officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
             document.getElementById('a').value = "";
             document.getElementById('b').value = "";
@@ -68,15 +68,20 @@ var ArmyRankingApp = /** @class */ (function () {
     ArmyRankingApp.prototype.undo = function () {
         // undo last change like redo() or moveOfficer()
         console.log("doing undo");
-        if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
-            //remove moved Officer from new Officers' subordinates
+        //console.log("last_change_moved_officer: ", last_change_moved_officer)
+        //console.log("last_change_old_officer: ", last_change_old_officer)
+        if (last_change_old_officer == undefined) {
+            console.log("cannot undo an action because no action was done yet.");
+        }
+        else if (!isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
+            //remove moved Officer from its new Officers' subordinates
             removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
-            //push officer to old_officers' subordinated
+            //move back the moved Officer to its old original Officer's subordinates
             last_change_old_officer.subordinates.push(last_change_moved_officer);
             last_change_old_subordinates.forEach(function (el) {
-                //remove old subordinates from old officer
+                //remove old subordinates from moved_officers' old original officer
                 removeSpecificSubordinateFromOfficer(el.id, last_change_old_officer.id);
-                //add old subordinates to moved_officer
+                //add old subordinates to moved_officers' subordinates
                 last_change_moved_officer.subordinates.push(el);
             });
         }
@@ -87,8 +92,14 @@ var ArmyRankingApp = /** @class */ (function () {
     };
     ArmyRankingApp.prototype.redo = function () {
         console.log("doing redo");
-        this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
-        this.general.printSubordinates();
+        if (last_change_old_officer != undefined) {
+            //move back the moved Officer to its last new Officer
+            this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+            this.general.printSubordinates();
+        }
+        else {
+            console.log("cannot redo an action because no action was done yet.");
+        }
     };
     return ArmyRankingApp;
 }());
@@ -100,28 +111,44 @@ var Officer = /** @class */ (function () {
     }
     Officer.prototype.printSubordinates = function (level) {
         if (level === void 0) { level = 0; }
+        //the in the end to be printed string
+        var temp = "";
+        var br = "<br>";
+        var span = "<span class='tab'></span>";
+        var visual = document.getElementById("visual");
+        var box = document.createElement("div");
+        var empty_line_box = document.createElement("div");
+        var text = document.createElement("p");
+        var tab = document.createElement("span");
+        var margin_left = 5 * level;
+        tab.setAttribute('style', "margin-left: " + margin_left + "em");
+        box.appendChild(tab);
+        box.classList.add("box");
+        tab.classList.add("tab");
+        text.classList.add("box");
         var myP = document.getElementById("oop");
         //clear the HTML-element
         if (level == 0) {
             myP.innerHTML = "";
+            visual.innerHTML = "";
         }
         //console.log(" Doing printSubordinates() now in: ", this.name, this.id);
-        var br = "<br>";
-        var span = "<span class='tab'></span>";
-        //the in the end to be printed string
-        var temp = "";
         for (var i = level; i > 0; i--) {
             //level adds the right amount of space to the left
             temp += span;
         }
         //add the current officers' name to the string
         temp = temp + this.name + " " + this.id + br;
+        text.innerHTML = this.name + " " + this.id;
+        box.appendChild(text);
         this.subordinates.forEach(function (element) {
             level = level + 1;
             element.printSubordinates(level);
             level = level + -1;
         });
         myP.innerHTML = temp + myP.innerHTML;
+        //visual.appendChild(box);
+        visual.insertBefore(box, visual.firstChild);
     };
     ;
     return Officer;
