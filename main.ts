@@ -197,23 +197,40 @@ class Officer implements OfficerInterface {
         for (let i = level; i > 0; i--) {
             tab.innerHTML += "&emsp;";
 
-            if (already_id[0] != undefined) {
-                console.log(already_id)
+            already_id.forEach(el => {
+                if (!set) {
 
-                already_id.forEach(el => {
-                    if (!set && officers[el - 1].subordinates[0] != undefined) {
-                        tab.innerHTML += "|";
-                        set = true;
+                    let all_subs_displayed = true;
+
+                    officers[el - 1].subordinates.forEach(element => {
+
+                        if (already_id.some(e => e == element.id)) {
+                            console.log("aktueller officers[el - 1]: ", officers[el - 1])
+                            console.log("sub is saved: ", element.name)
+                        } else {
+                            all_subs_displayed = false;
+                        }
+                    })
+
+                    
+                    if (!all_subs_displayed) {
+                        if (already_level[already_id.indexOf(el)] == level) {
+                            //tab.innerHTML += "|";
+                            set = true;
+                        }
+                    } else {
+                        console.log("all_subs_displayed is true: ", all_subs_displayed)
                     }
-                })
-                let index_fro_char = (7 * level) + 1;
-                console.log("in der grossen loop gerade...");
-            }
+                }
+            })
+
             set = false;
             if (i != 1) { tab.innerHTML += "&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;"; }
 
             if (i == 1) {
-                tab.innerHTML += "&emsp;";
+                tab.innerHTML += "&emsp;|";
+                // without this last line here, all end-officers have this line missing..
+                //tab.innerHTML += "&emsp;|";
                 tab.innerHTML += "_________";
             }
             //until here for i in level

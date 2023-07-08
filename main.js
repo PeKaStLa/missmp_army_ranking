@@ -146,23 +146,35 @@ var Officer = /** @class */ (function () {
         var set = false;
         for (var i = level; i > 0; i--) {
             tab.innerHTML += "&emsp;";
-            if (already_id[0] != undefined) {
-                console.log(already_id);
-                already_id.forEach(function (el) {
-                    if (!set && officers[el - 1].subordinates[0] != undefined) {
-                        tab.innerHTML += "|";
-                        set = true;
+            already_id.forEach(function (el) {
+                if (!set) {
+                    var all_subs_displayed_1 = true;
+                    officers[el - 1].subordinates.forEach(function (element) {
+                        if (already_id.some(function (e) { return e == element.id; })) {
+                            console.log("aktueller officers[el - 1]: ", officers[el - 1]);
+                            console.log("sub is saved: ", element.name);
+                        }
+                        else {
+                            all_subs_displayed_1 = false;
+                        }
+                    });
+                    if (!all_subs_displayed_1) {
+                        if (already_level[already_id.indexOf(el)] == level) {
+                            //tab.innerHTML += "|";
+                            set = true;
+                        }
                     }
-                });
-                var index_fro_char = (7 * level) + 1;
-                console.log("in der grossen loop gerade...");
-            }
+                    else {
+                        console.log("all_subs_displayed is true: ", all_subs_displayed_1);
+                    }
+                }
+            });
             set = false;
             if (i != 1) {
                 tab.innerHTML += "&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;";
             }
             if (i == 1) {
-                tab.innerHTML += "&emsp;";
+                tab.innerHTML += "&emsp;|";
                 tab.innerHTML += "_________";
             }
             //until here for i in level
