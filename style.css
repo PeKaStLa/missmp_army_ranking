@@ -17,7 +17,7 @@ div#visual {
 
 
 div.box {
-    margin: 15px;
+    margin: 3px 0px 3px 0px;
     padding: 10px;
 }
 
@@ -25,7 +25,7 @@ div.box {
 p.box {
     display: inline;
     background-color: lightgrey;
-    margin: 10px;
+    margin: 3px 0px 3px 0px;
     padding: 5px;
     width: fit-content;
     border-style: solid;
