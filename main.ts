@@ -212,13 +212,15 @@ class Officer implements OfficerInterface {
                         }
                     })
 
-                    
+
                     if (!all_subs_displayed) {
                         if (already_level[already_id.indexOf(el)] == level) {
                             //tab.innerHTML += "|";
                             set = true;
                         }
                     } else {
+                        tab.innerHTML += "|";
+
                         console.log("all_subs_displayed is true: ", all_subs_displayed)
                     }
                 }
