@@ -69,9 +69,11 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         } else {
             console.log("Not MMP, not already in subordinates, A and B is not the same one. Now move officer:" + officers[future_subordinate_id - 1].name + " under " + officers[future_officer_id - 1].name);
             let old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
+
             last_change_old_officer = old_officer;
             last_change_moved_officer = officers[future_subordinate_id - 1];
             last_change_new_officer = officers[future_officer_id - 1];
+
             //Entfernen des future_subordinate_id vom alten Officer:
             removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
 
@@ -191,6 +193,7 @@ var last_change_new_officer: Officer;
 //
 
 function copySubordinatesToAnotherOfficer(old_officer_id: number, future_officer_id: number): void {
+    last_change_old_subordinates = [];
     officers[old_officer_id - 1].subordinates.forEach(el => {
         officers[future_officer_id - 1].subordinates.push(el);
         last_change_old_subordinates.push(el)
