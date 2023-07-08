@@ -10,9 +10,28 @@ body {
     background-color: white;
 }
 
-.umherum{
-    width: 100%;
+.redoundo{
+    background-color: lightgray;
+    border-radius: 0.375rem;
+    padding: 15px;
+    margin: 20px;
+    font-size: large;
 }
+.redoundo:hover{
+    padding: 15px;
+    margin: 20px;
+    color: white;
+}
+
+#redo:hover{
+    background-color:  #42A362;
+}
+
+#undo:hover{
+    background-color:  red;
+}
+
+
 h1 {
     margin: 0;
     background-color: #f3f4f6;

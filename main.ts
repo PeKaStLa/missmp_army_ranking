@@ -230,21 +230,31 @@ window.onload = function () {
 
     //initial test objects
 
-    /*
+    
 
     let peter = new Officer(2, "Peter");
     let an = new Officer(3, "An");
-    let johan = new Officer(4, "Rex the dog");
+    let johan = new Officer(4, "Johannes");
     let superman = new Officer(5, "Superman");
     let iron = new Officer(6, "Ironman");
-    let Garfield = new Officer(7, "Garfield");
+    let garfield = new Officer(7, "Garfield");
+    
     officers.push(peter);
     officers.push(an);
     officers.push(johan);
     officers.push(superman);
     officers.push(iron);
-    officers.push(Garfield);
+    officers.push(garfield);
+    
+    officers[0].subordinates.push(officers[1]);
+    officers[0].subordinates.push(officers[2]);
+    officers[0].subordinates.push(officers[3]);
+    officers[2].subordinates.push(officers[4]);
+    officers[3].subordinates.push(officers[5]);
+    officers[3].subordinates.push(officers[6]);
 
+
+/*
     officers.push(new Officer(8, "Frodo"));
     officers.push(new Officer(9, "Gandalf"));
     officers.push(new Officer(10, "Legolas"));
@@ -319,6 +329,8 @@ window.onload = function () {
     //printAllOfficersToHtml();
     //app.general.printSubordinates();
     //app.printAllOfficersToConsole();
+
+    app.general.printSubordinates();
 
 }
 
