@@ -5,6 +5,9 @@
     by Peter Stadler
     05.07.2023, 22:45 Uhr
 
+    last changes:
+    17.07.2023 - move single functions to ArmyRankingAppInterface and Class
+
     1. Interfaces and classes with OOP functions
     2. variable declarations
     3. window.onload

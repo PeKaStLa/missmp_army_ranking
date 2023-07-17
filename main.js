@@ -7,14 +7,51 @@
 
     1. Interfaces and classes with OOP functions
     2. variable declarations
-    3. single functions
-    4. window.onload
+    3. window.onload
 */
 var ArmyRankingApp = /** @class */ (function () {
     function ArmyRankingApp(general) {
         this.general = general;
         this.officers = [];
     }
+    ArmyRankingApp.prototype.areAllSubordinatesAlreadySaved = function (officer, array) {
+        //set the variable to true. It can only get set false one way, so that its function is save.
+        var all_in_array = true;
+        //compare all of the subordinates to the Officers in the array
+        officer.subordinates.forEach(function (el) {
+            //it is enough if at least one officer is found in the array and seta the variable to false.
+            if (!array.some(function (e) { return e === el; })) {
+                all_in_array = false;
+            }
+        });
+        return all_in_array;
+    };
+    //use isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
+    ArmyRankingApp.prototype.isOfficerAlreadySubordinate = function (future_subordinate_id, future_officer_id) {
+        // return true if future_subordinate is already in subordinates of future_officer
+        return app.officers[future_officer_id - 1].subordinates.some(function (e) { return e === app.officers[future_subordinate_id - 1]; });
+    };
+    ArmyRankingApp.prototype.isOfficerInArray = function (officer, array) {
+        // check if officer-object is in the array
+        return array.some(function (e) { return e === officer; });
+    };
+    ArmyRankingApp.prototype.whoIsOfficerOfSubordinate = function (subordinate_id) {
+        var officer;
+        //call all officers and look through their subordinates and compare them
+        app.officers.forEach(function (el) {
+            if (app.isOfficerAlreadySubordinate(subordinate_id, el.id)) {
+                officer = el;
+            }
+        });
+        //return the subordinates' localised officer.
+        return officer;
+    };
+    ArmyRankingApp.prototype.removeSpecificSubordinateFromOfficer = function (old_subordinate_id, old_officer_id) {
+        //find out which index the old subordinate has in the officers' subordinate-array
+        var index = app.officers[old_officer_id - 1].subordinates.indexOf(app.officers[old_subordinate_id - 1]);
+        //use the index to cut out the subordinate
+        app.officers[old_officer_id - 1].subordinates.splice(index, 1);
+    };
     ArmyRankingApp.prototype.copySubordinatesToAnotherOfficer = function (old_officer_id, future_officer_id) {
         //clear the old_subordinates every time so every action can be undon correctly
         app.last_change_old_subordinates = [];
@@ -56,18 +93,18 @@ var ArmyRankingApp = /** @class */ (function () {
         else if (future_subordinate_id == 1) {
             console.log("You cannot move the general MMP under somebody!");
         }
-        else if (isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
+        else if (app.isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
             console.log("future_subordinate_id is already Subordinate of the future_officer_id.");
         }
         else {
             //for moving an Officer under an other officer we need to do 4 tasks.
-            var old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
+            var old_officer = app.whoIsOfficerOfSubordinate(future_subordinate_id);
             //save these variables in case the Geeneral want to undo() its action.
             app.last_change_old_officer = old_officer;
             app.last_change_moved_officer = app.officers[future_subordinate_id - 1];
             app.last_change_new_officer = app.officers[future_officer_id - 1];
             //1. remove future_subordinate_id from its old Officer:
-            removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
+            app.removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
             //2. copy the own subordinates from future_subordinate to its old officer
             app.copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id);
             //3. delete future_subordinate_id's old subordinates 
@@ -85,18 +122,18 @@ var ArmyRankingApp = /** @class */ (function () {
         if (app.last_change_old_officer == undefined) {
             console.log("cannot undo an action because no action was done yet.");
         }
-        else if (isOfficerAlreadySubordinate(app.last_change_moved_officer.id, app.last_change_old_officer.id)) {
+        else if (app.isOfficerAlreadySubordinate(app.last_change_moved_officer.id, app.last_change_old_officer.id)) {
             console.log("Officer ", app.last_change_moved_officer.name, " already was pushed back to its old officer ", app.last_change_old_officer.name);
         }
         else {
             //Undo the last action. Therefore we need to undo 4 tasks.
             //1. remove moved Officer from its new Officers' subordinates
-            removeSpecificSubordinateFromOfficer(app.last_change_moved_officer.id, app.last_change_new_officer.id);
+            app.removeSpecificSubordinateFromOfficer(app.last_change_moved_officer.id, app.last_change_new_officer.id);
             //2. move back the moved Officer to its old original Officer's subordinates
             app.last_change_old_officer.subordinates.push(app.last_change_moved_officer);
             app.last_change_old_subordinates.forEach(function (el) {
                 //3. remove old subordinates from moved_officers' old original officer
-                removeSpecificSubordinateFromOfficer(el.id, app.last_change_old_officer.id);
+                app.removeSpecificSubordinateFromOfficer(el.id, app.last_change_old_officer.id);
                 //4. add old subordinates to moved_officers' subordinates
                 app.last_change_moved_officer.subordinates.push(el);
             });
@@ -172,48 +209,7 @@ var mmp = new Officer(1, "MMP");
 var app = new ArmyRankingApp(mmp);
 app.officers.push(mmp);
 //
-//3. single functions
-//
-function removeSpecificSubordinateFromOfficer(old_subordinate_id, old_officer_id) {
-    //find out which index the old subordinate has in the officers' subordinate-array
-    var index = app.officers[old_officer_id - 1].subordinates.indexOf(app.officers[old_subordinate_id - 1]);
-    //use the index to cut out the subordinate
-    app.officers[old_officer_id - 1].subordinates.splice(index, 1);
-}
-function whoIsOfficerOfSubordinate(subordinate_id) {
-    var officer;
-    //call all officers and look through their subordinates and compare them
-    app.officers.forEach(function (el) {
-        if (isOfficerAlreadySubordinate(subordinate_id, el.id)) {
-            officer = el;
-        }
-    });
-    //return the subordinates' localised officer.
-    return officer;
-}
-//use isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
-function isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id) {
-    // return true if future_subordinate is already in subordinates of future_officer
-    return app.officers[future_officer_id - 1].subordinates.some(function (e) { return e === app.officers[future_subordinate_id - 1]; });
-}
-function isOfficerInArray(officer, array) {
-    // check if officer-object is in the array
-    return array.some(function (e) { return e === officer; });
-}
-function areAllSubordinatesAlreadySaved(officer, array) {
-    //set the variable to true. It can only get set false one way, so that its function is save.
-    var all_in_array = true;
-    //compare all of the subordinates to the Officers in the array
-    officer.subordinates.forEach(function (el) {
-        //it is enough if at least one officer is found in the array and seta the variable to false.
-        if (!array.some(function (e) { return e === el; })) {
-            all_in_array = false;
-        }
-    });
-    return all_in_array;
-}
-//
-//4. window.onload
+//3. window.onload
 //
 window.onload = function () {
     console.log(app);
