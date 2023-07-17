@@ -13,25 +13,36 @@
 var ArmyRankingApp = /** @class */ (function () {
     function ArmyRankingApp(general) {
         this.general = general;
+        this.officers = [];
     }
+    ArmyRankingApp.prototype.copySubordinatesToAnotherOfficer = function (old_officer_id, future_officer_id) {
+        //clear the old_subordinates every time so every action can be undon correctly
+        app.last_change_old_subordinates = [];
+        //call all subordinates and push them to the other officer
+        app.officers[old_officer_id - 1].subordinates.forEach(function (el) {
+            app.officers[future_officer_id - 1].subordinates.push(el);
+            //save all pushed subordinates in case General MMP wants to undo its action later
+            app.last_change_old_subordinates.push(el);
+        });
+    };
     ArmyRankingApp.prototype.displayHierarchy = function () {
         mmp.printSubordinates();
     };
     ArmyRankingApp.prototype.printAllOfficersToConsole = function () {
-        officers.forEach(function (el) {
+        app.officers.forEach(function (el) {
             console.log(el.name, el.id, el.subordinates);
         });
     };
     //create Office by name from the formular-input. The ID gets assigned automatically
     ArmyRankingApp.prototype.createOfficer = function () {
-        var id = officers.length + 1;
+        var id = app.officers.length + 1;
         var name = document.getElementById('name').value;
         //prevent empty officer-names
         if (name != "") {
             //create new Officer and push it to the officers-array
-            officers.push(new Officer(id, name));
+            app.officers.push(new Officer(id, name));
             //push every freshly created officer to MMP-General's subordinates on default!
-            app.general.subordinates.push(officers[id - 1]);
+            app.general.subordinates.push(app.officers[id - 1]);
             //clear the input-field
             document.getElementById('name').value = "";
             app.displayHierarchy();
@@ -52,17 +63,17 @@ var ArmyRankingApp = /** @class */ (function () {
             //for moving an Officer under an other officer we need to do 4 tasks.
             var old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
             //save these variables in case the Geeneral want to undo() its action.
-            last_change_old_officer = old_officer;
-            last_change_moved_officer = officers[future_subordinate_id - 1];
-            last_change_new_officer = officers[future_officer_id - 1];
+            app.last_change_old_officer = old_officer;
+            app.last_change_moved_officer = app.officers[future_subordinate_id - 1];
+            app.last_change_new_officer = app.officers[future_officer_id - 1];
             //1. remove future_subordinate_id from its old Officer:
             removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
             //2. copy the own subordinates from future_subordinate to its old officer
-            copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id);
+            app.copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id);
             //3. delete future_subordinate_id's old subordinates 
-            officers[future_subordinate_id - 1].subordinates = [];
+            app.officers[future_subordinate_id - 1].subordinates = [];
             //4. push future_subordinate_id to future_officer_id's subordinates
-            officers[future_officer_id - 1].subordinates.push(officers[future_subordinate_id - 1]);
+            app.officers[future_officer_id - 1].subordinates.push(app.officers[future_subordinate_id - 1]);
             //clear the input-fields
             document.getElementById('a').value = "";
             document.getElementById('b').value = "";
@@ -71,36 +82,36 @@ var ArmyRankingApp = /** @class */ (function () {
     };
     ArmyRankingApp.prototype.undo = function () {
         //Check if an officer was moved before and if there is a past action to undo
-        if (last_change_old_officer == undefined) {
+        if (app.last_change_old_officer == undefined) {
             console.log("cannot undo an action because no action was done yet.");
         }
-        else if (isOfficerAlreadySubordinate(last_change_moved_officer.id, last_change_old_officer.id)) {
-            console.log("Officer ", last_change_moved_officer.name, " already was pushed back to its old officer ", last_change_old_officer.name);
+        else if (isOfficerAlreadySubordinate(app.last_change_moved_officer.id, app.last_change_old_officer.id)) {
+            console.log("Officer ", app.last_change_moved_officer.name, " already was pushed back to its old officer ", app.last_change_old_officer.name);
         }
         else {
             //Undo the last action. Therefore we need to undo 4 tasks.
             //1. remove moved Officer from its new Officers' subordinates
-            removeSpecificSubordinateFromOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+            removeSpecificSubordinateFromOfficer(app.last_change_moved_officer.id, app.last_change_new_officer.id);
             //2. move back the moved Officer to its old original Officer's subordinates
-            last_change_old_officer.subordinates.push(last_change_moved_officer);
-            last_change_old_subordinates.forEach(function (el) {
+            app.last_change_old_officer.subordinates.push(app.last_change_moved_officer);
+            app.last_change_old_subordinates.forEach(function (el) {
                 //3. remove old subordinates from moved_officers' old original officer
-                removeSpecificSubordinateFromOfficer(el.id, last_change_old_officer.id);
+                removeSpecificSubordinateFromOfficer(el.id, app.last_change_old_officer.id);
                 //4. add old subordinates to moved_officers' subordinates
-                last_change_moved_officer.subordinates.push(el);
+                app.last_change_moved_officer.subordinates.push(el);
             });
             app.displayHierarchy();
         }
     };
     ArmyRankingApp.prototype.redo = function () {
         //Check if an officer was moved before and if there is a past action to undo
-        if (last_change_old_officer == undefined) {
+        if (app.last_change_old_officer == undefined) {
             console.log("cannot redo an action because no action was done yet.");
         }
         else {
             console.log("cannot redo an action because no action was done yet.");
             //move back the moved Officer to its last new Officer
-            this.moveOfficer(last_change_moved_officer.id, last_change_new_officer.id);
+            this.moveOfficer(app.last_change_moved_officer.id, app.last_change_new_officer.id);
             app.displayHierarchy();
         }
     };
@@ -157,37 +168,22 @@ var Officer = /** @class */ (function () {
 //
 //2. variable declarations
 //
-var officers = [];
 var mmp = new Officer(1, "MMP");
-officers.push(mmp);
 var app = new ArmyRankingApp(mmp);
-var last_change_old_subordinates = [];
-var last_change_old_officer;
-var last_change_moved_officer;
-var last_change_new_officer;
+app.officers.push(mmp);
 //
 //3. single functions
 //
-function copySubordinatesToAnotherOfficer(old_officer_id, future_officer_id) {
-    //clear the old_subordinates every time so every action can be undon correctly
-    last_change_old_subordinates = [];
-    //call all subordinates and push them to the other officer
-    officers[old_officer_id - 1].subordinates.forEach(function (el) {
-        officers[future_officer_id - 1].subordinates.push(el);
-        //save all pushed subordinates in case General MMP wants to undo its action later
-        last_change_old_subordinates.push(el);
-    });
-}
 function removeSpecificSubordinateFromOfficer(old_subordinate_id, old_officer_id) {
     //find out which index the old subordinate has in the officers' subordinate-array
-    var index = officers[old_officer_id - 1].subordinates.indexOf(officers[old_subordinate_id - 1]);
+    var index = app.officers[old_officer_id - 1].subordinates.indexOf(app.officers[old_subordinate_id - 1]);
     //use the index to cut out the subordinate
-    officers[old_officer_id - 1].subordinates.splice(index, 1);
+    app.officers[old_officer_id - 1].subordinates.splice(index, 1);
 }
 function whoIsOfficerOfSubordinate(subordinate_id) {
     var officer;
     //call all officers and look through their subordinates and compare them
-    officers.forEach(function (el) {
+    app.officers.forEach(function (el) {
         if (isOfficerAlreadySubordinate(subordinate_id, el.id)) {
             officer = el;
         }
@@ -198,13 +194,12 @@ function whoIsOfficerOfSubordinate(subordinate_id) {
 //use isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
 function isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id) {
     // return true if future_subordinate is already in subordinates of future_officer
-    return officers[future_officer_id - 1].subordinates.some(function (e) { return e === officers[future_subordinate_id - 1]; });
+    return app.officers[future_officer_id - 1].subordinates.some(function (e) { return e === app.officers[future_subordinate_id - 1]; });
 }
 function isOfficerInArray(officer, array) {
     // check if officer-object is in the array
     return array.some(function (e) { return e === officer; });
 }
-// 
 function areAllSubordinatesAlreadySaved(officer, array) {
     //set the variable to true. It can only get set false one way, so that its function is save.
     var all_in_array = true;
