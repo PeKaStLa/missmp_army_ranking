@@ -7,8 +7,7 @@
 
     1. Interfaces and classes with OOP functions
     2. variable declarations
-    3. single functions
-    4. window.onload
+    3. window.onload
 */
 
 //
@@ -24,6 +23,11 @@ interface ArmyRankingAppInterface {
     last_change_moved_officer: Officer
     last_change_new_officer: Officer
 
+    areAllSubordinatesAlreadySaved(officer: Officer, array: Officer[]): boolean
+    isOfficerAlreadySubordinate(future_subordinate_id: number, future_officer_id: number): boolean
+    isOfficerInArray(officer: Officer, array: Officer[]): boolean
+    whoIsOfficerOfSubordinate(subordinate_id: number): Officer
+    removeSpecificSubordinateFromOfficer(old_subordinate_id: number, old_officer_id: number): void
     copySubordinatesToAnotherOfficer(old_officer_id: number, future_officer_id: number): void
     displayHierarchy(): void
     printAllOfficersToConsole(): void
@@ -47,6 +51,54 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         this.officers = [];
     }
 
+
+    areAllSubordinatesAlreadySaved(officer: Officer, array: Officer[]): boolean {
+        //set the variable to true. It can only get set false one way, so that its function is save.
+        let all_in_array = true;
+
+        //compare all of the subordinates to the Officers in the array
+        officer.subordinates.forEach(el => {
+
+            //it is enough if at least one officer is found in the array and seta the variable to false.
+            if (!array.some(e => e === el)) {
+                all_in_array = false;
+            }
+        })
+        return all_in_array;
+    }
+
+    //use isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
+    isOfficerAlreadySubordinate(future_subordinate_id: number, future_officer_id: number): boolean {
+
+        // return true if future_subordinate is already in subordinates of future_officer
+        return app.officers[future_officer_id - 1].subordinates.some(e => e === app.officers[future_subordinate_id - 1]);
+    }
+
+    isOfficerInArray(officer: Officer, array: Officer[]): boolean {
+        // check if officer-object is in the array
+        return array.some(e => e === officer);
+    }
+
+    whoIsOfficerOfSubordinate(subordinate_id: number): Officer {
+        let officer;
+
+        //call all officers and look through their subordinates and compare them
+        app.officers.forEach(el => {
+            if (app.isOfficerAlreadySubordinate(subordinate_id, el.id)) {
+                officer = el;
+            }
+        })
+        //return the subordinates' localised officer.
+        return officer;
+    }
+
+    removeSpecificSubordinateFromOfficer(old_subordinate_id: number, old_officer_id: number): void {
+        //find out which index the old subordinate has in the officers' subordinate-array
+        let index = app.officers[old_officer_id - 1].subordinates.indexOf(app.officers[old_subordinate_id - 1]);
+
+        //use the index to cut out the subordinate
+        app.officers[old_officer_id - 1].subordinates.splice(index, 1);
+    }
 
     copySubordinatesToAnotherOfficer(old_officer_id: number, future_officer_id: number): void {
         //clear the old_subordinates every time so every action can be undon correctly
@@ -100,12 +152,12 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         } else if (future_subordinate_id == 1) {
             console.log("You cannot move the general MMP under somebody!");
 
-        } else if (isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
+        } else if (app.isOfficerAlreadySubordinate(future_subordinate_id, future_officer_id)) {
             console.log("future_subordinate_id is already Subordinate of the future_officer_id.");
 
         } else {
             //for moving an Officer under an other officer we need to do 4 tasks.
-            let old_officer = whoIsOfficerOfSubordinate(future_subordinate_id);
+            let old_officer = app.whoIsOfficerOfSubordinate(future_subordinate_id);
 
             //save these variables in case the Geeneral want to undo() its action.
             app.last_change_old_officer = old_officer;
@@ -113,7 +165,7 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
             app.last_change_new_officer = app.officers[future_officer_id - 1];
 
             //1. remove future_subordinate_id from its old Officer:
-            removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
+            app.removeSpecificSubordinateFromOfficer(future_subordinate_id, old_officer.id);
 
             //2. copy the own subordinates from future_subordinate to its old officer
             app.copySubordinatesToAnotherOfficer(future_subordinate_id, old_officer.id)
@@ -137,21 +189,21 @@ class ArmyRankingApp implements ArmyRankingAppInterface {
         if (app.last_change_old_officer == undefined) {
             console.log("cannot undo an action because no action was done yet.");
 
-        } else if (isOfficerAlreadySubordinate(app.last_change_moved_officer.id, app.last_change_old_officer.id)) {
+        } else if (app.isOfficerAlreadySubordinate(app.last_change_moved_officer.id, app.last_change_old_officer.id)) {
             console.log("Officer ", app.last_change_moved_officer.name, " already was pushed back to its old officer ", app.last_change_old_officer.name)
 
         } else {
             //Undo the last action. Therefore we need to undo 4 tasks.
 
             //1. remove moved Officer from its new Officers' subordinates
-            removeSpecificSubordinateFromOfficer(app.last_change_moved_officer.id, app.last_change_new_officer.id);
+            app.removeSpecificSubordinateFromOfficer(app.last_change_moved_officer.id, app.last_change_new_officer.id);
 
             //2. move back the moved Officer to its old original Officer's subordinates
             app.last_change_old_officer.subordinates.push(app.last_change_moved_officer);
 
             app.last_change_old_subordinates.forEach(el => {
                 //3. remove old subordinates from moved_officers' old original officer
-                removeSpecificSubordinateFromOfficer(el.id, app.last_change_old_officer.id);
+                app.removeSpecificSubordinateFromOfficer(el.id, app.last_change_old_officer.id);
                 //4. add old subordinates to moved_officers' subordinates
                 app.last_change_moved_officer.subordinates.push(el);
             })
@@ -235,69 +287,12 @@ class Officer implements OfficerInterface {
 //2. variable declarations
 //
 
-
 const mmp: Officer = new Officer(1, "MMP");
 const app: ArmyRankingApp = new ArmyRankingApp(mmp);
 app.officers.push(mmp);
 
-
 //
-//3. single functions
-//
-
-
-function removeSpecificSubordinateFromOfficer(old_subordinate_id: number, old_officer_id: number): void {
-    //find out which index the old subordinate has in the officers' subordinate-array
-    let index = app.officers[old_officer_id - 1].subordinates.indexOf(app.officers[old_subordinate_id - 1]);
-
-    //use the index to cut out the subordinate
-    app.officers[old_officer_id - 1].subordinates.splice(index, 1);
-}
-
-
-function whoIsOfficerOfSubordinate(subordinate_id: number): Officer {
-    let officer;
-
-    //call all officers and look through their subordinates and compare them
-    app.officers.forEach(el => {
-        if (isOfficerAlreadySubordinate(subordinate_id, el.id)) {
-            officer = el;
-        }
-    })
-    //return the subordinates' localised officer.
-    return officer;
-}
-
-//use isOfficerAlreadySubordinate(), to prevent that one subordinate can get moved under the same officer multiple times
-function isOfficerAlreadySubordinate(future_subordinate_id: number, future_officer_id: number): boolean {
-
-    // return true if future_subordinate is already in subordinates of future_officer
-    return app.officers[future_officer_id - 1].subordinates.some(e => e === app.officers[future_subordinate_id - 1]);
-}
-
-function isOfficerInArray(officer: Officer, array: Officer[]): boolean {
-    // check if officer-object is in the array
-    return array.some(e => e === officer);
-}
-
-
-function areAllSubordinatesAlreadySaved(officer: Officer, array: Officer[]): boolean {
-    //set the variable to true. It can only get set false one way, so that its function is save.
-    let all_in_array = true;
-
-    //compare all of the subordinates to the Officers in the array
-    officer.subordinates.forEach(el => {
-
-        //it is enough if at least one officer is found in the array and seta the variable to false.
-        if (!array.some(e => e === el)) {
-            all_in_array = false;
-        }
-    })
-    return all_in_array;
-}
-
-//
-//4. window.onload
+//3. window.onload
 //
 
 window.onload = function () {
